@@ -43,9 +43,10 @@ export const CinematicHero = () => {
         trigger: containerRef.current,
         start: "top top",
         end: "+=4000",
-        scrub: 1,
+        scrub: 0.5,
         pin: true,
         anticipatePin: 1,
+        refreshPriority: 2,
       }
     });
 
@@ -58,9 +59,8 @@ export const CinematicHero = () => {
     tl.to(coreRef.current, { 
         scale: 40, 
         opacity: 0, 
-        filter: "brightness(2) blur(10px)", 
         duration: 2,
-        ease: "none" 
+        ease: "power2.in" 
     }, 1);
 
     // SCENE 3: Directives Slide Up (2.5 to 4.5 seconds)
@@ -81,7 +81,7 @@ export const CinematicHero = () => {
 
   return (
     <div ref={wrapperRef} className="hero-gsap-wrapper">
-        <div ref={containerRef} className="h-screen w-full bg-black overflow-hidden relative border-b border-[#f97316]/20">
+        <div ref={containerRef} className="h-screen w-full bg-black overflow-hidden relative">
 
           {/* --- AMBIENT GLOW --- */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

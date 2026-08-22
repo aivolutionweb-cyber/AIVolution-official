@@ -38,17 +38,19 @@ export const EventHighlights = () => {
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
-        end: "+=4000", // Scrolling distance
-        scrub: 1, // Smooth scrubbing
+        end: "+=4000",
+        scrub: 1,
         pin: true,
         anticipatePin: 1,
+        refreshPriority: 0,
+        invalidateOnRefresh: true,
       }
     });
   }, { scope: wrapperRef }); // Scope is the outer wrapper so cleanup targets the pin-spacer correctly
 
   return (
     <div ref={wrapperRef} className="events-gsap-wrapper">
-        <section ref={containerRef} className="h-screen w-full bg-black relative overflow-hidden flex items-center justify-center border-b border-gridline" style={{ perspective: '2000px' }}>
+        <section ref={containerRef} className="h-screen w-full bg-black relative overflow-hidden flex items-center justify-center" style={{ perspective: '2000px' }}>
           
           {/* 3D Stage */}
           <div className="relative w-full h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
