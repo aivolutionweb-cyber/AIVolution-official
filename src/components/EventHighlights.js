@@ -1,68 +1,109 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const EventHighlights = () => {
-  // Data for the moving squares
-  const highlights = [
-    { title: "Preparation Mantra", label: "webinar", color: "from-purple-500 to-indigo-500" ,imgUrl: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%202.jpeg" },
-    { title: "Algosphere", label: "Conference", color: "from-blue-500 to-cyan-500", imgUrl: "/assets/events/algosphere/img.png" },
-    { title: "Enterprises Application Suite", label: "Webinar", color: "from-emerald-500 to-teal-500",imgUrl: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%203.jpeg" },
-    { title: "Orientation 2024", label: "Webinar", color: "from-yellow-500", imgUrl: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%201.jpeg" },
-    { title: "CODEX Hackathon", label: "hackathon", color: "from-orange-500 to-red-500", imgUrl: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/Competiton%201.jpeg" },
-    ];
+  const wrapperRef = useRef(null);
+  const containerRef = useRef(null);
+  const cylinderRef = useRef(null);
 
-  // Duplicate list to ensure seamless scrolling
-  const items = [...highlights, ...highlights, ...highlights];
+  const events = [
+    { title: "Preparation Mantra", date: "Sep 15, 2024", img: "https://picsum.photos/seed/ev1/400/300" },
+    { title: "Algosphere", date: "Oct 12, 2024", img: null },
+    { title: "Enterprise App Suite", date: "Nov 5, 2024", img: "https://picsum.photos/seed/ev3/400/300" },
+    { title: "Orientation 2024", date: "Dec 1, 2024", img: null },
+    { title: "CODEX Hackathon", date: "Jan 20, 2025", img: "https://picsum.photos/seed/ev5/400/300" },
+    { title: "Eklavya Techfest", date: "Apr 23-24, 2025", img: null },
+    { title: "Hack Horizon", date: "Apr 11-12, 2025", img: "https://picsum.photos/seed/ev7/400/300" },
+    { title: "NPTEL Workshop", date: "Jan 22, 2026", img: null },
+    { title: "RanchiHacks", date: "Jan 17-18, 2026", img: "https://picsum.photos/seed/ev9/400/300" },
+    { title: "Martinovation", date: "Nov 3-7, 2025", img: null },
+  ];
+
+  const radius = 400; 
+  // The vertical step between each card to create the DNA/Helix spiral effect
+  const yStep = 50; 
+  const totalY = events.length * yStep;
+
+  useGSAP(() => {
+    // Rotate the entire cylinder as the user scrolls, AND move it vertically
+    // to keep the active card in the center of the screen
+    gsap.to(cylinderRef.current, {
+      rotationY: -360,
+      y: -totalY,
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top",
+        end: "+=4000", // Scrolling distance
+        scrub: 1, // Smooth scrubbing
+        pin: true,
+        anticipatePin: 1,
+      }
+    });
+  }, { scope: wrapperRef }); // Scope is the outer wrapper so cleanup targets the pin-spacer correctly
 
   return (
-    <section className="py-24 bg-dark overflow-hidden relative z-10 border-t border-white/10">
-      
-      {/* Section Title */}
-      <div className="container mx-auto px-4 mb-16 text-center">
-        <h2 className="text-4xl font-bold font-mono text-white mb-4">
-          Event <span className="text-primary">Highlights</span>
-        </h2>
-        <p className="text-gray-400">Glimpses of our vibrant community in action.</p>
-      </div>
-
-     
-
-      {/* --- ROW 2: Moving Right --- */}
-      <div className="relative w-full">
-        <div className="flex w-max animate-marquee-right hover:pause">
-          {items.map((item, index) => (
-            <div key={`row2-${index}`} className="mx-4 w-64 h-34 flex-shrink-0 bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col justify-end hover:border-secondary/50 transition-colors group relative overflow-hidden">
-               <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}></div>
-               
-               <h3 className="text-2xl font-bold text-white relative z-10">{item.title}</h3>
-               <p className="text-gray-400 uppercase tracking-widest text-sm relative z-10">{item.label}</p>
-               
-               {/* Decorative Circle Icon */}
-               <div className="absolute top-4 right-4 w-12 h-12 border-2 border-white/10 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
+    <div ref={wrapperRef} className="events-gsap-wrapper">
+        <section ref={containerRef} className="h-screen w-full bg-black relative overflow-hidden flex items-center justify-center border-b border-gridline" style={{ perspective: '2000px' }}>
+          
+          {/* 3D Stage */}
+          <div className="relative w-full h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
+            
+            {/* Background Typography (Positioned entirely in the background) */}
+            <div 
+              className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+              style={{ transform: `translateZ(-800px)` }}
+            >
+              <h2 className="text-[25vw] md:text-[8vw] font-display font-extrabold bg-clip-text text-transparent bg-gradient-to-b from-[#f97316] via-[#ea580c] to-black tracking-widest whitespace-nowrap leading-none drop-shadow-2xl">
+                EVENTS
+              </h2>
             </div>
-          ))}
-        </div>
-      </div>
+            
+            {/* 3D Helix Container */}
+            <div 
+              ref={cylinderRef} 
+              className="relative w-[220px] h-[360px] md:w-[280px] md:h-[480px]"
+              style={{ 
+                transformStyle: 'preserve-3d',
+                transform: `translateZ(-${radius}px)`
+              }}
+            >
+            {events.map((evt, i) => {
+              const angle = (360 / events.length) * i;
+              // Calculate the Y offset for the helix
+              const yOffset = i * yStep;
+              
+              return (
+                <div 
+                  key={i}
+                  className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-end pb-6 md:pb-8"
+                  style={{
+                    transform: `rotateY(${angle}deg) translateZ(${radius}px) translateY(${yOffset}px)`,
+                    backfaceVisibility: 'hidden', // hides cards when they spin to the back
+                  }}
+                >
+                  
+                  {/* Event photos temporarily removed per user request */}
 
-      {/* CSS for Animations (Inline for simplicity) */}
-      <style>{`
-        @keyframes marquee-left {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes marquee-right {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
-        }
-        .animate-marquee-left {
-          animation: marquee-left 40s linear infinite;
-        }
-        .animate-marquee-right {
-          animation: marquee-right 40s linear infinite;
-        }
-        .hover\\:pause:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
-    </section>
+                  {/* Glass Text Card */}
+                  <div className="w-full h-[220px] md:h-[300px] bg-[#0a0a0a]/80 backdrop-blur-md border border-white/5 border-t-[#f97316] border-t-2 rounded-xl flex flex-col justify-center items-center text-center p-4 md:p-6 shadow-[0_10px_20px_rgba(0,0,0,0.8)] z-10 hover:border-t-[#ea580c] transition-colors">
+                    {/* Optional small top accent line inside */}
+                    <div className="w-8 md:w-10 h-1 bg-gradient-to-r from-[#f97316] to-[#ea580c] rounded-full mb-3 md:mb-4"></div>
+                    <h3 className="text-lg md:text-2xl font-display font-bold text-white mb-2 md:mb-3 leading-tight">{evt.title}</h3>
+                    <p className="font-mono text-[10px] md:text-[12px] text-gray-400 tracking-widest uppercase">{evt.date}</p>
+                  </div>
+
+                </div>
+              );
+            })}
+          </div>
+
+          </div>
+        </section>
+    </div>
   );
 };

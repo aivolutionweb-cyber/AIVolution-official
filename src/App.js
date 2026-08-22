@@ -1,42 +1,42 @@
 // src/App.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import  {NavBar}  from "./components/NavBar";
-import { Banner } from "./components/Banner";
+import { CinematicHero } from "./components/CinematicHero";
 import { Skills } from "./components/Skills";
 import { EventHighlights } from "./components/EventHighlights";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import MouseFollower from './components/MouseFollower';
-import Spline from "@splinetool/react-spline";
 import { Routes, Route } from "react-router-dom";
 import { Events } from "./components/Events";
 import { Sponsors } from "./components/Sponsors";
-import { Vision } from "./components/Vision";
+import { Faculty } from "./components/Faculty";
+import { ProjectsShowcase } from "./components/ProjectsShowcase";
+import { Team } from "./components/Team";
+import { Preloader } from "./components/Preloader";
 
 function App() {
   return (
     <div className="relative min-h-screen text-white selection:bg-secondary selection:text-black">
       
-      {/* Background 3D Scene - Fixed to cover the screen */}
-      <div className="fixed inset-0 z-0 opacity-60 pointer-events-none">
-        <Spline scene="https://prod.spline.design/iZIQY7nZzMSUWoDH/scene.splinecode" />
-      </div>
+      {/* The System Boot Preloader */}
+      <Preloader />
 
       {/* Mouse Follower stays on top */}
       <MouseFollower />
 
-      {/* Main Content - Relative z-10 ensures it sits ABOVE the Spline background */}
+      {/* Main Content - Relative z-10 ensures it sits ABOVE the background */}
       <div className="relative z-10">
         <NavBar />
         
         <Routes>
           <Route path="/" element={
             <>
-              <Banner />
+              <CinematicHero />
               <Skills />
               <EventHighlights />
-              <Vision />
               <Sponsors />
+              <Faculty />
               <Contact />
             </>
           } />
@@ -45,8 +45,48 @@ function App() {
         
         <Footer />
       </div>
+
+      {/* Scroll To Top Button */}
+      <ScrollToTopButton />
     </div>
   );
 }
+
+const ScrollToTopButton = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.scrollY > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
+
+  return (
+    <button
+      onClick={scrollToTop}
+      className={`fixed bottom-8 right-8 z-50 p-3 rounded-full bg-white text-black shadow-lg shadow-white/20 transition-all duration-300 hover:scale-110 hover:shadow-white/40 active:scale-95 ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
+      }`}
+      aria-label="Scroll to top"
+    >
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+      </svg>
+    </button>
+  );
+};
 
 export default App;

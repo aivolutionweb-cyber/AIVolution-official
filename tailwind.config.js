@@ -6,17 +6,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#a31bf6", // Neon Purple
-        secondary: "#0ea5e9", // Cyan
-        dark: "#09090b", // Deep Black
-        "glass-border": "rgba(255, 255, 255, 0.1)",
+        primary: "#FF3B00", // Electric Orange
+        dark: "#09090b", // Absolute Dark
+        surface: "#18181b", // Elevated Dark
+        muted: "#A1A1AA", // Zinc
+        gridline: "#27272a", // Subtle dark grey for grid
       },
       fontFamily: {
-        sans: ['Outfit', 'sans-serif'],
-        mono: ['Space Mono', 'monospace'],
+        sans: ['Inter', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+        display: ['Syne', 'sans-serif'],
       },
       backgroundImage: {
-        'banner-gradient': 'linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0.3))',
+        'banner-gradient': 'linear-gradient(to right, rgba(9,9,11,0.9), rgba(9,9,11,0.3))',
       }
     },
   },

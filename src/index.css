@@ -1,5 +1,5 @@
 /* src/index.css */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@500;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,11 +9,21 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    background-color: #09090b;
   }
   body {
     @apply bg-dark text-white font-sans antialiased overflow-x-hidden;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-mono font-bold;
+    @apply font-display font-bold;
+  }
+}
+
+/* Custom Grid Background Utility */
+@layer utilities {
+  .bg-grid {
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, #27272a 1px, transparent 1px),
+                      linear-gradient(to bottom, #27272a 1px, transparent 1px);
   }
 }

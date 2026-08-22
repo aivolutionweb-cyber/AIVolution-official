@@ -12,7 +12,7 @@ export const Contact = () => {
     message: ''
   }
   const [formDetails, setFormDetails] = useState(formInitialDetails);
-  const [buttonText, setButtonText] = useState('Send Message');
+  const [buttonText, setButtonText] = useState('TRANSMIT_DATA');
   const [status, setStatus] = useState({});
 
   const onFormUpdate = (category, value) => {
@@ -24,7 +24,7 @@ export const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setButtonText("Sending...");
+    setButtonText("TRANSMITTING...");
     
     try {
         let response = await fetch("http://localhost:5000/contact", {
@@ -37,104 +37,145 @@ export const Contact = () => {
         let result = await response.json();
         setFormDetails(formInitialDetails);
         if (result.code === 200) {
-            setStatus({ success: true, message: 'Message sent successfully'});
+            setStatus({ success: true, message: 'DATA_TRANSMITTED_SUCCESSFULLY'});
         } else {
-            setStatus({ success: false, message: 'Something went wrong, please try again later.'});
+            setStatus({ success: false, message: 'TRANSMISSION_FAILED. RETRY.'});
         }
     } catch (error) {
-        setStatus({ success: false, message: 'Network error. Please try again later.'});
+        setStatus({ success: false, message: 'NETWORK_ERR. RETRY.'});
     } finally {
-        setButtonText("Send Message");
+        setButtonText("TRANSMIT_DATA");
     }
   };
 
   return (
-    <section className="relative py-24 bg-dark" id="connect">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center gap-12">
+    <section className="relative py-24 bg-dark border-b border-gridline" id="connect">
+      <div className="container mx-auto px-6">
+        
+        {/* Section Header */}
+        <div className="border-b border-gridline pb-4 mb-16">
+          <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
+            // SECURE_COMMS
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white uppercase tracking-tight">
+            ESTABLISH CONNECTION
+          </h2>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-0 border border-gridline bg-gridline">
           
-          {/* Left Side: Image - Throttled Observer */}
-          <div className="w-full md:w-1/2">
-            {/* Added 'once' so animation only plays the first time it enters view */}
+          {/* Left Side: Image / Decoration */}
+          <div className="w-full md:w-1/2 bg-surface p-12 flex items-center justify-center relative overflow-hidden group">
             <TrackVisibility once partialVisibility offset={200}>
               {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__zoomIn" : "opacity-0"}>
                    <img 
                     src={contactImg} 
                     alt="Contact Us" 
-                    className="w-[80%] mx-auto drop-shadow-[0_0_20px_rgba(163,27,246,0.2)]"
+                    className="w-[80%] mx-auto filter grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-700"
                    />
                 </div>
               }
             </TrackVisibility>
+            {/* Grid overlay */}
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] pointer-events-none"></div>
           </div>
 
-          {/* Right Side: Form */}
-          <div className="w-full md:w-1/2">
+          {/* Right Side: Terminal Form */}
+          <div className="w-full md:w-1/2 bg-dark p-8 md:p-12 flex flex-col justify-center relative">
+            
+            {/* Blinking Cursor Decoration */}
+            <div className="absolute top-4 right-4 flex items-center gap-2">
+              <span className="font-mono text-[10px] text-muted tracking-widest">STATUS: ONLINE</span>
+              <div className="w-2 h-2 bg-green-500 animate-pulse"></div>
+            </div>
+
             <TrackVisibility once partialVisibility offset={200}>
               {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn" : "opacity-0"}>
-                  <h2 className="text-4xl md:text-5xl font-bold font-mono text-white mb-6">
-                    Get In Touch
-                  </h2>
+                  <p className="font-mono text-primary text-xs tracking-widest mb-8 border-l-2 border-primary pl-4">
+                    Please input required data points to initiate communication sequence.
+                  </p>
                   
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       
-                      <input 
-                        type="text" 
-                        value={formDetails.firstName} 
-                        placeholder="First Name" 
-                        onChange={(e) => onFormUpdate('firstName', e.target.value)} 
-                        className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-all duration-200"
-                        required 
-                      />
+                      <div className="relative group/input">
+                        <label className="font-mono text-[10px] text-muted tracking-widest uppercase mb-1 block group-focus-within/input:text-primary transition-colors">
+                          <span className="text-primary mr-1">&gt;</span> FIRST_NAME
+                        </label>
+                        <input 
+                          type="text" 
+                          value={formDetails.firstName} 
+                          onChange={(e) => onFormUpdate('firstName', e.target.value)} 
+                          className="w-full bg-surface border-b-2 border-gridline px-0 py-2 text-white font-mono placeholder-gray-600 focus:outline-none focus:border-primary focus:bg-primary/5 transition-all duration-300"
+                          required 
+                        />
+                      </div>
 
-                      <input 
-                        type="text" 
-                        value={formDetails.lastName} 
-                        placeholder="Last Name" 
-                        onChange={(e) => onFormUpdate('lastName', e.target.value)} 
-                        className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-all duration-200"
-                        required
-                      />
+                      <div className="relative group/input">
+                        <label className="font-mono text-[10px] text-muted tracking-widest uppercase mb-1 block group-focus-within/input:text-primary transition-colors">
+                          <span className="text-primary mr-1">&gt;</span> LAST_NAME
+                        </label>
+                        <input 
+                          type="text" 
+                          value={formDetails.lastName} 
+                          onChange={(e) => onFormUpdate('lastName', e.target.value)} 
+                          className="w-full bg-surface border-b-2 border-gridline px-0 py-2 text-white font-mono placeholder-gray-600 focus:outline-none focus:border-primary focus:bg-primary/5 transition-all duration-300"
+                          required
+                        />
+                      </div>
 
-                      <input 
-                        type="email" 
-                        value={formDetails.email} 
-                        placeholder="Email Address" 
-                        onChange={(e) => onFormUpdate('email', e.target.value)} 
-                        className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-all duration-200"
-                        required 
-                      />
+                      <div className="relative group/input">
+                        <label className="font-mono text-[10px] text-muted tracking-widest uppercase mb-1 block group-focus-within/input:text-primary transition-colors">
+                          <span className="text-primary mr-1">&gt;</span> EMAIL_ADDR
+                        </label>
+                        <input 
+                          type="email" 
+                          value={formDetails.email} 
+                          onChange={(e) => onFormUpdate('email', e.target.value)} 
+                          className="w-full bg-surface border-b-2 border-gridline px-0 py-2 text-white font-mono placeholder-gray-600 focus:outline-none focus:border-primary focus:bg-primary/5 transition-all duration-300"
+                          required 
+                        />
+                      </div>
 
-                      <input 
-                        type="tel" 
-                        value={formDetails.phone} 
-                        placeholder="Phone No." 
-                        onChange={(e) => onFormUpdate('phone', e.target.value)}
-                        className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-all duration-200"
-                      />
+                      <div className="relative group/input">
+                        <label className="font-mono text-[10px] text-muted tracking-widest uppercase mb-1 block group-focus-within/input:text-primary transition-colors">
+                          <span className="text-primary mr-1">&gt;</span> PHONE_NUM (OPTIONAL)
+                        </label>
+                        <input 
+                          type="tel" 
+                          value={formDetails.phone} 
+                          onChange={(e) => onFormUpdate('phone', e.target.value)}
+                          className="w-full bg-surface border-b-2 border-gridline px-0 py-2 text-white font-mono placeholder-gray-600 focus:outline-none focus:border-primary focus:bg-primary/5 transition-all duration-300"
+                        />
+                      </div>
                     </div>
 
-                    <textarea 
-                      rows="4" 
-                      value={formDetails.message} 
-                      placeholder="Message" 
-                      onChange={(e) => onFormUpdate('message', e.target.value)} 
-                      className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-all duration-200 resize-none"
-                      required
-                    ></textarea>
+                    <div className="relative group/input mt-8">
+                      <label className="font-mono text-[10px] text-muted tracking-widest uppercase mb-1 block group-focus-within/input:text-primary transition-colors">
+                        <span className="text-primary mr-1">&gt;</span> MESSAGE_PAYLOAD
+                      </label>
+                      <textarea 
+                        rows="4" 
+                        value={formDetails.message} 
+                        onChange={(e) => onFormUpdate('message', e.target.value)} 
+                        className="w-full bg-surface border-b-2 border-gridline px-0 py-2 text-white font-mono placeholder-gray-600 focus:outline-none focus:border-primary focus:bg-primary/5 transition-all duration-300 resize-none"
+                        required
+                      ></textarea>
+                    </div>
 
                     <button 
                       type="submit" 
-                      className="px-10 py-3 bg-white text-black font-bold font-mono text-lg rounded-lg hover:bg-primary hover:text-white transition-all duration-300 shadow-md"
+                      className="w-full py-4 mt-8 border border-white text-white font-mono text-sm tracking-widest uppercase hover:bg-primary hover:border-primary transition-all duration-300 group"
                     >
-                      {buttonText}
+                      <span className="group-hover:hidden">[{buttonText}]</span>
+                      <span className="hidden group-hover:inline">{'>> '}{buttonText}{' <<'}</span>
                     </button>
 
                     {status.message && (
-                      <div className={`mt-4 p-3 rounded border text-sm ${status.success ? "bg-green-500/10 border-green-500/50 text-green-400" : "bg-red-500/10 border-red-500/50 text-red-400"}`}>
+                      <div className={`mt-6 p-4 border font-mono text-xs uppercase tracking-widest ${status.success ? "bg-green-500/10 border-green-500 text-green-400" : "bg-red-500/10 border-red-500 text-red-400"}`}>
+                        <span className="mr-2">{status.success ? "[OK]" : "[ERR]"}</span>
                         {status.message}
                       </div>
                     )}
