@@ -11,8 +11,6 @@ import { Routes, Route } from "react-router-dom";
 import { Events } from "./components/Events";
 import { Sponsors } from "./components/Sponsors";
 import { Faculty } from "./components/Faculty";
-import { ProjectsShowcase } from "./components/ProjectsShowcase";
-import { Team } from "./components/Team";
 import { Preloader } from "./components/Preloader";
 
 function App() {

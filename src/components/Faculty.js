@@ -71,8 +71,8 @@ export const Faculty = () => {
 
             <div className="container mx-auto px-6 relative z-10 mt-10">
                 <div className="text-center mb-16">
-                    <span className="font-mono text-[#f97316] text-xs tracking-[0.3em] uppercase mb-4 block">
-                        // ACADEMIC_LEADERSHIP
+                    <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
+                        {"// ACADEMIC_LEADERSHIP"}
                     </span>
                     <h2 className="text-4xl md:text-5xl font-display font-extrabold text-white uppercase tracking-tight">
                         FACULTY ADVISORS

@@ -148,7 +148,7 @@ export const CinematicHero = () => {
             
             <div className="mb-12 text-center mt-[-10vh]">
                 <span className="font-mono text-[#f97316] text-xs tracking-widest uppercase mb-2 block">
-                    // CORE_DIRECTIVES
+                    {"// CORE_DIRECTIVES"}
                 </span>
                 <h2 className="text-5xl md:text-7xl font-display font-extrabold text-white uppercase tracking-tight drop-shadow-2xl">
                     OPERATIONAL MANDATES

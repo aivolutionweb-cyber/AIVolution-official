@@ -86,7 +86,7 @@ export const Events = () => {
                 {/* UPCOMING EVENTS */}
                 <div className="border-b border-gridline pb-4 mb-16">
                     <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
-                        // EVENT_SCHEDULER
+                        {"// EVENT_SCHEDULER"}
                     </span>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white uppercase tracking-tight">
                         UPCOMING EVENTS
@@ -116,7 +116,7 @@ export const Events = () => {
                 {/* ACTIVITY ARCHIVE */}
                 <div className="border-b border-gridline pb-4 mb-12">
                     <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
-                        // ARCHIVE_DATABASE
+                        {"// ARCHIVE_DATABASE"}
                     </span>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white uppercase tracking-tight">
                         ACTIVITY ARCHIVE
@@ -150,7 +150,7 @@ export const Events = () => {
                 {/* PHOTO GALLERY */}
                 <div className="border-b border-gridline pb-4 mb-16">
                     <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
-                        // VISUAL_DATA
+                        {"// VISUAL_DATA"}
                     </span>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white uppercase tracking-tight">
                         EVENT GALLERY

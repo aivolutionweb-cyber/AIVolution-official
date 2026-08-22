@@ -36,8 +36,8 @@ export const Sponsors = () => {
 
             <div className="container mx-auto px-6 mb-24 relative z-10">
                 <div className="flex flex-col items-center text-center">
-                    <span className="font-mono text-[#f97316] text-xs tracking-[0.3em] uppercase mb-4 block">
-                        // EXTERNAL_SUPPORT
+                    <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
+                        {"// EXTERNAL_SUPPORT"}
                     </span>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 uppercase tracking-tight">
                         PARTNERS & SPONSORS

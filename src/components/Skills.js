@@ -23,7 +23,7 @@ export const Skills = () => {
         <div className="border-b border-gridline pb-4 mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
           <div>
             <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
-              // CORE_SYSTEMS
+              {"// CORE_SYSTEMS"}
             </span>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white uppercase tracking-tight">
               DEPARTMENTS
