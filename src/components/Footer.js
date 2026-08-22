@@ -1,4 +1,3 @@
-import { MailchimpForm } from "./MailchimpForm";
 import logo from "../assets/img/new_logo_nobg.png";
 import navIcon1 from "../assets/img/nav-icon1.svg"; // LinkedIn
 import navIcon3 from "../assets/img/nav-icon3.svg"; // Instagram
@@ -7,10 +6,6 @@ export const Footer = () => {
   return (
     <footer className="bg-dark border-t border-gridline pt-20 pb-8">
       <div className="container mx-auto px-6">
-        
-        <div className="mb-20">
-           <MailchimpForm />
-        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-gridline pt-12 pb-12">
           

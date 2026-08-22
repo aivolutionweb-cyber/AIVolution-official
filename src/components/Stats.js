@@ -16,7 +16,7 @@ export const Stats = () => {
                 
                 <div className="border-b border-gridline pb-4 mb-16">
                     <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
-                        // TELEMETRY_DATA
+                        {"// TELEMETRY_DATA"}
                     </span>
                     <h2 className="text-4xl md:text-5xl font-display font-extrabold text-white uppercase tracking-tight">
                         SYSTEM IMPACT

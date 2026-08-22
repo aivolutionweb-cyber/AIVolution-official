@@ -4,7 +4,6 @@ import  {NavBar}  from "./components/NavBar";
 import { CinematicHero } from "./components/CinematicHero";
 import { Skills } from "./components/Skills";
 import { EventHighlights } from "./components/EventHighlights";
-import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import MouseFollower from './components/MouseFollower';
 import { Routes, Route } from "react-router-dom";
@@ -35,7 +34,6 @@ function App() {
               <EventHighlights />
               <Sponsors />
               <Faculty />
-              <Contact />
             </>
           } />
           <Route path="/events" element={<Events />} />

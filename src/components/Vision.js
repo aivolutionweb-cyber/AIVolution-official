@@ -7,7 +7,7 @@ export const Vision = () => {
                 
                 <div className="border-b border-gridline pb-4 mb-16">
                     <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
-                        // CORE_DIRECTIVES
+                        {"// CORE_DIRECTIVES"}
                     </span>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white uppercase tracking-tight">
                         OPERATIONAL MANDATES

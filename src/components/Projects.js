@@ -105,7 +105,6 @@
 
 import { useState } from "react";
 import { ProjectCard } from "./ProjectCard";
-import colorSharp2 from "../assets/img/color-sharp2.png";
 
 export const Projects = () => {
   const [activeTab, setActiveTab] = useState('first');

@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -45,23 +46,13 @@ const facultyMembers = [
 
 export const Faculty = () => {
     const containerRef = useRef(null);
-    const cardsRef = useRef([]);
 
-    useGSAP(() => {
-        gsap.fromTo(cardsRef.current,
-            { opacity: 0, y: 50 },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                stagger: 0.2,
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "top 80%",
-                }
-            }
-        );
-    }, { scope: containerRef });
+    const responsive = {
+        superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 4 },
+        desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3 },
+        tablet: { breakpoint: { max: 1024, min: 464 }, items: 2 },
+        mobile: { breakpoint: { max: 464, min: 0 }, items: 1 }
+    };
 
     return (
         <section ref={containerRef} className="py-24 bg-black relative overflow-hidden border-b border-[#f97316]/10" id="faculty">
@@ -69,8 +60,8 @@ export const Faculty = () => {
             {/* Background elements */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-[#f97316]/5 to-transparent blur-[100px] rounded-full pointer-events-none"></div>
 
-            <div className="container mx-auto px-6 relative z-10 mt-10">
-                <div className="text-center mb-16">
+            <div className="container mx-auto px-6 relative z-10 mt-10 mb-16">
+                <div className="text-center">
                     <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
                         {"// ACADEMIC_LEADERSHIP"}
                     </span>
@@ -78,14 +69,28 @@ export const Faculty = () => {
                         FACULTY ADVISORS
                     </h2>
                 </div>
+            </div>
 
-                {/* Using flex-wrap so the 5 cards auto-center on the second row */}
-                <div className="flex flex-wrap justify-center gap-8">
+            {/* Interactive Animated Carousel */}
+            <div className="container mx-auto px-6 relative z-10">
+                <Carousel 
+                    responsive={responsive}
+                    infinite={true}
+                    autoPlay={true}
+                    autoPlaySpeed={3000}
+                    keyBoardControl={true}
+                    customTransition="transform 800ms ease-in-out"
+                    transitionDuration={800}
+                    containerClass="carousel-container py-10"
+                    itemClass="px-4 flex justify-center"
+                    removeArrowOnDeviceType={["tablet", "mobile"]}
+                    showDots={true}
+                    dotListClass="custom-dot-list-style mt-8"
+                >
                     {facultyMembers.map((member, idx) => (
                         <div 
                             key={idx}
-                            ref={el => cardsRef.current[idx] = el}
-                            className="group relative w-full sm:w-[280px] lg:w-[260px] xl:w-[300px] aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-colors duration-500 shadow-2xl shadow-[#f97316]/0 hover:shadow-[#f97316]/10"
+                            className="group relative w-full max-w-[320px] aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-colors duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] shrink-0 cursor-grab active:cursor-grabbing mx-auto"
                         >
                             {/* Full Cover Image */}
                             <img 
@@ -98,7 +103,7 @@ export const Faculty = () => {
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>
 
                             {/* Info Container */}
-                            <div className="absolute bottom-0 left-0 w-full p-6 flex flex-col justify-end pointer-events-none">
+                            <div className="absolute bottom-0 left-0 w-full p-6 flex flex-col justify-end pointer-events-none z-10">
                                 <div className="flex justify-between items-end">
                                     <div>
                                         <h3 className="text-xl md:text-2xl font-display font-bold text-white group-hover:text-[#f97316] transition-colors mb-1 drop-shadow-lg">
@@ -125,8 +130,18 @@ export const Faculty = () => {
                             </div>
                         </div>
                     ))}
-                </div>
+                </Carousel>
             </div>
+            <style jsx global>{`
+                .react-multi-carousel-dot button {
+                    border-color: #333 !important;
+                    background: #111 !important;
+                }
+                .react-multi-carousel-dot--active button {
+                    background: #f97316 !important;
+                    border-color: #f97316 !important;
+                }
+            `}</style>
         </section>
     );
 };

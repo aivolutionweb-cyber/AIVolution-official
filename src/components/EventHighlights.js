@@ -58,7 +58,7 @@ export const EventHighlights = () => {
               className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
               style={{ transform: `translateZ(-800px)` }}
             >
-              <h2 className="text-[25vw] md:text-[8vw] font-display font-extrabold bg-clip-text text-transparent bg-gradient-to-b from-[#f97316] via-[#ea580c] to-black tracking-widest whitespace-nowrap leading-none drop-shadow-2xl">
+              <h2 className="text-[60px] md:text-[90px] font-display font-extrabold bg-clip-text text-transparent bg-gradient-to-b from-[#f97316] via-[#ea580c] to-black tracking-widest whitespace-nowrap leading-none drop-shadow-2xl">
                 EVENTS
               </h2>
             </div>
