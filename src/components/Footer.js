@@ -1,4 +1,4 @@
-import logo from "../assets/img/new_logo_nobg.png";
+import logo from "../assets/img/new_logo.jpg";
 
 export const Footer = () => {
   return (
@@ -84,7 +84,7 @@ export const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 z-10 relative">
           <p className="text-gray-600 font-sans text-xs">
             © {new Date().getFullYear()} AIvolution. All rights reserved.
           </p>
@@ -93,6 +93,14 @@ export const Footer = () => {
             <span className="text-gray-600 font-sans text-xs">All systems operational</span>
           </div>
         </div>
+
+      </div>
+
+      {/* Giant Footer Text */}
+      <div className="w-full flex justify-center items-center mt-12 overflow-hidden select-none pointer-events-none pb-4">
+        <h1 className="font-display font-extrabold text-[9vw] leading-[0.75] text-white tracking-tighter whitespace-nowrap">
+          AIVOLUTIONS
+        </h1>
       </div>
     </footer>
   );

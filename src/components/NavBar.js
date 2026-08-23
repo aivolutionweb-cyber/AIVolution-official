@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import logo from '../assets/img/new_logo_nobg.png';
+import logo from '../assets/img/new_logo.jpg';
 import { HashLink } from "react-router-hash-link";
 import { useLocation } from "react-router-dom";
 
@@ -79,13 +79,13 @@ export const NavBar = () => {
              </a>
           </div>
 
-          <HashLink to="/#connect">
+          <a href="https://chat.whatsapp.com/IAwNmxi4lyG8z52Zh3QTbU" target="_blank" rel="noopener noreferrer">
             <button className="relative overflow-hidden px-6 py-2.5 rounded-full bg-white text-black font-semibold text-xs tracking-wide uppercase transition-transform hover:scale-105 active:scale-95 flex items-center justify-center group">
               <span className="relative z-10">Connect</span>
               {/* Subtle hover gradient inside the button */}
               <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
-          </HashLink>
+          </a>
         </div>
 
       </nav>
@@ -104,11 +104,11 @@ export const NavBar = () => {
                <a href="https://www.linkedin.com/company/aivolutionaries/" target="_blank" rel="noreferrer" className="text-white/50 hover:text-white text-sm font-medium tracking-wide uppercase transition-colors">LinkedIn</a>
             </div>
 
-            <HashLink to="/#connect" onClick={() => setIsOpen(false)}>
+            <a href="https://chat.whatsapp.com/IAwNmxi4lyG8z52Zh3QTbU" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)}>
               <button className="mt-4 px-10 py-3 rounded-full bg-white text-black font-semibold text-xs tracking-wide uppercase">
                 Connect
               </button>
-            </HashLink>
+            </a>
         </div>
       </div>
     </div>

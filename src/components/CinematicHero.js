@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -8,6 +8,8 @@ gsap.registerPlugin(ScrollTrigger);
 export const CinematicHero = () => {
   const wrapperRef = useRef(null);
   const containerRef = useRef(null);
+  const [hoveredImage, setHoveredImage] = useState(null);
+  const hoverRevealRef = useRef(null);
   
   // Animation Refs
   const coreRef = useRef(null);
@@ -15,7 +17,8 @@ export const CinematicHero = () => {
   const ring2Ref = useRef(null);
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
-  
+  const whoAreWeRef = useRef(null);
+  const whoAreWeWordsRef = useRef([]);
   const visionContainerRef = useRef(null);
   const visionCardsRef = useRef([]);
 
@@ -42,7 +45,7 @@ export const CinematicHero = () => {
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
-        end: "+=4000",
+        end: "+=6000",
         scrub: 0.5,
         pin: true,
         anticipatePin: 1,
@@ -63,21 +66,52 @@ export const CinematicHero = () => {
         ease: "power2.in" 
     }, 1);
 
-    // SCENE 3: Directives Slide Up (2.5 to 4.5 seconds)
+    // SCENE 3: Who Are We fades in and out
+    tl.fromTo(whoAreWeRef.current,
+        { opacity: 0, scale: 0.95 },
+        { opacity: 1, scale: 1, duration: 1 },
+        2.5
+    ).fromTo(whoAreWeWordsRef.current,
+        { opacity: 0, y: 15, filter: "blur(5px)" },
+        { opacity: 1, y: 0, filter: "blur(0px)", stagger: 0.03, duration: 0.8, ease: "power2.out" },
+        3.0
+    ).to(whoAreWeRef.current,
+        { opacity: 0, scale: 1.05, duration: 1 },
+        6.5 // Wait longer so text is fully readable
+    );
+
+    // SCENE 4: Directives Slide Up
     tl.fromTo(visionContainerRef.current,
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, duration: 1 },
-        2.5
+        7.5
     ).fromTo(visionCardsRef.current,
         { opacity: 0, y: 30 },
         { opacity: 1, y: 0, stagger: 0.2, duration: 1 },
-        3.0
+        8.0
     );
 
     // Hold the final state
     tl.to({}, { duration: 1 });
 
   }, { scope: wrapperRef }); // Scope to outer wrapper
+
+  // Hover Reveal Mouse Tracker
+  useGSAP(() => {
+    if (hoverRevealRef.current) {
+      gsap.set(hoverRevealRef.current, { xPercent: -50, yPercent: -50 });
+      const xTo = gsap.quickTo(hoverRevealRef.current, "x", { duration: 0.4, ease: "power3" });
+      const yTo = gsap.quickTo(hoverRevealRef.current, "y", { duration: 0.4, ease: "power3" });
+
+      const handleMouseMove = (e) => {
+        xTo(e.clientX);
+        yTo(e.clientY);
+      };
+
+      window.addEventListener("mousemove", handleMouseMove);
+      return () => window.removeEventListener("mousemove", handleMouseMove);
+    }
+  }, []);
 
   return (
     <div ref={wrapperRef} className="hero-gsap-wrapper">
@@ -143,6 +177,41 @@ export const CinematicHero = () => {
 
           {/* --- OVERLAYS --- */}
 
+          {/* Who Are We Overlay (Minimal & Sophisticated) */}
+          <div ref={whoAreWeRef} className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-40 px-6 opacity-0 pointer-events-none">
+
+            {/* Typography Core - Minimal */}
+            <div className="max-w-4xl text-center relative z-10 p-4 md:p-12 pointer-events-auto">
+                
+                <h2 className="text-4xl md:text-7xl font-sans font-light text-white tracking-widest mb-12">
+                    Who We Are.
+                </h2>
+                
+                <p className="text-gray-400 font-sans text-lg md:text-2xl leading-relaxed md:leading-loose max-w-4xl mx-auto flex flex-wrap justify-center gap-x-2 gap-y-1 font-light">
+                    {"We are AIvolution. A collective of student visionaries dedicated to demystifying artificial intelligence. Beyond exploration, we actively build the future—regularly hosting AI masterclasses, industry-led webinars, competitive hackathons, and dynamic tech quizzes. We don't just use AI; we dissect it, build with it, and shape it to solve real-world problems.".split(" ").map((word, i) => {
+                        let hoverImg = null;
+                        const w = word.toLowerCase();
+                        if (w.includes("masterclass")) hoverImg = "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=600&auto=format&fit=crop"; 
+                        if (w.includes("webinar")) hoverImg = "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=600&auto=format&fit=crop"; 
+                        if (w.includes("hackathon")) hoverImg = "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=600&auto=format&fit=crop"; 
+                        if (w.includes("quizz")) hoverImg = "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?q=80&w=600&auto=format&fit=crop"; 
+
+                        return (
+                            <span 
+                                key={i} 
+                                ref={el => whoAreWeWordsRef.current[i] = el} 
+                                className={`inline-block opacity-0 ${hoverImg ? 'text-white cursor-pointer hover:text-[#f97316] transition-colors duration-300 relative z-50' : ''}`}
+                                onMouseEnter={() => hoverImg && setHoveredImage(hoverImg)}
+                                onMouseLeave={() => hoverImg && setHoveredImage(null)}
+                            >
+                                {word}
+                            </span>
+                        );
+                    })}
+                </p>
+            </div>
+          </div>
+
           {/* Vision Overlay */}
           <div ref={visionContainerRef} className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-40 px-6 opacity-0 pointer-events-none">
             
@@ -160,21 +229,21 @@ export const CinematicHero = () => {
                     <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-8 inline-block">M_01</span>
                     <h3 className="text-2xl font-display font-bold mb-4 uppercase text-white">MISSION</h3>
                     <p className="text-gray-400 font-sans text-sm leading-relaxed">
-                        To democratize AI education and provide every student at MAIT the resources to build futuristic tech.
+                        To recognize and discover cutting-edge AI tools and techniques, empowering students to accelerate their growth and build the future with Artificial Intelligence.
                     </p>
                 </div>
                 <div ref={el => visionCardsRef.current[1] = el} className="p-8 bg-[#0a0a0a]/90 backdrop-blur-sm hover:bg-[#111] border border-transparent hover:border-[#f97316]/30 transition-colors duration-300">
                     <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-8 inline-block">V_02</span>
                     <h3 className="text-2xl font-display font-bold mb-4 uppercase text-white">VISION</h3>
                     <p className="text-gray-400 font-sans text-sm leading-relaxed">
-                        To become North India's leading student-run AI community, fostering innovation and open-source contributions.
+                        To forge a thriving ecosystem of student innovators pushing the boundaries of AI exploration, technical mastery, and creative application.
                     </p>
                 </div>
                 <div ref={el => visionCardsRef.current[2] = el} className="p-8 bg-[#0a0a0a]/90 backdrop-blur-sm hover:bg-[#111] border border-transparent hover:border-[#f97316]/30 transition-colors duration-300">
                     <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-8 inline-block">P_03</span>
                     <h3 className="text-2xl font-display font-bold mb-4 uppercase text-white">VALUES</h3>
                     <p className="text-gray-400 font-sans text-sm leading-relaxed">
-                        Collaboration over competition. Practical learning over rote memorization. Community above all.
+                        Continuous exploration of AI technologies. Hands-on learning and technical excellence. Empowering peers to leverage AI for real-world impact.
                     </p>
                 </div>
             </div>
@@ -182,11 +251,17 @@ export const CinematicHero = () => {
           </div>
 
           <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-center z-50 pointer-events-none opacity-50">
-               <span className="font-mono text-white text-xs tracking-widest uppercase">
-                  Scroll Down To Sequence
-               </span>
+              <span className="font-mono text-xs tracking-[0.3em] uppercase text-[#f97316] block mb-2">Scroll Down to Sequence</span>
+              <div className="w-px h-12 bg-gradient-to-b from-[#f97316] to-transparent mx-auto"></div>
           </div>
 
+          {/* Hover Image Reveal Stage */}
+          <div 
+            ref={hoverRevealRef} 
+            className={`fixed top-0 left-0 w-[300px] h-[200px] pointer-events-none z-[100] transition-opacity duration-300 rounded-xl overflow-hidden shadow-2xl border border-white/10 ${hoveredImage ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+          >
+             {hoveredImage && <img src={hoveredImage} alt="Event Preview" className="w-full h-full object-cover" />}
+          </div>
         </div>
     </div>
   );

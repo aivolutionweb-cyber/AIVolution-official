@@ -5,6 +5,7 @@ import { useGSAP } from '@gsap/react';
 export const Sponsors = () => {
     const sectionRef = useRef(null);
     const ringRef = useRef(null);
+    const parallaxWrapperRef = useRef(null);
 
     const baseSponsors = [
         { name: "NEIGHBORLY", logo: "/assets/events/img/neighbourly.jpg" },
@@ -19,13 +20,42 @@ export const Sponsors = () => {
     const radius = 350;
 
     useGSAP(() => {
-        // Infinite 3D rotation of the entire ring on the Y axis
+        // Initialize base tilt so GSAP controls it
+        gsap.set(ringRef.current, { rotationX: -15, y: 0 });
+
+        // Infinite 3D rotation - Faster and reversed direction
         gsap.to(ringRef.current, {
-            rotationY: -360,
+            rotationY: 360,
             ease: "none",
-            duration: 30,
+            duration: 18,
             repeat: -1,
         });
+
+        // Organic floating/bobbing effect to change the "flow"
+        gsap.to(ringRef.current, {
+            y: -25,
+            rotationX: -5, // subtle wobble
+            ease: "sine.inOut",
+            duration: 4,
+            yoyo: true,
+            repeat: -1,
+        });
+
+        // Mouse Parallax effect
+        const xTo = gsap.quickTo(parallaxWrapperRef.current, "x", { duration: 0.8, ease: "power3" });
+        const yTo = gsap.quickTo(parallaxWrapperRef.current, "y", { duration: 0.8, ease: "power3" });
+
+        const handleMouseMove = (e) => {
+            const { innerWidth, innerHeight } = window;
+            const x = (e.clientX / innerWidth - 0.5) * 50; // subtle move left/right
+            const y = (e.clientY / innerHeight - 0.5) * 50; // subtle move up/down
+            
+            xTo(x);
+            yTo(y);
+        };
+
+        window.addEventListener("mousemove", handleMouseMove);
+        return () => window.removeEventListener("mousemove", handleMouseMove);
     }, { scope: sectionRef });
 
     return (
@@ -47,14 +77,13 @@ export const Sponsors = () => {
             
             {/* 3D Orbital Carousel Stage */}
             <div className="relative w-full h-[400px] flex items-center justify-center z-10" style={{ perspective: '1200px' }}>
-                
-                {/* Tilted Ring Wrapper */}
+                <div ref={parallaxWrapperRef} className="relative w-full h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
+                    {/* Tilted Ring Wrapper */}
                 <div 
                     ref={ringRef} 
                     className="relative w-[200px] h-[100px]"
                     style={{ 
-                        transformStyle: 'preserve-3d',
-                        transform: `rotateX(-15deg)` // Tilt the ring to see it as an orbit
+                        transformStyle: 'preserve-3d'
                     }}
                 >
                     {sponsors.map((sponsor, idx) => {
@@ -94,6 +123,7 @@ export const Sponsors = () => {
                             </div>
                         );
                     })}
+                </div>
                 </div>
             </div>
             

@@ -110,7 +110,7 @@
 // }
 
 import { useState, useEffect, useCallback } from "react";
-import headerImg from "../assets/img/new_logo_nobg.png";
+import headerImg from "../assets/img/new_logo.jpg";
 import { ArrowRightCircle } from 'react-bootstrap-icons';
 import 'animate.css';
 
