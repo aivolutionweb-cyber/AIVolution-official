@@ -9,11 +9,10 @@ export const Sponsors = () => {
 
     const baseSponsors = [
         { name: "NEIGHBORLY", logo: "/assets/events/img/neighbourly.jpg" },
-        { name: "COMING SOON", logo: null },
-        { name: "COMING SOON", logo: null },
-        { name: "COMING SOON", logo: null },
-        { name: "COMING SOON", logo: null },
-        { name: "COMING SOON", logo: null },
+        { name: "UNSTOP", logo: "/assets/partners/unstop.svg" },
+        { name: "DEVPOST", logo: "/assets/partners/devpost.svg" },
+        { name: "DEVFOLIO", logo: "/assets/partners/devfolio.png" },
+        { name: "OSEN", logo: "/assets/partners/osen.png" },
     ];
     // Double array for a fuller 3D ring
     const sponsors = [...baseSponsors, ...baseSponsors];
@@ -104,11 +103,18 @@ export const Sponsors = () => {
                                     <div className="absolute inset-0 bg-gradient-to-r from-[#f97316]/0 via-[#f97316]/10 to-[#ea580c]/20 opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
                                     
                                     {sponsor.logo ? (
-                                        <img 
-                                            src={sponsor.logo} 
-                                            alt={sponsor.name} 
-                                            className="max-w-full max-h-full object-contain opacity-80 group-hover:opacity-100 transition-all duration-500 relative z-10"
-                                        />
+                                        <>
+                                            <img 
+                                                src={sponsor.logo} 
+                                                alt={sponsor.name} 
+                                                className="max-w-full max-h-full object-contain opacity-80 group-hover:opacity-10 group-hover:scale-95 transition-all duration-500 relative z-10"
+                                            />
+                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 pointer-events-none">
+                                                <span className="font-display font-bold text-sm tracking-widest text-white uppercase drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] text-center px-2">
+                                                    {sponsor.name}
+                                                </span>
+                                            </div>
+                                        </>
                                     ) : (
                                         <div className="text-center relative z-10">
                                             <svg className="w-8 h-8 text-[#f97316]/20 mx-auto mb-1 group-hover:text-[#ea580c]/80 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
