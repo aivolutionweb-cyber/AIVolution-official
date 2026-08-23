@@ -11,7 +11,7 @@ export const Sponsors = () => {
         { name: "NEIGHBORLY", logo: "/assets/events/img/neighbourly.jpg" },
         { name: "UNSTOP", logo: "/assets/partners/unstop.svg" },
         { name: "DEVPOST", logo: "/assets/partners/devpost.svg" },
-        { name: "DEVFOLIO", logo: "/assets/partners/devfolio.png" },
+        { name: "DEVFOLIO", logo: "/assets/partners/devfolio.svg" },
         { name: "OSEN", logo: "/assets/partners/osen.png" },
     ];
     // Double array for a fuller 3D ring
