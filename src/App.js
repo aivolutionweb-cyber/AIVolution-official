@@ -39,6 +39,13 @@ function App() {
           <Route path="/events" element={<Events />} />
         </Routes>
         
+        {/* Giant AIVOLUTIONS Text - Before Footer */}
+        <div className="w-full flex justify-center items-center overflow-hidden select-none pointer-events-none bg-black">
+          <h1 className="font-display font-extrabold text-[9vw] leading-[0.75] text-white tracking-tighter whitespace-nowrap">
+            AIVOLUTIONS
+          </h1>
+        </div>
+
         <Footer />
       </div>
 

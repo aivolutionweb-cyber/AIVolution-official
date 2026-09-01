@@ -55,7 +55,6 @@ export const Preloader = () => {
   const textRef = useRef(null);
   const cursorRef = useRef(null);
   const [isFinished, setIsFinished] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
   const [displayedText, setDisplayedText] = useState('');
   const audioCtxRef = useRef(null);
 
@@ -78,21 +77,16 @@ export const Preloader = () => {
     };
   }, [isFinished]);
 
-  const handleStart = () => {
+  useEffect(() => {
     const ctx = getAudioCtx();
-    // Resume audio context to bypass browser autoplay policies
     if (ctx.state === 'suspended') {
       ctx.resume();
     }
-    setHasStarted(true);
-  };
+  }, [getAudioCtx]);
 
   useGSAP(() => {
-    if (!hasStarted) return;
-
     const tl = gsap.timeline({
       onComplete: () => {
-        // Small delay to let the sound finish before removing element
         setTimeout(() => {
           setIsFinished(true);
           document.body.style.overflow = 'unset';
@@ -100,21 +94,17 @@ export const Preloader = () => {
       }
     });
 
-    // Initial state
     gsap.set(loadingBarRef.current, { scaleX: 0, transformOrigin: 'left center' });
 
-    // 1. Loading bar fills up
     tl.to(loadingBarRef.current, { scaleX: 0.3, duration: 0.5, ease: 'power2.out' })
       .to(loadingBarRef.current, { scaleX: 0.6, duration: 0.8, ease: 'steps(3)' })
       .to(loadingBarRef.current, { scaleX: 1, duration: 0.5, ease: 'power4.inOut' });
 
-    // 2. Typing effect with sound — character by character
     let charIndex = 0;
     const typeInterval = setInterval(() => {
       if (charIndex < tagline.length) {
         setDisplayedText(tagline.substring(0, charIndex + 1));
-        
-        // Play typing sound for visible characters
+
         const char = tagline[charIndex];
         if (char !== ' ') {
           try {
@@ -122,19 +112,17 @@ export const Preloader = () => {
             createTypingSound(ctx);
           } catch(e) { /* silent fallback */ }
         }
-        
+
         charIndex++;
       } else {
         clearInterval(typeInterval);
       }
-    }, 60); // 60ms per character
+    }, 60);
 
-    // 3. Wait for typing to finish, then transition out
     const typingDuration = tagline.length * 0.06 + 0.5;
-    
+
     tl.to({}, { duration: typingDuration }, "-=1.0");
 
-    // 4. Fade out text and bar, and trigger the pop sound exactly now!
     tl.call(() => {
         try {
           const ctx = getAudioCtx();
@@ -152,45 +140,31 @@ export const Preloader = () => {
       });
 
     return () => clearInterval(typeInterval);
-  }, { scope: containerRef, dependencies: [hasStarted] });
+  }, { scope: containerRef });
 
   if (isFinished) return null;
 
   return (
-    <div 
-      ref={containerRef} 
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black cursor-pointer"
-      onClick={!hasStarted ? handleStart : undefined}
+    <div
+      ref={containerRef}
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black"
     >
-      {!hasStarted ? (
-        <div className="flex flex-col items-center animate-pulse">
-           <span className="w-12 h-12 rounded-full border border-[#f97316]/50 flex items-center justify-center mb-4 text-[#f97316]">
-              <svg className="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-           </span>
-           <p className="font-mono text-white tracking-[0.2em] text-sm uppercase">Click to Initialize</p>
+      <div className="w-full max-w-2xl px-6 flex flex-col items-center">
+        <div className="h-8 md:h-10 mb-6 overflow-hidden whitespace-nowrap inline-block w-max text-center" ref={textRef}>
+          <h1 className="text-xl md:text-3xl font-mono text-white tracking-widest uppercase">
+            {displayedText}
+            <span ref={cursorRef} className="inline-block w-[3px] h-[1em] bg-[#f97316] ml-1 animate-pulse align-middle"></span>
+          </h1>
         </div>
-      ) : (
-        <div className="w-full max-w-2xl px-6 flex flex-col items-center">
-          {/* Terminal/Typing Text */}
-          <div className="h-8 md:h-10 mb-6 overflow-hidden whitespace-nowrap inline-block w-max text-center" ref={textRef}>
-            <h1 className="text-xl md:text-3xl font-mono text-white tracking-widest uppercase">
-              {displayedText}
-              <span ref={cursorRef} className="inline-block w-[3px] h-[1em] bg-[#f97316] ml-1 animate-pulse align-middle"></span>
-            </h1>
-          </div>
 
-          {/* Loading Bar */}
-          <div className="w-full h-1 bg-surface border border-gridline overflow-hidden">
-            <div ref={loadingBarRef} className="h-full w-full bg-gradient-to-r from-primary to-secondary shadow-[0_0_15px_rgba(255,59,0,0.8)]"></div>
-          </div>
-          
-          <div className="mt-4 text-[10px] font-mono text-muted tracking-widest uppercase animate-pulse">
-              INITIALIZING_SYSTEM_CORE...
-          </div>
+        <div className="w-full h-1 bg-surface border border-gridline overflow-hidden">
+          <div ref={loadingBarRef} className="h-full w-full bg-gradient-to-r from-primary to-secondary shadow-[0_0_15px_rgba(255,59,0,0.8)]"></div>
         </div>
-      )}
+
+        <div className="mt-4 text-[10px] font-mono text-muted tracking-widest uppercase animate-pulse">
+            INITIALIZING_SYSTEM_CORE...
+        </div>
+      </div>
     </div>
   );
 };

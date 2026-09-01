@@ -216,12 +216,12 @@ export const CinematicHero = () => {
           <div ref={visionContainerRef} className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-40 px-6 opacity-0 pointer-events-none">
             
             <div className="mb-12 text-center mt-[-10vh]">
-                <span className="font-mono text-[#f97316] text-xs tracking-widest uppercase mb-2 block">
-                    {"// CORE_DIRECTIVES"}
-                </span>
-                <h2 className="text-5xl md:text-7xl font-display font-extrabold text-white uppercase tracking-tight drop-shadow-2xl">
-                    OPERATIONAL MANDATES
+                <h2 className="text-5xl md:text-7xl font-display font-extrabold text-white uppercase tracking-tight drop-shadow-2xl mb-2">
+                    CORE DIRECTIVES
                 </h2>
+                <span className="font-mono text-[#f97316] text-xs tracking-widest uppercase block">
+                    {"// OPERATIONAL_MANDATES"}
+                </span>
             </div>
 
             <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-px bg-black border border-[#f97316]/20 pointer-events-auto shadow-[0_0_50px_rgba(249,115,22,0.1)]">

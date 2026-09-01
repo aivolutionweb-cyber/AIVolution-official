@@ -70,13 +70,13 @@ export const Skills = () => {
   }, { scope: containerRef });
 
   return (
-    <div ref={containerRef} className="relative z-30 bg-black text-white overflow-hidden" id="skills">
+    <div ref={containerRef} className="relative bg-black text-white overflow-hidden" id="skills">
       
       {/* Background Layer (Pinned) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden flex items-center justify-center">
         {/* Dynamic Morphing Beam */}
         <div className="absolute w-[200vw] h-[150vh] left-[-50vw] top-[-25vh]">
-            <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" className="w-full h-full opacity-60">
+            <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" className="w-full h-full opacity-30">
                 <defs>
                     <filter id="beam-blur" x="-50%" y="-50%" width="200%" height="200%">
                         <feGaussianBlur stdDeviation="20" />

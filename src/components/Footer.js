@@ -8,7 +8,7 @@ export const Footer = () => {
       <div className="w-full h-px bg-gradient-to-r from-transparent via-[#f97316]/40 to-transparent"></div>
 
       {/* Main footer content */}
-      <div className="container mx-auto px-6 md:px-16 lg:px-32 pt-20 pb-12">
+      <div className="container mx-auto px-6 md:px-16 lg:px-32 pt-8 pb-12">
         
         {/* Top row: Logo + Tagline */}
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 mb-20">
@@ -96,12 +96,6 @@ export const Footer = () => {
 
       </div>
 
-      {/* Giant Footer Text */}
-      <div className="w-full flex justify-center items-center mt-12 overflow-hidden select-none pointer-events-none pb-4">
-        <h1 className="font-display font-extrabold text-[9vw] leading-[0.75] text-white tracking-tighter whitespace-nowrap">
-          AIVOLUTIONS
-        </h1>
-      </div>
     </footer>
   );
 };
