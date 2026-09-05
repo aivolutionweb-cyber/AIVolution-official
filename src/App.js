@@ -6,7 +6,7 @@ import { Skills } from "./components/Skills";
 import { EventHighlights } from "./components/EventHighlights";
 import { Footer } from "./components/Footer";
 import MouseFollower from './components/MouseFollower';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Events } from "./components/Events";
 import { Sponsors } from "./components/Sponsors";
 import { Faculty } from "./components/Faculty";
@@ -24,8 +24,9 @@ function App() {
 
       {/* Main Content - Relative z-10 ensures it sits ABOVE the background */}
       <div className="relative z-10">
+        <ScrollToTop />
         <NavBar />
-        
+
         <Routes>
           <Route path="/" element={
             <>
@@ -54,6 +55,14 @@ function App() {
     </div>
   );
 }
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
 
 const ScrollToTopButton = () => {
   const [isVisible, setIsVisible] = useState(false);
