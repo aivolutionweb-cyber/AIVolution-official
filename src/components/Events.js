@@ -1,206 +1,335 @@
-import { useState } from "react";
-import { ProjectCard } from "./ProjectCard";
-import 'animate.css';
+import { useState, useEffect } from "react";
+import TrackVisibility from "react-on-screen";
+import "animate.css";
+import { fetchEvents } from "../services/eventsService";
+
+const EVENTS = [
+  {
+    type: "webinar",
+    title: "Preparation Mantra",
+    description:
+      "Foundational webinar setting the right mindset for aspiring AI practitioners.",
+    imgUrl: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%202.jpeg",
+    id: "WEB_001",
+  },
+  {
+    type: "webinar",
+    title: "Orientation 2024",
+    description:
+      "Kickstarting the journey into AIVOLUTIONS with an overview of tracks and goals.",
+    imgUrl: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%201.jpeg",
+    id: "WEB_002",
+  },
+  {
+    type: "competition",
+    title: "Codex Hackathon",
+    description:
+      "48-hour buildathon crafting next-gen AI prototypes and demos.",
+    imgUrl: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/Competiton%201.jpeg",
+    id: "CMP_002",
+  },
+  {
+    type: "gallery",
+    title: "Algosphere",
+    description:
+      "Algorithmic puzzle challenge testing speed, accuracy, and strategy. Participants tackled real-world challenges over multiple rigorous rounds.",
+    imgUrl: "/assets/events/algosphere/pic_1.jpg",
+    id: "DIR_ALGO",
+    gallery: [
+      "/assets/events/algosphere/pic_1.jpg",
+      "/assets/events/algosphere/pic_2.jfif",
+      "/assets/events/algosphere/pic_3.jfif",
+      "/assets/events/algosphere/pic_4.jfif",
+    ],
+  },
+];
+
+const TYPE_META = {
+  webinar: { label: "WEBINAR", color: "text-blue-400", dot: "bg-blue-400" },
+  competition: { label: "COMPETITION", color: "text-purple-400", dot: "bg-purple-400" },
+  gallery: { label: "GALLERY", color: "text-amber-400", dot: "bg-amber-400" },
+};
+
+const ANIMATION_VARIANTS = [
+  "animate__slideInUp",
+  "animate__slideInLeft",
+  "animate__slideInRight",
+  "animate__fadeIn",
+  "animate__zoomIn",
+];
 
 export const Events = () => {
-    const [activeTab, setActiveTab] = useState('first'); 
-    const [expandedEvent, setExpandedEvent] = useState(null); 
+  const [fullscreenEvent, setFullscreenEvent] = useState(null);
+  const [loadedImages, setLoadedImages] = useState({});
+  const [events, setEvents] = useState(EVENTS);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    const events = [
-        {
-            title: "AI & Future Tech Summit",
-            description: "Deep dive into the future of Artificial Intelligence and what it means for humanity.",
-            imgUrl: "/assets/events/event1.svg", 
-            id: "EVT_FUT"
-        },
-        {
-            title: "Generative AI Hackathon",
-            description: "Build the next generation of AI tools in this 48-hour coding challenge.",
-            imgUrl: "/assets/events/event2.svg",
-            id: "EVT_GEN"
-        },
-        {
-            title: "Machine Learning Workshop",
-            description: "A hands-on workshop to get you started with ML models and data processing.",
-            imgUrl: "/assets/events/event3.svg",
-            id: "EVT_MLW"
-        },
-    ];
-
-    const webProjects = [
-        { title: "Preparation Mantra", description: "Webinar", imgUrl: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%202.jpeg" },
-        { title: "Orientation 2024", description: "Webinar", imgUrl: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%201.jpeg" },
-        { title: "Enterprises Application Suite", description: "Webinar", imgUrl: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%203.jpeg" },
-    ];
-
-    const mobileProjects = [
-        { title: "Algosphere", description: "Competition", imgUrl: "/assets/events/algosphere/img.png" },
-        { title: "Codex Hackathon", description: "Hackathon", imgUrl: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/Competiton%201.jpeg" },
-    ];
-
-    const previousEvents = [
-        {
-            title: "Codex Hackathon 2025",
-            description: "60+ teams competed at MAIT. Winners: RADICALS (1st), Digital Destroyers (2nd), and NexaGen (3rd).",
-            imgUrl: "/assets/events/codex_thumbnail.jpg",
-            id: "DIR_CODEX",
-            gallery: [
-               "/assets/events/codex/pic_1.jpg", "/assets/events/codex/pic-3.jpg", "/assets/events/codex/pic_4.jpg",
-               "/assets/events/codex/pic_6.jpg", "/assets/events/codex/pic_17.jpg", "/assets/events/codex/pic_5.jpg",
-               "/assets/events/codex/pic_13.jpg", "/assets/events/codex/pic_2.jpg", "/assets/events/codex/pic_12.jpg",
-               "/assets/events/codex/pic_15.jpg", "/assets/events/codex/pic_14.jpg", "/assets/events/codex/pic_16.jpg",
-               "/assets/events/codex/pic_18.jpg", "/assets/events/codex/pic_19.jpg", "/assets/events/codex/pic_20.jpg"
-            ]
-        },
-        {
-            title: "Algosphere",
-            description: "Participants tackled real-world challenges over multiple rigorous rounds.",
-            imgUrl: "/assets/events/algosphere/pic_1.jpg",
-            id: "DIR_ALGO",
-            gallery: [
-                "/assets/events/algosphere/pic_1.jpg", "/assets/events/algosphere/pic_2.jfif",
-                "/assets/events/algosphere/pic_3.jfif", "/assets/events/algosphere/pic_4.jfif",
-            ]
-        },
-        {
-            title: "Enterprises Application Suite",
-            description: "An expert from STMicroelectronics came for sharing her deep knowledge about ERP software.",
-            imgUrl: "/assets/events/webinar/pic-1.jfif",
-            id: "DIR_ERP",
-            gallery: [
-                "/assets/events/webinar/pic-1.jfif", "/assets/events/webinar/pic-2.jfif",
-                "/assets/events/webinar/pic-3.jfif", "/assets/events/webinar/pic-4.jfif",
-                "/assets/events/webinar/pic-5.jfif",
-            ]
-        },
-    ];
-
-    const toggleGallery = (index) => {
-        setExpandedEvent(expandedEvent === index ? null : index);
+  useEffect(() => {
+    const loadEvents = async () => {
+      try {
+        const data = await fetchEvents();
+        if (data && data.length > 0) {
+          setEvents(data);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
+    loadEvents();
+  }, []);
 
-    return (
-        <section className="relative pt-24 pb-32 bg-dark" id="events">
-            <div className="container mx-auto px-6 relative z-10">
-                
-                {/* UPCOMING EVENTS */}
-                <div className="border-b border-gridline pb-4 mb-16">
-                    <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
-                        {"// EVENT_SCHEDULER"}
-                    </span>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white uppercase tracking-tight">
-                        UPCOMING EVENTS
-                    </h2>
-                </div>
+  return (
+    <section className="relative min-h-screen bg-dark text-white pt-28 pb-40 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+          }}
+        />
+      </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-gridline border border-gridline mb-32">
-                    {events.map((event, index) => (
-                        <div key={index} className="bg-dark p-8 flex flex-col group hover:bg-surface transition-colors duration-300">
-                            <div className="flex justify-between items-center border-b border-gridline pb-4 mb-6">
-                                <span className="font-mono text-primary text-xs tracking-widest">{event.id}</span>
-                                <span className="w-2 h-2 bg-primary animate-pulse"></span>
-                            </div>
-                            <div className="h-16 mb-6 flex items-center justify-start opacity-70 group-hover:opacity-100 transition-opacity">
-                                <img src={event.imgUrl} alt={event.title} className="h-full object-contain filter invert"/>
-                            </div>
-                            <h3 className="text-2xl font-display font-bold text-white uppercase mb-4">{event.title}</h3>
-                            <p className="text-muted font-sans text-sm leading-relaxed mb-8 flex-grow">{event.description}</p>
-                            <button className="w-full py-4 border border-white text-white font-mono text-xs uppercase tracking-widest hover:bg-primary hover:border-primary hover:text-white transition-all duration-300">
-                                INITIALIZE_REGISTRATION
-                            </button>
-                        </div>
-                    ))}
-                </div>
+      <div className="absolute top-0 left-0 w-0.5 h-full bg-gradient-to-b from-primary via-transparent to-primary opacity-20" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-20" />
 
+      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
+        <header className="text-center mb-20">
+          <span className="font-mono text-[9px] text-muted tracking-widest uppercase mb-4 block">
+            {"// EVENT_FEED"}
+          </span>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-display font-extrabold text-white uppercase tracking-tighter mb-6">
+            EVENTS
+          </h1>
+          <p className="font-mono text-xs text-muted tracking-widest max-w-2xl mx-auto leading-relaxed">
+            A living feed of community sessions — each card holds a moment in
+            time. Hover to reveal more, click to explore.
+          </p>
+        </header>
 
-                {/* ACTIVITY ARCHIVE */}
-                <div className="border-b border-gridline pb-4 mb-12">
-                    <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
-                        {"// ARCHIVE_DATABASE"}
-                    </span>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white uppercase tracking-tight">
-                        ACTIVITY ARCHIVE
-                    </h2>
-                </div>
-
-                {/* Tab Buttons */}
-                <div className="flex mb-12 border-b border-gridline">
-                    <button 
-                        onClick={() => setActiveTab('first')} 
-                        className={`px-8 py-4 font-mono text-sm tracking-widest uppercase transition-all border-b-2 ${activeTab === 'first' ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-white'}`}
-                    >
-                        [ WEBINARS ]
-                    </button>
-                    <button 
-                        onClick={() => setActiveTab('second')} 
-                        className={`px-8 py-4 font-mono text-sm tracking-widest uppercase transition-all border-b-2 ${activeTab === 'second' ? 'border-primary text-primary' : 'border-transparent text-muted hover:text-white'}`}
-                    >
-                        [ COMPETITIONS ]
-                    </button>
-                </div>
-
-                {/* Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-32 animate__animated animate__fadeIn">
-                    {(activeTab === 'first' ? webProjects : mobileProjects).map((project, index) => (
-                        <ProjectCard key={index} {...project} />
-                    ))}
-                </div>
-
-
-                {/* PHOTO GALLERY */}
-                <div className="border-b border-gridline pb-4 mb-16">
-                    <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
-                        {"// VISUAL_DATA"}
-                    </span>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white uppercase tracking-tight">
-                        EVENT GALLERY
-                    </h2>
-                </div>
-
-                <div className="flex flex-col gap-16">
-                    {previousEvents.map((event, index) => {
-                        const isExpanded = expandedEvent === index;
-                        return (
-                            <div key={index} className="border border-gridline bg-surface/30">
-                                <div 
-                                    className="relative h-[300px] md:h-[400px] cursor-pointer group overflow-hidden"
-                                    onClick={() => toggleGallery(index)}
-                                >
-                                    <img src={event.imgUrl} alt="Event Cover" className="w-full h-full object-cover filter grayscale opacity-40 group-hover:opacity-60 transition-all duration-700" />
-                                    
-                                    <div className="absolute inset-0 p-8 flex flex-col justify-between">
-                                        <div className="flex justify-between items-start">
-                                            <span className="font-mono text-xs tracking-widest bg-dark border border-gridline px-3 py-1 text-muted group-hover:text-primary transition-colors">
-                                                {event.id}
-                                            </span>
-                                            <span className="font-mono text-xs tracking-widest text-white border border-white px-3 py-1 bg-black/50 backdrop-blur-sm group-hover:bg-primary group-hover:border-primary transition-colors">
-                                                {isExpanded ? "CLOSE_DIR" : "OPEN_DIR"}
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <h3 className="text-3xl md:text-5xl font-display font-bold text-white uppercase tracking-tight mb-4 drop-shadow-md">{event.title}</h3>
-                                            <p className="text-gray-300 font-sans max-w-2xl text-sm md:text-base border-l-2 border-primary pl-4 bg-dark/50 p-2 backdrop-blur-sm">{event.description}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {isExpanded && event.gallery && (
-                                    <div className="p-6 border-t border-gridline bg-dark">
-                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 animate__animated animate__fadeIn">
-                                            {event.gallery.map((img, idx) => (
-                                                <div key={idx} className="aspect-square border border-gridline bg-surface overflow-hidden group/img relative">
-                                                    <img src={img} alt={`Gallery ${idx}`} className="w-full h-full object-cover filter grayscale group-hover/img:grayscale-0 transition-all duration-500" />
-                                                    <div className="absolute top-2 left-2 font-mono text-[9px] text-white mix-blend-difference">IMG_{idx.toString().padStart(3, '0')}</div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        )
-                    })}
-                </div>
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {loading ? (
+            <div className="col-span-3 text-center py-20 font-mono text-sm text-muted">
+              Loading events…
             </div>
-        </section>
-    )
-}
+          ) : error ? (
+            <div className="col-span-3 text-center py-20 font-mono text-sm text-red-400">
+              Failed to load events. Showing cached data.
+            </div>
+          ) : (
+            events.map((event, index) => (
+              <TrackVisibility key={event.id} once partialVisibility offset={50}>
+                {({ isVisible }) => (
+                  <li
+                    className={`relative group transition-all duration-500 ${
+                      isVisible
+                        ? `${ANIMATION_VARIANTS[index % ANIMATION_VARIANTS.length]} animate__slow`
+                        : "opacity-0 translate-y-8"
+                    }`}
+                    style={{ animationDelay: `${index * 150}ms` }}
+                  >
+                    <EventCard
+                      event={event}
+                      meta={TYPE_META[event.type]}
+                      alternate={index % 2 === 1}
+                      onGalleryClick={() => setFullscreenEvent(event)}
+                    />
+                  </li>
+                )}
+              </TrackVisibility>
+            ))
+          )}
+        </ul>
+      </div>
+
+      <FullscreenGallery
+        event={fullscreenEvent}
+        loadedImages={loadedImages}
+        onMarkLoaded={(id) => setLoadedImages((p) => ({ ...p, [id]: true }))}
+        onClose={() => setFullscreenEvent(null)}
+      />
+    </section>
+  );
+};
+
+const FullscreenGallery = ({ event, loadedImages, onMarkLoaded, onClose }) => {
+  const [zoomedImage, setZoomedImage] = useState(null);
+
+  useEffect(() => {
+    if (!event) return;
+    const onEsc = (e) => {
+      if (e.key === "Escape") {
+        if (zoomedImage) {
+          setZoomedImage(null);
+        } else {
+          onClose();
+        }
+      }
+    };
+    window.addEventListener("keydown", onEsc);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onEsc);
+      document.body.style.overflow = "";
+    };
+  }, [event, onClose, zoomedImage]);
+
+  if (!event) return null;
+
+  const handleImgLoad = (src) => {
+    if (!loadedImages[src]) onMarkLoaded(src);
+  };
+
+  const close = () => onClose();
+
+  return (
+    <>
+      <div
+        className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-6"
+        onClick={close}
+      >
+        <button
+          onClick={close}
+          className="absolute top-6 right-6 text-white/50 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors"
+        >
+          CLOSE ×
+        </button>
+
+        <h2 className="text-3xl md:text-4xl font-display font-bold text-white uppercase mb-8 text-center">
+          {event.title}
+        </h2>
+
+        <div
+          className="w-full max-w-6xl overflow-y-auto"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {event.gallery.map((img, idx) => (
+              <div
+                key={idx}
+                className="relative border border-gridline overflow-hidden bg-dark rounded-lg cursor-zoom-in"
+                onClick={() => setZoomedImage(img)}
+              >
+                {!loadedImages[img] && (
+                  <div className="absolute inset-0 bg-gridline animate-pulse flex items-center justify-center z-10">
+                    <span className="font-mono text-[9px] text-muted">
+                      LOADING
+                    </span>
+                  </div>
+                )}
+                <img
+                  src={img}
+                  alt={`${event.title} gallery ${idx + 1}`}
+                  className={`w-full h-full object-cover transition-all duration-500 ${
+                    loadedImages[img] ? "opacity-100 blur-0" : "opacity-0 blur-sm"
+                  }`}
+                  onLoad={() => handleImgLoad(img)}
+                />
+                <div className="absolute bottom-1 right-1 font-mono text-[7px] text-white/20 bg-black/30 px-2 py-0.5 rounded">
+                  IMG_{idx.toString().padStart(3, "0")}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {zoomedImage && (
+        <div
+          className="fixed inset-0 z-[300] bg-black/95 backdrop-blur-sm flex items-center justify-center p-6"
+          onClick={() => setZoomedImage(null)}
+        >
+          <div
+            className="max-w-[90vw] max-h-[90vh] relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={zoomedImage}
+              alt="Zoomed"
+              className="max-w-full max-h-[90vh] object-contain"
+            />
+          </div>
+          <button
+            onClick={() => setZoomedImage(null)}
+            className="absolute top-6 right-6 text-white/50 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors"
+          >
+            CLOSE ×
+          </button>
+        </div>
+      )}
+    </>
+  );
+};
+
+const EventCard = ({ event, meta, alternate, onGalleryClick }) => {
+  const [imgLoaded, setImgLoaded] = useState(false);
+
+  return (
+    <div
+      className={`relative h-full border transition-all duration-500 bg-surface overflow-hidden border-gridline group-hover:border-primary`}
+    >
+      <div className="relative overflow-hidden">
+        {!imgLoaded && (
+          <div className="absolute inset-0 bg-gridline animate-pulse flex items-center justify-center z-10">
+            <span className="font-mono text-[9px] text-muted">LOADING</span>
+          </div>
+        )}
+        <div
+          className={`aspect-[16/10] transition-all duration-700 ${
+            imgLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
+          }`}
+        >
+          <img
+            src={event.imgUrl}
+            alt={event.title}
+            className={`w-full h-full object-cover filter transition-all duration-700 group-hover:scale-105 ${
+              alternate ? "grayscale group-hover:grayscale-0" : ""
+            } ${
+              imgLoaded ? "opacity-100" : "opacity-0"
+            }`}
+            onLoad={() => setImgLoaded(true)}
+          />
+          <div
+            className={`absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent transition-opacity duration-300 ${
+              imgLoaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        </div>
+      </div>
+
+      <div className="p-6 flex flex-col flex-grow">
+        <div className="flex items-center gap-3 mb-4">
+          <span
+            className={`w-2 h-2 rounded-full ${meta.dot} shadow-[0_0_6px_currentColor]`}
+          />
+          <span className={`font-mono text-[9px] tracking-widest uppercase ${meta.color}`}>
+            {meta.label}
+          </span>
+          <span className="font-mono text-[8px] text-muted">{event.id}</span>
+        </div>
+
+        <h3 className="text-xl font-display font-bold text-white uppercase mb-3 group-hover:text-primary transition-colors duration-300">
+          {event.title}
+        </h3>
+
+        <p className="text-sm text-muted font-sans leading-relaxed mb-4 flex-grow">
+          {event.description}
+        </p>
+
+        {event.type === "gallery" && (
+          <button
+            onClick={onGalleryClick}
+            className="mt-2 font-mono text-xs uppercase tracking-widest text-primary hover:text-white transition-colors duration-300"
+          >
+            View gallery
+            <span className="ml-1">+</span>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};

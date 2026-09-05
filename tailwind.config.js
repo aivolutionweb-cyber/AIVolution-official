@@ -17,9 +17,13 @@ module.exports = {
         mono: ['JetBrains Mono', 'monospace'],
         display: ['Syne', 'sans-serif'],
       },
-      backgroundImage: {
+       backgroundImage: {
         'banner-gradient': 'linear-gradient(to right, rgba(9,9,11,0.9), rgba(9,9,11,0.3))',
-      }
+      },
+      animation: {
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'ping-slow': 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite',
+      },
     },
   },
   plugins: [],

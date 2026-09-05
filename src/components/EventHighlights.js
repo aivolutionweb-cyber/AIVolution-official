@@ -23,19 +23,15 @@ export const EventHighlights = () => {
     { title: "Enterprise App Suite", date: "Nov 5, 2024", img: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%203.jpeg" },
     { title: "Orientation 2024", date: "Dec 1, 2024", img: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%201.jpeg" },
     { title: "CODEX Hackathon", date: "Jan 20, 2025", img: "/assets/events/codex_thumbnail.jpg" },
-    { title: "Eklavya Techfest", date: "Apr 23-24, 2025", img: null },
     { title: "Hack Horizon", date: "Apr 11-12, 2025", img: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/Competiton%201.jpeg" },
-    { title: "NPTEL Workshop", date: "Jan 22, 2026", img: null },
-    { title: "RanchiHacks", date: "Jan 17-18, 2026", img: null },
-    { title: "Martinovation", date: "Nov 3-7, 2025", img: null },
   ];
 
-  // Radius large enough that adjacent cards (36deg apart, ~280px wide)
-  // clear each other horizontally (radius * sin(36deg) > card width),
+  // Radius large enough that adjacent cards (60deg apart, ~300px wide)
+  // clear each other horizontally (radius * sin(60deg) > card width),
   // so they no longer overlap/collide on screen.
   const radius = 480;
   // The vertical step between each card to create the DNA/Helix spiral effect
-  const yStep = 50;
+  const yStep = 20;
   const totalY = events.length * yStep;
 
   useGSAP(() => {
@@ -76,7 +72,7 @@ export const EventHighlights = () => {
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
-        end: "+=4000",
+        end: "+=1000",
         scrub: 1,
         pin: true,
         anticipatePin: 1,
@@ -143,7 +139,7 @@ export const EventHighlights = () => {
             {/* 3D Helix Container */}
             <div
               ref={cylinderRef}
-              className="relative w-[220px] h-[340px] md:w-[280px] md:h-[440px]"
+               className="relative w-[240px] h-[380px] md:w-[300px] md:h-[500px]"
               style={{
                 transformStyle: 'preserve-3d',
                 transform: `translateZ(-${radius}px)`
@@ -171,7 +167,7 @@ export const EventHighlights = () => {
                       see the flat hitbox overlay outside the 3D stage instead. */}
                   <div
                     ref={(el) => (cardRefs.current[i] = el)}
-                    className={`relative w-full h-[300px] md:h-[400px] bg-[#0a0a0a]/80 backdrop-blur-md border-2 rounded-xl overflow-hidden z-10 transition-shadow duration-300 ${isActive ? 'border-[#ea580c] shadow-[0_0_35px_rgba(249,115,22,0.55),0_10px_20px_rgba(0,0,0,0.8)]' : 'border-[#f97316]/60 shadow-[0_0_18px_rgba(249,115,22,0.3),0_10px_20px_rgba(0,0,0,0.8)]'} ${showHover ? 'shadow-[0_0_45px_rgba(249,115,22,0.7)]' : ''}`}
+                     className={`relative w-full h-[360px] md:h-[480px] bg-[#0a0a0a]/80 backdrop-blur-md border-2 rounded-xl overflow-hidden z-10 transition-shadow duration-300 ${isActive ? 'border-[#ea580c] shadow-[0_0_35px_rgba(249,115,22,0.55),0_10px_20px_rgba(0,0,0,0.8)]' : 'border-[#f97316]/60 shadow-[0_0_18px_rgba(249,115,22,0.3),0_10px_20px_rgba(0,0,0,0.8)]'} ${showHover ? 'shadow-[0_0_45px_rgba(249,115,22,0.7)]' : ''}`}
                     style={{ perspective: '1200px' }}
                   >
                     {/* Flip wrapper: rotates 180deg on hover to reveal the back face */}
