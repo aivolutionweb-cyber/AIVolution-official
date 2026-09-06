@@ -3,11 +3,40 @@ import { useLocation } from "react-router-dom";
 import TrackVisibility from "react-on-screen";
 import "animate.css";
 import { fetchEvents } from "../services/eventsService";
+import { EventRegistrationModal } from "./EventRegistrationModal";
 
 export const EVENTS = [
   {
+    type: "workshop",
+    title: "AI/ML, RAG & LLMs Workshop",
+    date: "27 Sep 2026",
+    registrationOpen: true,
+    registrationKind: "solo",
+    summary:
+      "A hands-on dive into ML foundations, Retrieval-Augmented Generation, and building with LLMs.",
+    facts: ["Hands-On Workshop", "RAG · LLMs · ML", "Open to All Branches"],
+    sections: [
+      {
+        heading: "Overview",
+        body: "AIvolutions is hosting a hands-on workshop this September diving into the technologies powering today's AI systems — core Machine Learning foundations, Retrieval-Augmented Generation (RAG) pipelines, and building real applications with Large Language Models (LLMs).",
+      },
+      {
+        heading: "What You'll Learn",
+        body: "Participants will get a practical walkthrough of ML fundamentals, how RAG grounds LLM outputs in real data, and hands-on exercises building a mini LLM-powered application — no prior AI experience required, just curiosity and a laptop.",
+      },
+      {
+        heading: "Who Should Attend",
+        body: "Open to students across CSE-AI, CSE-DS, CSE-AIML, and any branch curious about applied AI. Seats are limited, so register early to secure a spot.",
+      },
+    ],
+    imgUrl: "/assets/events/upcoming-ai-workshop.svg",
+    id: "WRK_AIML_2026",
+  },
+  {
     type: "competition",
     featured: true,
+    registrationOpen: false,
+    registrationKind: "team",
     title: "Codex Hackathon 2025",
     date: "18–19 Sep 2025",
     summary:
@@ -40,6 +69,8 @@ export const EVENTS = [
   },
   {
     type: "competition",
+    registrationOpen: false,
+    registrationKind: "team",
     title: "The Coding Triathlon",
     date: "23–25 Mar 2025",
     summary:
@@ -75,6 +106,8 @@ export const EVENTS = [
   },
   {
     type: "gallery",
+    registrationOpen: false,
+    registrationKind: "team",
     title: "Algosphere",
     date: "22 Mar – Apr 2025",
     summary:
@@ -104,6 +137,8 @@ export const EVENTS = [
   },
   {
     type: "workshop",
+    registrationOpen: false,
+    registrationKind: "solo",
     title: "Metaverse — Game Development",
     date: "25 Nov 2024",
     summary:
@@ -133,6 +168,8 @@ export const EVENTS = [
   },
   {
     type: "webinar",
+    registrationOpen: false,
+    registrationKind: "solo",
     title: "Enterprise Application Suite",
     date: "20 Feb 2025",
     summary:
@@ -162,6 +199,8 @@ export const EVENTS = [
   },
   {
     type: "visit",
+    registrationOpen: false,
+    registrationKind: "solo",
     title: "Industrial Visit — DUCAT Pitampura",
     date: "18 Oct 2024",
     summary:
@@ -191,6 +230,8 @@ export const EVENTS = [
   },
   {
     type: "webinar",
+    registrationOpen: false,
+    registrationKind: "solo",
     title: "Orientation 2024",
     date: "29 Sep 2024",
     summary:
@@ -215,6 +256,8 @@ export const EVENTS = [
   },
   {
     type: "webinar",
+    registrationOpen: false,
+    registrationKind: "solo",
     title: "Preparation Mantra",
     date: "27 May 2025",
     summary:
@@ -258,6 +301,7 @@ const ANIMATION_VARIANTS = [
 export const Events = () => {
   const location = useLocation();
   const [fullscreenEvent, setFullscreenEvent] = useState(null);
+  const [registeringEvent, setRegisteringEvent] = useState(null);
   const [loadedImages, setLoadedImages] = useState({});
   const [events, setEvents] = useState(EVENTS);
   const [loading, setLoading] = useState(true);
@@ -288,6 +332,9 @@ export const Events = () => {
     if (match) setFullscreenEvent(match);
   }, [location.state, events]);
 
+  const upcomingEvents = events.filter((e) => e.registrationOpen);
+  const pastEvents = events.filter((e) => !e.registrationOpen);
+
   return (
     <section className="relative min-h-screen bg-dark text-white pt-28 pb-40 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
@@ -315,41 +362,50 @@ export const Events = () => {
           </p>
         </header>
 
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {loading ? (
-            <div className="col-span-3 text-center py-20 font-mono text-sm text-muted">
-              Loading events…
-            </div>
-          ) : error ? (
-            <div className="col-span-3 text-center py-20 font-mono text-sm text-red-400">
-              Failed to load events. Showing cached data.
-            </div>
-          ) : (
-            events.map((event, index) => (
-              <TrackVisibility key={event.id} once partialVisibility offset={50}>
-                {({ isVisible }) => (
-                  <li
-                    className={`relative group transition-all duration-500 ${
-                      event.featured ? "md:col-span-2" : ""
-                    } ${
-                      isVisible
-                        ? `${ANIMATION_VARIANTS[index % ANIMATION_VARIANTS.length]} animate__slow`
-                        : "opacity-0 translate-y-8"
-                    }`}
-                    style={{ animationDelay: `${index * 150}ms` }}
-                  >
-                    <EventCard
-                      event={event}
-                      meta={TYPE_META[event.type]}
-                      alternate={index % 2 === 1}
-                      onGalleryClick={() => setFullscreenEvent(event)}
-                    />
-                  </li>
-                )}
-              </TrackVisibility>
-            ))
-          )}
-        </ul>
+        {loading ? (
+          <div className="text-center py-20 font-mono text-sm text-muted">
+            Loading events…
+          </div>
+        ) : error ? (
+          <div className="text-center py-20 font-mono text-sm text-red-400">
+            Failed to load events. Showing cached data.
+          </div>
+        ) : (
+          <>
+            {upcomingEvents.length > 0 && (
+              <div className="mb-24">
+                <div className="flex items-center gap-3 mb-10">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+                  </span>
+                  <h2 className="font-display font-extrabold text-3xl md:text-4xl uppercase tracking-tight text-white">
+                    Upcoming
+                  </h2>
+                  <span className="font-mono text-[10px] text-green-400 tracking-widest uppercase">
+                    Registration Open
+                  </span>
+                </div>
+                <EventGrid
+                  events={upcomingEvents}
+                  onGalleryClick={setFullscreenEvent}
+                />
+              </div>
+            )}
+
+            {pastEvents.length > 0 && (
+              <div>
+                <div className="flex items-center gap-3 mb-10">
+                  <span className="w-6 h-px bg-primary/60" />
+                  <h2 className="font-display font-extrabold text-3xl md:text-4xl uppercase tracking-tight text-white">
+                    Past Events
+                  </h2>
+                </div>
+                <EventGrid events={pastEvents} onGalleryClick={setFullscreenEvent} />
+              </div>
+            )}
+          </>
+        )}
       </div>
 
       <FullscreenGallery
@@ -357,12 +413,49 @@ export const Events = () => {
         loadedImages={loadedImages}
         onMarkLoaded={(id) => setLoadedImages((p) => ({ ...p, [id]: true }))}
         onClose={() => setFullscreenEvent(null)}
+        onRegisterClick={(evt) => {
+          setFullscreenEvent(null);
+          setRegisteringEvent(evt);
+        }}
+      />
+
+      <EventRegistrationModal
+        event={registeringEvent}
+        onClose={() => setRegisteringEvent(null)}
       />
     </section>
   );
 };
 
-const FullscreenGallery = ({ event, loadedImages, onMarkLoaded, onClose }) => {
+const EventGrid = ({ events: list, onGalleryClick }) => (
+  <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {list.map((event, index) => (
+      <TrackVisibility key={event.id} once partialVisibility offset={50}>
+        {({ isVisible }) => (
+          <li
+            className={`relative group transition-all duration-500 ${
+              event.featured ? "md:col-span-2" : ""
+            } ${
+              isVisible
+                ? `${ANIMATION_VARIANTS[index % ANIMATION_VARIANTS.length]} animate__slow`
+                : "opacity-0 translate-y-8"
+            }`}
+            style={{ animationDelay: `${index * 150}ms` }}
+          >
+            <EventCard
+              event={event}
+              meta={TYPE_META[event.type]}
+              alternate={index % 2 === 1}
+              onGalleryClick={() => onGalleryClick(event)}
+            />
+          </li>
+        )}
+      </TrackVisibility>
+    ))}
+  </ul>
+);
+
+const FullscreenGallery = ({ event, loadedImages, onMarkLoaded, onClose, onRegisterClick }) => {
   const [zoomedImage, setZoomedImage] = useState(null);
 
   useEffect(() => {
@@ -464,6 +557,17 @@ const FullscreenGallery = ({ event, loadedImages, onMarkLoaded, onClose }) => {
           </div>
 
           <div className="bg-surface/30 p-6 md:p-10">
+            {event.registrationOpen && (
+              <div className="max-w-2xl mx-auto mb-10">
+                <button
+                  onClick={() => onRegisterClick(event)}
+                  className="w-full py-4 border border-primary bg-primary/10 text-white font-mono text-sm tracking-widest uppercase hover:bg-primary transition-all duration-300"
+                >
+                  Register For This Event <span className="ml-1">→</span>
+                </button>
+              </div>
+            )}
+
             {event.facts && event.facts.length > 0 && (
               <div className="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto mb-10">
                 {event.facts.map((fact, idx) => (
@@ -586,12 +690,24 @@ const EventCard = ({ event, meta, alternate, onGalleryClick }) => {
       className={`relative h-full border transition-all duration-500 bg-surface overflow-hidden cursor-pointer ${
         event.featured
           ? "border-primary shadow-[0_0_35px_rgba(249,115,22,0.25)]"
+          : event.registrationOpen
+          ? "border-green-500/60 shadow-[0_0_35px_rgba(34,197,94,0.15)]"
           : "border-gridline group-hover:border-primary"
       }`}
     >
       {event.featured && (
         <span className="absolute top-4 left-4 z-20 font-mono text-[9px] tracking-widest uppercase text-white bg-primary px-3 py-1 rounded-full shadow-lg">
           ★ Flagship Event
+        </span>
+      )}
+
+      {event.registrationOpen && (
+        <span className="absolute top-4 right-4 z-20 flex items-center gap-1.5 font-mono text-[9px] tracking-widest uppercase text-white bg-green-600 px-3 py-1 rounded-full shadow-lg">
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
+          </span>
+          Registration Open
         </span>
       )}
 

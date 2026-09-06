@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#FF3B00" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#FF3B00" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+
+  <!-- faint grid -->
+  <g stroke="#27272a" stroke-width="1" opacity="0.5">
+    <path d="M0 200 H1600 M0 400 H1600 M0 600 H1600 M0 800 H1600"/>
+    <path d="M200 0 V1000 M400 0 V1000 M600 0 V1000 M800 0 V1000 M1000 0 V1000 M1200 0 V1000 M1400 0 V1000"/>
+  </g>
+
+  <!-- neural network motif -->
+  <g stroke="#FF3B00" stroke-width="2" opacity="0.55" fill="none">
+    <path d="M420 620 L640 420 L860 560 L1080 380 L1220 520"/>
+    <path d="M420 620 L620 720 L860 560"/>
+    <path d="M860 560 L980 700 L1220 520"/>
+    <path d="M640 420 L700 260"/>
+    <path d="M1080 380 L1150 240"/>
+  </g>
+  <g fill="#FF3B00">
+    <circle cx="420" cy="620" r="9"/>
+    <circle cx="640" cy="420" r="9"/>
+    <circle cx="860" cy="560" r="11"/>
+    <circle cx="1080" cy="380" r="9"/>
+    <circle cx="1220" cy="520" r="9"/>
+    <circle cx="620" cy="720" r="7" opacity="0.8"/>
+    <circle cx="980" cy="700" r="7" opacity="0.8"/>
+    <circle cx="700" cy="260" r="7" opacity="0.8"/>
+    <circle cx="1150" cy="240" r="7" opacity="0.8"/>
+  </g>
+
+  <text x="800" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="72" letter-spacing="6" fill="#FFFFFF" opacity="0.92">AI · ML · RAG · LLM</text>
+  <text x="800" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="26" letter-spacing="8" fill="#FF3B00">WORKSHOP // SEP 2026</text>
+</svg>
