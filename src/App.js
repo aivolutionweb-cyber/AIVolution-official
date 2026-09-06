@@ -10,6 +10,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { Events } from "./components/Events";
 import { Sponsors } from "./components/Sponsors";
 import { Faculty } from "./components/Faculty";
+import { Team } from "./components/Team";
+import { TeamPage } from "./pages/TeamPage";
 import { Preloader } from "./components/Preloader";
 
 function App() {
@@ -35,8 +37,10 @@ function App() {
               <EventHighlights />
               <Sponsors />
               <Faculty />
+              <Team />
             </>
           } />
+          <Route path="/team" element={<TeamPage />} />
           <Route path="/events" element={<Events />} />
         </Routes>
         

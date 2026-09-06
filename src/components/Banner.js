@@ -76,7 +76,7 @@
 //                 </p>
                 
 //                 <a 
-//                   href="https://chat.whatsapp.com/IAwNmxi4lyG8z52Zh3QTbU?mode=ems_copy_t" 
+//                   href="https://whatsapp.com/channel/0029Vb9S7lj8F2pN7ghfV00Q?mode=ems_copy_t" 
 //                   target="_blank" 
 //                   rel="noopener noreferrer" 
 //                   className="inline-flex items-center group gap-3 text-lg md:text-xl font-bold text-white transition-all duration-300"
@@ -194,7 +194,7 @@ export const Banner = () => {
             </div>
             
             <div className="flex flex-wrap gap-4">
-              <a href="https://chat.whatsapp.com/IAwNmxi4lyG8z52Zh3QTbU" target="_blank" rel="noopener noreferrer" 
+              <a href="https://whatsapp.com/channel/0029Vb9S7lj8F2pN7ghfV00Q" target="_blank" rel="noopener noreferrer" 
                 className="inline-flex items-center group gap-4 font-mono text-sm tracking-widest uppercase bg-white text-black px-8 py-4 border border-white hover:bg-primary hover:text-white hover:border-primary transition-all duration-300">
                 <span className="font-bold">INITIALIZE_MEMBERSHIP</span> 
                 <ArrowRightCircle size={20} className="group-hover:translate-x-2 transition-transform duration-300" />

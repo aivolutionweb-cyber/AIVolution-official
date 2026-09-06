@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -11,11 +12,9 @@ export const Skills = () => {
 
   const departments = [
     { title: "Tech & Dev", id: "MOD_01", desc: "Engineering the future through modern web, mobile, and AI solutions. The core backbone of AIVolution's technical infrastructure." },
-    { title: "Social Media", id: "MOD_02", desc: "Crafting our digital presence, engaging the audience, and building a strong community of elite engineers globally." },
-    { title: "Photo & Video", id: "MOD_03", desc: "Capturing the cinematic moments that define AIvolution's legacy. Visual storytelling at its finest." },
-    { title: "Event Mgmt", id: "MOD_04", desc: "Architecting seamless and immersive technical and cultural experiences. From hackathons to global summits." },
-    { title: "Design & Creative", id: "MOD_05", desc: "Forging the premium visual identity and aesthetic of our brand. Creating the award-winning graphics that represent us." },
-    { title: "Public Relations", id: "MOD_06", desc: "Establishing strategic partnerships, driving external communications, and bridging the gap between industry and academia." },
+    { title: "Event Mgmt", id: "MOD_02", desc: "Architecting seamless and immersive technical and cultural experiences. From hackathons to global summits." },
+    { title: "Design & Creative", id: "MOD_03", desc: "Forging the premium visual identity and aesthetic of our brand. Creating the award-winning graphics that represent us." },
+    { title: "Public Relations", id: "MOD_04", desc: "Establishing strategic partnerships, driving external communications, and bridging the gap between industry and academia." },
   ];
 
   const pathRef = useRef(null);
@@ -107,7 +106,7 @@ export const Skills = () => {
       </div>
 
       {/* Horizontal Track */}
-      <div ref={trackRef} className="relative flex h-screen w-[600vw] z-10">
+      <div ref={trackRef} className="relative flex h-screen w-[400vw] z-10">
         {departments.map((dept, index) => (
             <div 
                 key={dept.id} 
@@ -129,13 +128,13 @@ export const Skills = () => {
                 </div>
 
                 {/* Right: Glass Description Box */}
-                <div className="w-full md:w-[40%] z-10 pb-20 md:pb-0 flex items-center justify-center md:justify-start md:-ml-16 md:-mt-[15vh]">
+                <Link to={`/team?dept=${dept.id.replace('MOD_', '').toLowerCase().replace('&', '').replace(/\s+/g, '-')}`} className="w-full md:w-[40%] z-10 pb-20 md:pb-0 flex items-center justify-center md:justify-start md:-ml-16 md:-mt-[15vh]">
                     <div className="bg-white/[0.04] backdrop-blur-md rounded-2xl px-8 py-6 max-w-md">
                         <p className="text-gray-400 font-sans text-base md:text-lg leading-relaxed">
                             {dept.desc}
                         </p>
                     </div>
-                </div>
+                </Link>
             </div>
         ))}
       </div>

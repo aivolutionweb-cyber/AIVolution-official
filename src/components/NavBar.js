@@ -18,7 +18,8 @@ export const NavBar = () => {
   }, []);
 
   useEffect(() => {
-    if (location.pathname === '/events') setActiveLink('events');
+    if (location.pathname === '/team') setActiveLink('team');
+    else if (location.pathname === '/events') setActiveLink('events');
     else if (location.hash === '#skills') setActiveLink('skills');
     else if (location.hash === '#connect') setActiveLink('connect');
     else setActiveLink('home');
@@ -59,8 +60,8 @@ export const NavBar = () => {
         {/* Desktop Menu - Center Links */}
         <div className="hidden md:flex items-center space-x-12 absolute left-1/2 -translate-x-1/2">
           <NavLink to="/#home" active={activeLink === 'home'} onClick={() => onUpdateActiveLink('home')}>Home</NavLink>
-          <NavLink to="/#skills" active={activeLink === 'skills'} onClick={() => onUpdateActiveLink('skills')}>Departments</NavLink>
           <NavLink to="/events" active={activeLink === 'events'} onClick={() => onUpdateActiveLink('events')}>Events</NavLink>
+          <NavLink to="/team" active={activeLink === 'team'} onClick={() => onUpdateActiveLink('team')}>Team</NavLink>
         </div>
 
         {/* Desktop Menu - Right Actions */}
@@ -79,7 +80,7 @@ export const NavBar = () => {
              </a>
           </div>
 
-          <a href="https://chat.whatsapp.com/IAwNmxi4lyG8z52Zh3QTbU" target="_blank" rel="noopener noreferrer">
+          <a href="https://whatsapp.com/channel/0029Vb9S7lj8F2pN7ghfV00Q" target="_blank" rel="noopener noreferrer">
             <button className="relative overflow-hidden px-6 py-2.5 rounded-full bg-white text-black font-semibold text-xs tracking-wide uppercase transition-transform hover:scale-105 active:scale-95 flex items-center justify-center group">
               <span className="relative z-10">Connect</span>
               {/* Subtle hover gradient inside the button */}
@@ -94,8 +95,8 @@ export const NavBar = () => {
       <div className={`md:hidden absolute top-24 left-4 right-4 bg-black/80 backdrop-blur-3xl border border-white/10 rounded-3xl overflow-hidden transition-all duration-500 origin-top ${isOpen ? "opacity-100 scale-y-100 pointer-events-auto" : "opacity-0 scale-y-0 pointer-events-none"}`}>
         <div className="flex flex-col items-center py-8 space-y-6">
             <NavLink to="/#home" active={activeLink === 'home'} onClick={() => onUpdateActiveLink('home')}>Home</NavLink>
-            <NavLink to="/#skills" active={activeLink === 'skills'} onClick={() => onUpdateActiveLink('skills')}>Departments</NavLink>
             <NavLink to="/events" active={activeLink === 'events'} onClick={() => onUpdateActiveLink('events')}>Events</NavLink>
+            <NavLink to="/team" active={activeLink === 'team'} onClick={() => onUpdateActiveLink('team')}>Team</NavLink>
             
             <div className="w-12 h-px bg-white/20 my-4"></div>
             
@@ -104,7 +105,7 @@ export const NavBar = () => {
                <a href="https://www.linkedin.com/company/aivolutionaries/" target="_blank" rel="noreferrer" className="text-white/50 hover:text-white text-sm font-medium tracking-wide uppercase transition-colors">LinkedIn</a>
             </div>
 
-            <a href="https://chat.whatsapp.com/IAwNmxi4lyG8z52Zh3QTbU" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)}>
+            <a href="https://whatsapp.com/channel/0029Vb9S7lj8F2pN7ghfV00Q" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)}>
               <button className="mt-4 px-10 py-3 rounded-full bg-white text-black font-semibold text-xs tracking-wide uppercase">
                 Connect
               </button>

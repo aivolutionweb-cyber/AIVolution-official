@@ -60,7 +60,7 @@ export const Newsletter = ({ status, message, onValidated }) => {
         
               <div className="relative group">
                 <a 
-                  href="https://chat.whatsapp.com/IAwNmxi4lyG8z52Zh3QTbU?mode=ems_copy_t" 
+                  href="https://whatsapp.com/channel/0029Vb9S7lj8F2pN7ghfV00Q?mode=ems_copy_t" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="block w-full"

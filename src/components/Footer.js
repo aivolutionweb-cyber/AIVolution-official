@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import logo from "../assets/img/new_logo.jpg";
 
 export const Footer = () => {
@@ -58,6 +59,7 @@ export const Footer = () => {
             <h4 className="font-mono text-[#f97316] text-[10px] tracking-[0.3em] uppercase mb-6">Navigate</h4>
             <ul className="space-y-4">
               <li><a href="#skills" className="text-gray-500 hover:text-white text-sm font-sans transition-colors duration-200">Departments</a></li>
+              <li><Link to="/team" className="text-gray-500 hover:text-white text-sm font-sans transition-colors duration-200">Team</Link></li>
               <li><a href="/events" className="text-gray-500 hover:text-white text-sm font-sans transition-colors duration-200">Events</a></li>
               <li><a href="#faculty" className="text-gray-500 hover:text-white text-sm font-sans transition-colors duration-200">Faculty</a></li>
             </ul>
