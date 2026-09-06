@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { EVENTS } from './Events';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,14 +18,9 @@ export const EventHighlights = () => {
   const activeIndexRef = useRef(0);
   const [isHovered, setIsHovered] = useState(false);
 
-  const events = [
-    { title: "Preparation Mantra", date: "Sep 15, 2024", img: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%202.jpeg" },
-    { title: "Algosphere", date: "Oct 12, 2024", img: "/assets/events/algosphere/img.png" },
-    { title: "Enterprise App Suite", date: "Nov 5, 2024", img: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%203.jpeg" },
-    { title: "Orientation 2024", date: "Dec 1, 2024", img: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%201.jpeg" },
-    { title: "CODEX Hackathon", date: "Sep 18-19, 2025", img: "/assets/events/codex-2025/poster.jpg" },
-    { title: "Hack Horizon", date: "Apr 11-12, 2025", img: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/Competiton%201.jpeg" },
-  ];
+  // Same data as the full events page, so this carousel never drifts out of
+  // sync (missing events, stale dates/images) — order/content live in one place.
+  const events = EVENTS;
 
   // Radius large enough that adjacent cards (60deg apart, ~300px wide)
   // clear each other horizontally (radius * sin(60deg) > card width),
@@ -180,10 +176,10 @@ export const EventHighlights = () => {
                           images whose aspect ratio doesn't match the card
                           (landscape posters) don't look small and adrift. */}
                       <div className="absolute inset-0" style={{ backfaceVisibility: 'hidden' }}>
-                        {evt.img ? (
+                        {evt.imgUrl ? (
                           <>
-                            <img src={evt.img} alt="" className="absolute inset-0 w-full h-full object-cover blur-md scale-110 opacity-50" />
-                            <img src={evt.img} alt={evt.title} className="relative w-full h-full object-contain" />
+                            <img src={evt.imgUrl} alt="" className="absolute inset-0 w-full h-full object-cover blur-md scale-110 opacity-50" />
+                            <img src={evt.imgUrl} alt={evt.title} className="relative w-full h-full object-contain" />
                           </>
                         ) : (
                           <div className="w-full h-full bg-gradient-to-br from-[#1a1a1a] to-black flex items-center justify-center">
@@ -197,8 +193,8 @@ export const EventHighlights = () => {
                         className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden"
                         style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                       >
-                        {evt.img ? (
-                          <img src={evt.img} alt="" className="absolute inset-0 w-full h-full object-cover blur-sm scale-105" />
+                        {evt.imgUrl ? (
+                          <img src={evt.imgUrl} alt="" className="absolute inset-0 w-full h-full object-cover blur-sm scale-105" />
                         ) : (
                           <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a1a] to-black" />
                         )}
@@ -225,7 +221,7 @@ export const EventHighlights = () => {
               2D and always reliable, regardless of the active card's own rotateY. */}
           <div
             ref={hitboxRef}
-            onClick={() => navigate('/events')}
+            onClick={() => navigate('/events', { state: { eventId: events[activeIndexRef.current]?.id } })}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             className="absolute top-0 left-0 cursor-pointer z-20"
