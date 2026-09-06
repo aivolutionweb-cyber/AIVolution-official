@@ -22,7 +22,7 @@ export const EventHighlights = () => {
     { title: "Algosphere", date: "Oct 12, 2024", img: "/assets/events/algosphere/img.png" },
     { title: "Enterprise App Suite", date: "Nov 5, 2024", img: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%203.jpeg" },
     { title: "Orientation 2024", date: "Dec 1, 2024", img: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/WEBINAR%201.jpeg" },
-    { title: "CODEX Hackathon", date: "Jan 20, 2025", img: "/assets/events/codex_thumbnail.jpg" },
+    { title: "CODEX Hackathon", date: "Sep 18-19, 2025", img: "/assets/events/codex-2025/poster.jpg" },
     { title: "Hack Horizon", date: "Apr 11-12, 2025", img: "https://ik.imagekit.io/7lzd57wvb/Aivolutions/Competiton%201.jpeg" },
   ];
 
