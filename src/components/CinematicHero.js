@@ -187,7 +187,7 @@ export const CinematicHero = () => {
                 </h2>
 
                 <div className="mb-8 text-[#f97316] font-mono text-[0.65rem] sm:text-xs tracking-[0.35em] uppercase">
-                    // WHERE CURIOSITY BECOMES CAPABILITY
+                    {"// WHERE CURIOSITY BECOMES CAPABILITY"}
                 </div>
 
                 <p className="max-w-4xl mx-auto text-white/90 font-light text-lg md:text-2xl leading-relaxed md:leading-[1.8] flex flex-wrap justify-center gap-x-2 gap-y-1">
