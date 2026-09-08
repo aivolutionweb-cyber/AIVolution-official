@@ -181,14 +181,17 @@ export const CinematicHero = () => {
           <div ref={whoAreWeRef} className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-40 px-6 opacity-0 pointer-events-none">
 
             {/* Typography Core - Minimal */}
-            <div className="max-w-4xl text-center relative z-10 p-4 md:p-12 pointer-events-auto">
-                
-                <h2 className="text-4xl md:text-7xl font-sans font-light text-white tracking-widest mb-12">
-                    Who We Are.
+            <div className="max-w-5xl text-center relative z-10 p-4 md:p-12 pointer-events-auto">
+                <h2 className="text-5xl md:text-7xl font-display font-extrabold text-white uppercase tracking-tight drop-shadow-2xl mb-2">
+                    WHO ARE WE
                 </h2>
-                
-                <p className="text-gray-400 font-sans text-lg md:text-2xl leading-relaxed md:leading-loose max-w-4xl mx-auto flex flex-wrap justify-center gap-x-2 gap-y-1 font-light">
-                    {"We are AIvolution. A collective of student visionaries dedicated to demystifying artificial intelligence. Beyond exploration, we actively build the future—regularly hosting AI masterclasses, industry-led webinars, competitive hackathons, and dynamic tech quizzes. We don't just use AI; we dissect it, build with it, and shape it to solve real-world problems.".split(" ").map((word, i) => {
+
+                <div className="mb-8 text-[#f97316] font-mono text-[0.65rem] sm:text-xs tracking-[0.35em] uppercase">
+                    // WHERE CURIOSITY BECOMES CAPABILITY
+                </div>
+
+                <p className="max-w-4xl mx-auto text-white/90 font-light text-lg md:text-2xl leading-relaxed md:leading-[1.8] flex flex-wrap justify-center gap-x-2 gap-y-1">
+                    {"AIvolution is a student-led ecosystem built for those who refuse to simply watch the future unfold. We explore emerging AI technologies, deconstruct how they work, and transform knowledge into practical solutions. Through hands-on learning, industry collaboration, competitive challenges, and experiential projects, we empower students to move from AI users to AI creators.".split(" ").map((word, i) => {
                         let hoverImg = null;
                         const w = word.toLowerCase();
                         if (w.includes("masterclass")) hoverImg = "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=600&auto=format&fit=crop"; 
