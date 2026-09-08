@@ -25,7 +25,7 @@ const facultyMembers = [
         name: "Mr. Nitin Garg",
         role: "Assistant Professor",
         linkedin: "https://www.linkedin.com/school/7942020/",
-        imgUrl: "https://i.postimg.cc/qvYybzhW/1557999211647-(1).jpg",
+        imgUrl: "https://i.postimg.cc/NjrwmKHs/Whats-App-Image-2026-09-08-at-20-33-26.jpg",
         imgPosition: "object-top"
     },
     {
@@ -84,7 +84,7 @@ export const Faculty = () => {
                     responsive={responsive}
                     infinite={true}
                     autoPlay={true}
-                    autoPlaySpeed={3000}
+                    autoPlaySpeed={5000}
                     keyBoardControl={true}
                     customTransition="transform 800ms ease-in-out"
                     transitionDuration={800}
