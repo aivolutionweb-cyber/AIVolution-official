@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import logo from "../assets/img/new_logo.jpg";
 
 export const Footer = () => {
   return (
@@ -15,7 +14,7 @@ export const Footer = () => {
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 mb-20">
           <div>
             <img 
-              src={logo} 
+              src="/main-logo-no-bg.png" 
               alt="AIvolution Logo" 
               className="h-14 w-auto object-contain mb-5 opacity-90" 
             />
@@ -28,7 +27,7 @@ export const Footer = () => {
           {/* Social icons */}
           <div className="flex items-center gap-5">
             <a 
-              href="https://www.instagram.com/ai.volutions_/" 
+              href="https://www.instagram.com/aivolutions.mait?stkn=MTAwbGdpdHI0enA0bQ%3D%3D" 
               target="_blank" 
               rel="noopener noreferrer"
               className="group w-12 h-12 rounded-full border border-white/10 flex items-center justify-center hover:border-[#f97316]/50 hover:bg-[#f97316]/10 transition-all duration-300"
@@ -58,9 +57,8 @@ export const Footer = () => {
           <div>
             <h4 className="font-mono text-[#f97316] text-[10px] tracking-[0.3em] uppercase mb-6">Navigate</h4>
             <ul className="space-y-4">
-              <li><a href="#skills" className="text-gray-500 hover:text-white text-sm font-sans transition-colors duration-200">Departments</a></li>
               <li><Link to="/team" className="text-gray-500 hover:text-white text-sm font-sans transition-colors duration-200">Team</Link></li>
-              <li><a href="/events" className="text-gray-500 hover:text-white text-sm font-sans transition-colors duration-200">Events</a></li>
+              <li><Link to="/events" className="text-gray-500 hover:text-white text-sm font-sans transition-colors duration-200">Events</Link></li>
               <li><a href="#faculty" className="text-gray-500 hover:text-white text-sm font-sans transition-colors duration-200">Faculty</a></li>
             </ul>
           </div>
@@ -69,7 +67,7 @@ export const Footer = () => {
           <div>
             <h4 className="font-mono text-[#f97316] text-[10px] tracking-[0.3em] uppercase mb-6">Connect</h4>
             <ul className="space-y-4">
-              <li><a href="https://www.instagram.com/ai.volutions_/" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white text-sm font-sans transition-colors duration-200">Instagram</a></li>
+              <li><a href="https://www.instagram.com/aivolutions.mait?stkn=MTAwbGdpdHI0enA0bQ%3D%3D" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white text-sm font-sans transition-colors duration-200">Instagram</a></li>
               <li><a href="https://www.linkedin.com/company/aivolutionaries/" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-white text-sm font-sans transition-colors duration-200">LinkedIn</a></li>
             </ul>
           </div>

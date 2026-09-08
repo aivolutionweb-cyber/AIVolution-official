@@ -12,11 +12,11 @@ const sampleMembers = [
   { name: 'Arjun Mehta', dept: 'Tech & Dev', deptId: 'MOD_01' },
   { name: 'Sneha Kapoor', dept: 'Tech & Dev', deptId: 'MOD_01' },
   { name: 'Kunal Verma', dept: 'Event Mgmt', deptId: 'MOD_02' },
-  { name: 'Ishaan Gupta', dept: 'Design & Creative', deptId: 'MOD_03' },
+  { name: 'Ishaan Gupta', dept: 'Social Media & Content Creation', deptId: 'MOD_03' },
   { name: 'Ananya Joshi', dept: 'Public Relations', deptId: 'MOD_04' },
   { name: 'Rohan Singh', dept: 'Tech & Dev', deptId: 'MOD_01' },
   { name: 'Aarohi Jain', dept: 'Event Mgmt', deptId: 'MOD_02' },
-  { name: 'Tanya Bansal', dept: 'Design & Creative', deptId: 'MOD_03' },
+  { name: 'Tanya Bansal', dept: 'Social Media & Content Creation', deptId: 'MOD_03' },
 ];
 
 const responsive = {

@@ -16,7 +16,7 @@ import { Preloader } from "./components/Preloader";
 
 function App() {
   return (
-    <div className="relative min-h-screen text-white selection:bg-secondary selection:text-black">
+    <div className="relative min-h-screen text-white selection:bg-secondary selection:text-white">
       
       {/* The System Boot Preloader */}
       <Preloader />
@@ -38,19 +38,17 @@ function App() {
               <Sponsors />
               <Faculty />
               <Team />
+              <div className="w-full flex justify-center items-center overflow-hidden select-none pointer-events-none bg-black">
+                <h1 className="font-display font-extrabold text-[9vw] leading-[0.75] text-white tracking-tighter whitespace-nowrap">
+                  AIVOLUTIONS
+                </h1>
+              </div>
             </>
           } />
           <Route path="/team" element={<TeamPage />} />
           <Route path="/events" element={<Events />} />
         </Routes>
         
-        {/* Giant AIVOLUTIONS Text - Before Footer */}
-        <div className="w-full flex justify-center items-center overflow-hidden select-none pointer-events-none bg-black">
-          <h1 className="font-display font-extrabold text-[9vw] leading-[0.75] text-white tracking-tighter whitespace-nowrap">
-            AIVOLUTIONS
-          </h1>
-        </div>
-
         <Footer />
       </div>
 

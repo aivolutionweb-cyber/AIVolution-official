@@ -332,7 +332,6 @@ export const Events = () => {
     if (match) setFullscreenEvent(match);
   }, [location.state, events]);
 
-  const upcomingEvents = events.filter((e) => e.registrationOpen);
   const pastEvents = events.filter((e) => !e.registrationOpen);
 
   return (
@@ -372,27 +371,6 @@ export const Events = () => {
           </div>
         ) : (
           <>
-            {upcomingEvents.length > 0 && (
-              <div className="mb-24">
-                <div className="flex items-center gap-3 mb-10">
-                  <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
-                  </span>
-                  <h2 className="font-display font-extrabold text-3xl md:text-4xl uppercase tracking-tight text-white">
-                    Upcoming
-                  </h2>
-                  <span className="font-mono text-[10px] text-green-400 tracking-widest uppercase">
-                    Registration Open
-                  </span>
-                </div>
-                <EventGrid
-                  events={upcomingEvents}
-                  onGalleryClick={setFullscreenEvent}
-                />
-              </div>
-            )}
-
             {pastEvents.length > 0 && (
               <div>
                 <div className="flex items-center gap-3 mb-10">

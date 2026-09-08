@@ -41,6 +41,13 @@ const facultyMembers = [
         linkedin: "https://www.linkedin.com/in/aneesha-shokeen-39a7921aa/",
         imgUrl: "https://i.postimg.cc/RV4RK6Kd/1687721540968.jpg",
         imgPosition: "object-top"
+    },
+    {
+        name: "Nitish Uppal",
+        role: "Assistant Professor",
+        linkedin: "https://www.linkedin.com/school/7942020/",
+        imgUrl: "https://i.postimg.cc/MG41nrVF/1712746260400.jpg",
+        imgPosition: "object-top"
     }
 ];
 
