@@ -1,23 +1,28 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 import Carousel from 'react-multi-carousel';
+
 import 'react-multi-carousel/lib/styles.css';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const sampleMembers = [
-  { name: 'Arjun Mehta', dept: 'Tech & Dev', deptId: 'MOD_01' },
-  { name: 'Sneha Kapoor', dept: 'Tech & Dev', deptId: 'MOD_01' },
-  { name: 'Kunal Verma', dept: 'Event Mgmt', deptId: 'MOD_02' },
-  { name: 'Ishaan Gupta', dept: 'Social Media & Content Creation', deptId: 'MOD_03' },
-  { name: 'Ananya Joshi', dept: 'Public Relations', deptId: 'MOD_04' },
-  { name: 'Rohan Singh', dept: 'Tech & Dev', deptId: 'MOD_01' },
-  { name: 'Aarohi Jain', dept: 'Event Mgmt', deptId: 'MOD_02' },
-  { name: 'Tanya Bansal', dept: 'Social Media & Content Creation', deptId: 'MOD_03' },
+  { name: 'Ishan', img: 'https://i.postimg.cc/VvJdtjPw/Ishan.jpg' },
+  { name: 'Diwakar', img: 'https://i.postimg.cc/fyy0vGm4/Diwakar.jpg' },
+  { name: 'Kriti', img: 'https://i.postimg.cc/fyqYnzZ6/kriti.jpg' },
+  { name: 'Rahul', img: 'https://i.postimg.cc/SNwzWtsy/rahul.jpg' },
+  { name: 'Falak', img: 'https://i.postimg.cc/m2xH95hW/falak.jpg' },
+  { name: 'Aparna', img: 'https://i.postimg.cc/MpSVCF8X/aparna.jpg' },
+  { name: 'Madhur', img: 'https://i.postimg.cc/hGRTq3W3/madhur.jpg' },
+  { name: 'Parth', img: 'https://i.postimg.cc/dt7yZKJC/parth.jpg' },
+  { name: 'Apoorva', img: 'https://i.postimg.cc/PxzBMchy/apoorva.jpg' },
+  { name: 'Kshitij', img: 'https://i.postimg.cc/BQy2mnhG/kshtiij.jpg' },
+  { name: 'Naman', img: 'https://i.postimg.cc/ryZ4ppXB/naman.jpg' },
+  { name: 'Pranjal', img: 'https://i.postimg.cc/nzyCvXFY/pranjal.jpg' },
+  { name: 'Sharad', img: 'https://i.postimg.cc/tgbZcZW2/sharad.jpg' },
 ];
+
+const repeatedMembers = [...sampleMembers, ...sampleMembers];
 
 const responsive = {
   superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 4 },
@@ -77,10 +82,10 @@ export const Team = () => {
             responsive={responsive}
             infinite={true}
             autoPlay={true}
-            autoPlaySpeed={2500}
+            autoPlaySpeed={1200}
             keyBoardControl={true}
-            customTransition="transform 800ms ease-in-out"
-            transitionDuration={800}
+            customTransition="transform 500ms ease-in-out"
+            transitionDuration={500}
             containerClass="carousel-container py-6"
             itemClass="px-4 flex justify-center"
             removeArrowOnDeviceType={['tablet', 'mobile']}
@@ -88,20 +93,19 @@ export const Team = () => {
             dotListClass="custom-dot-list-style mt-8"
           >
             {sampleMembers.map((member, idx) => (
-              <Link
+              <div
                 key={idx}
-                to={`/team?dept=${member.deptId.replace('MOD_', '').toLowerCase().replace('&', '').replace(/\s+/g, '-')}`}
-                className="block w-full max-w-[320px] aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-colors duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] shrink-0 cursor-pointer mx-auto"
+                className="group block w-full max-w-[320px] aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-colors duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] shrink-0 cursor-pointer mx-auto"
               >
-                <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center">
-                  <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
-                    <span className="text-3xl font-display font-bold text-[#f97316]">
-                      {member.name.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
-                  <p className="font-mono text-[10px] text-[#ea580c] tracking-[0.15em] uppercase">{member.dept}</p>
+                <img
+                  src={member.img}
+                  alt={member.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                />
+                <div className="absolute bottom-0 left-0 w-full p-4 flex flex-col justify-end pointer-events-none z-10 bg-gradient-to-t from-black/80 to-transparent">
+                  <p className="text-sm md:text-base font-medium text-white/90 text-center">{member.name}</p>
                 </div>
-              </Link>
+              </div>
             ))}
           </Carousel>
         </div>

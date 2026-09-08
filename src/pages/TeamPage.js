@@ -3,32 +3,32 @@ import { useSearchParams, Link } from 'react-router-dom';
 
 const departments = [
   { key: 'tech-dev', label: 'Tech & Dev', id: 'MOD_01' },
-  { key: 'event-mgmt', label: 'Event Mgmt', id: 'MOD_02' },
+  { key: 'event-mgmt', label: 'Event Management', id: 'MOD_02' },
   { key: 'design-creative', label: 'Social Media & Content Creation', id: 'MOD_03' },
   { key: 'public-relations', label: 'Public Relations', id: 'MOD_04' },
 ];
 
 const teamMembers = {
   'tech-dev': [
-    { name: 'Ishan Gupta', role: 'Tech Lead', img: '' },
-    { name: 'Rahul Kumar', role: 'Developer', img: '' },
-    { name: 'Diwakar Mishra', role: 'Developer', img: '' },
-    { name: 'Falak', role: 'Developer', img: '' },
-    { name: 'Kriti', role: 'Developer', img: '' },
-    { name: 'Aparna Jha', role: 'Developer', img: '' },
+    { name: 'Ishan', role: 'Developer', img: 'https://i.postimg.cc/VvJdtjPw/Ishan.jpg' },
+    { name: 'Diwakar', role: 'Developer', img: 'https://i.postimg.cc/fyy0vGm4/Diwakar.jpg' },
+    { name: 'Kriti', role: 'Developer', img: 'https://i.postimg.cc/fyqYnzZ6/kriti.jpg' },
+    { name: 'Rahul', role: 'Developer', img: 'https://i.postimg.cc/SNwzWtsy/rahul.jpg' },
+    { name: 'Falak', role: 'Developer', img: 'https://i.postimg.cc/m2xH95hW/falak.jpg' },
+    { name: 'Aparna', role: 'Tech Lead', img: 'https://i.postimg.cc/MpSVCF8X/aparna.jpg' },
   ],
   'event-mgmt': [
-    { name: 'Parth Arora', role: 'Event Manager', img: '' },
-    { name: 'Madhur chaudhary', role: 'Event Manager', img: '' },
+    { name: 'Madhur', role: 'Event Manager', img: 'https://i.postimg.cc/hGRTq3W3/madhur.jpg' },
+    { name: 'Parth', role: 'Event Manager', img: 'https://i.postimg.cc/dt7yZKJC/parth.jpg' },
   ],
   'design-creative': [
-    { name: 'Apoorva Adhikari', role: 'Content Creator', img: '' },
-    { name: 'Naman chopra', role: 'Content Creator', img: '' },
-    { name: 'Kshitij Garg', role: 'Content Creator', img: '' },
-    { name: 'Pranjal', role: 'Content Creator', img: '' },
+    { name: 'Apoorva', role: 'Content Creator', img: 'https://i.postimg.cc/PxzBMchy/apoorva.jpg' },
+    { name: 'Kshitij', role: 'Content Creator', img: 'https://i.postimg.cc/BQy2mnhG/kshtiij.jpg' },
+    { name: 'Naman', role: 'Content Creator', img: 'https://i.postimg.cc/ryZ4ppXB/naman.jpg' },
+    { name: 'Pranjal', role: 'Content Creator', img: 'https://i.postimg.cc/nzyCvXFY/pranjal.jpg' },
   ],
   'public-relations': [
-    { name: 'Sharad tiwari', role: 'PR Lead', img: '' },
+    { name: 'Sharad', role: 'PR Lead', img: 'https://i.postimg.cc/tgbZcZW2/sharad.jpg' },
   ],
 };
 
@@ -48,7 +48,7 @@ const MemberCard = ({ member }) => {
         <img
           src={member.img}
           alt={member.name}
-          className="w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
         />
       ) : (
         <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a]">
@@ -60,11 +60,11 @@ const MemberCard = ({ member }) => {
       {member.img && (
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>
       )}
-      <div className="absolute bottom-0 left-0 w-full p-6 flex flex-col justify-end pointer-events-none z-10">
-        <p className="text-sm md:text-base font-medium text-white/90">
-          {member.name}
-        </p>
-      </div>
+                <div className="absolute bottom-0 left-0 w-full p-6 flex flex-col justify-end pointer-events-none z-10">
+                  <p className="text-sm md:text-base font-medium text-white/90 text-center">
+                    {member.name}
+                  </p>
+                </div>
     </div>
   );
 };

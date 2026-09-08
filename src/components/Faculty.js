@@ -91,8 +91,9 @@ export const Faculty = () => {
                     containerClass="carousel-container py-10"
                     itemClass="px-4 flex justify-center"
                     removeArrowOnDeviceType={["tablet", "mobile"]}
-                    showDots={true}
-                    dotListClass="custom-dot-list-style mt-8"
+                    showDots={false}
+                    customLeftArrow={<></>}
+                    customRightArrow={<></>}
                 >
                     {facultyMembers.map((member, idx) => (
                         <div 
@@ -139,16 +140,6 @@ export const Faculty = () => {
                     ))}
                 </Carousel>
             </div>
-            <style jsx global>{`
-                .react-multi-carousel-dot button {
-                    border-color: #333 !important;
-                    background: #111 !important;
-                }
-                .react-multi-carousel-dot--active button {
-                    background: #f97316 !important;
-                    border-color: #f97316 !important;
-                }
-            `}</style>
         </section>
     );
 };

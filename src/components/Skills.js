@@ -12,7 +12,7 @@ export const Skills = () => {
 
   const departments = [
     { title: "Tech & Dev", id: "MOD_01", desc: "Engineering the future through modern web, mobile, and AI solutions. The core backbone of AIVolution's technical infrastructure." },
-    { title: "Event Mgmt", id: "MOD_02", desc: "Architecting seamless and immersive technical and cultural experiences. From hackathons to global summits." },
+    { title: "Event Management", id: "MOD_02", desc: "Architecting seamless and immersive technical and cultural experiences. From hackathons to global summits." },
     { title: "Social Media & Content Creation", id: "MOD_03", desc: "Forging the premium visual identity and aesthetic of our brand. Creating the award-winning graphics that represent us." },
     { title: "Public Relations", id: "MOD_04", desc: "Establishing strategic partnerships, driving external communications, and bridging the gap between industry and academia." },
   ];
