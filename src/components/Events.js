@@ -309,7 +309,7 @@ export const Events = () => {
   const pastEvents = events.filter((e) => !e.registrationOpen);
 
   return (
-    <section className="relative min-h-screen bg-dark text-white pt-28 pb-40 overflow-hidden">
+    <section className="relative min-h-screen bg-dark text-white pt-24 sm:pt-28 pb-24 sm:pb-40 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute inset-0 opacity-[0.03]"
@@ -324,12 +324,12 @@ export const Events = () => {
       <div className="absolute top-0 left-0 w-0.5 h-full bg-gradient-to-b from-primary via-transparent to-primary opacity-20" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-20" />
 
-      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
-        <header className="text-center mb-20">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-display font-extrabold text-white uppercase tracking-tighter mb-6">
+      <div className="container mx-auto px-5 sm:px-6 relative z-10 max-w-7xl">
+        <header className="text-center mb-12 sm:mb-20">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold text-white uppercase tracking-tighter mb-4 sm:mb-6 px-2">
             EVENTS
           </h1>
-          <p className="font-mono text-xs text-muted tracking-widest max-w-2xl mx-auto leading-relaxed">
+          <p className="font-mono text-[0.7rem] sm:text-xs text-muted tracking-widest max-w-2xl mx-auto leading-relaxed px-2">
             Every hackathon, workshop, and visit — documented in full.
             Click any card for the full story and photos.
           </p>
@@ -380,7 +380,7 @@ export const Events = () => {
 };
 
 const EventGrid = ({ events: list, onGalleryClick }) => (
-  <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
     {list.map((event, index) => (
       <TrackVisibility key={event.id} once partialVisibility offset={50}>
         {({ isVisible }) => (
@@ -443,25 +443,25 @@ const FullscreenGallery = ({ event, loadedImages, onMarkLoaded, onClose, onRegis
   return (
     <>
       <div
-        className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-6"
+        className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-4 sm:p-6"
         onClick={close}
       >
         <button
           onClick={close}
-          className="absolute top-6 right-6 text-white/50 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors"
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 text-white/50 hover:text-white font-mono text-xs uppercase tracking-widest transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
         >
           CLOSE ×
         </button>
 
         <div
-          className="w-full max-w-5xl max-h-[88vh] overflow-y-auto rounded-xl border border-gridline"
+          className="w-full max-w-5xl max-h-[90vh] sm:max-h-[88vh] overflow-y-auto rounded-xl border border-gridline"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Hero: first image shown in full, no cropping. A blurred, scaled
               copy of the same image fills the letterbox space instead of flat black. */}
           <div className="bg-surface">
             <div
-              className="relative flex items-center justify-center h-[40vh] md:h-[55vh] overflow-hidden cursor-zoom-in"
+              className="relative flex items-center justify-center h-[32vh] sm:h-[40vh] md:h-[55vh] overflow-hidden cursor-zoom-in"
               onClick={() => setZoomedImage(images[0])}
             >
               {!loadedImages[images[0]] && (
@@ -486,7 +486,7 @@ const FullscreenGallery = ({ event, loadedImages, onMarkLoaded, onClose, onRegis
                 onLoad={() => handleImgLoad(images[0])}
               />
             </div>
-            <h2 className="text-2xl md:text-3xl font-display font-bold text-white uppercase tracking-tight text-center px-6">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-white uppercase tracking-tight text-center px-4 sm:px-6">
               {event.title}
             </h2>
 
@@ -508,7 +508,7 @@ const FullscreenGallery = ({ event, loadedImages, onMarkLoaded, onClose, onRegis
             )}
           </div>
 
-          <div className="bg-surface/30 p-6 md:p-10">
+          <div className="bg-surface/30 p-4 sm:p-6 md:p-10">
             {event.registrationOpen && (
               <div className="max-w-2xl mx-auto mb-10">
                 <button
@@ -559,7 +559,7 @@ const FullscreenGallery = ({ event, loadedImages, onMarkLoaded, onClose, onRegis
                     In Photos
                   </h4>
                 </div>
-                <div className="grid grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                 {images.map((img, idx) => (
                   <div
                     key={idx}
@@ -692,7 +692,7 @@ const EventCard = ({ event, meta, alternate, onGalleryClick }) => {
         </div>
       </div>
 
-      <div className="p-6 flex flex-col flex-grow">
+      <div className="p-5 sm:p-6 flex flex-col flex-grow">
         <div className="flex items-center gap-3 mb-4">
           <span
             className={`w-2 h-2 rounded-full ${meta.dot} shadow-[0_0_6px_currentColor]`}

@@ -22,10 +22,23 @@ export const EventHighlights = () => {
   // sync (missing events, stale dates/images) — order/content live in one place.
   const events = EVENTS;
 
+  // Viewport-aware 3D radius: the desktop 480px radius pushes adjacent cards
+  // far outside small phone viewports, causing clipping and overlap.
+  // Track window width so mobile/tablet get a tighter cylinder.
+  const [viewportWidth, setViewportWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1280
+  );
+
+  useEffect(() => {
+    const onResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
   // Radius large enough that adjacent cards (60deg apart, ~300px wide)
   // clear each other horizontally (radius * sin(60deg) > card width),
   // so they no longer overlap/collide on screen.
-  const radius = 480;
+  const radius = viewportWidth < 640 ? 260 : viewportWidth < 1024 ? 380 : 480;
   // The vertical step between each card to create the DNA/Helix spiral effect
   const yStep = 20;
   const totalY = events.length * yStep;
@@ -127,7 +140,7 @@ export const EventHighlights = () => {
               className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
               style={{ transform: `translateZ(-800px)` }}
             >
-              <h2 className="text-[60px] md:text-[90px] font-display font-extrabold bg-clip-text text-transparent bg-gradient-to-b from-[#f97316] via-[#ea580c] to-black tracking-widest whitespace-nowrap leading-none drop-shadow-2xl">
+              <h2 className="text-4xl sm:text-[60px] md:text-[90px] font-display font-extrabold bg-clip-text text-transparent bg-gradient-to-b from-[#f97316] via-[#ea580c] to-black tracking-widest whitespace-nowrap leading-none drop-shadow-2xl">
                 EVENTS
               </h2>
             </div>
@@ -135,7 +148,7 @@ export const EventHighlights = () => {
             {/* 3D Helix Container */}
             <div
               ref={cylinderRef}
-               className="relative w-[240px] h-[380px] md:w-[300px] md:h-[500px]"
+               className="relative w-[200px] h-[340px] sm:w-[240px] sm:h-[380px] md:w-[300px] md:h-[500px]"
               style={{
                 transformStyle: 'preserve-3d',
                 transform: `translateZ(-${radius}px)`
@@ -163,7 +176,7 @@ export const EventHighlights = () => {
                       see the flat hitbox overlay outside the 3D stage instead. */}
                   <div
                     ref={(el) => (cardRefs.current[i] = el)}
-                     className={`relative w-full h-[360px] md:h-[480px] bg-[#0a0a0a]/80 backdrop-blur-md border-2 rounded-xl overflow-hidden z-10 transition-shadow duration-300 ${isActive ? 'border-[#ea580c] shadow-[0_0_35px_rgba(249,115,22,0.55),0_10px_20px_rgba(0,0,0,0.8)]' : 'border-[#f97316]/60 shadow-[0_0_18px_rgba(249,115,22,0.3),0_10px_20px_rgba(0,0,0,0.8)]'} ${showHover ? 'shadow-[0_0_45px_rgba(249,115,22,0.7)]' : ''}`}
+                     className={`relative w-full h-[320px] sm:h-[360px] md:h-[480px] bg-[#0a0a0a]/80 backdrop-blur-md border-2 rounded-xl overflow-hidden z-10 transition-shadow duration-300 ${isActive ? 'border-[#ea580c] shadow-[0_0_35px_rgba(249,115,22,0.55),0_10px_20px_rgba(0,0,0,0.8)]' : 'border-[#f97316]/60 shadow-[0_0_18px_rgba(249,115,22,0.3),0_10px_20px_rgba(0,0,0,0.8)]'} ${showHover ? 'shadow-[0_0_45px_rgba(249,115,22,0.7)]' : ''}`}
                     style={{ perspective: '1200px' }}
                   >
                     {/* Flip wrapper: rotates 180deg on hover to reveal the back face */}

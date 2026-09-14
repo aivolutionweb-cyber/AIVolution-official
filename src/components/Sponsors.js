@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
@@ -16,7 +16,18 @@ export const Sponsors = () => {
     ];
     // Double array for a fuller 3D ring
     const sponsors = [...baseSponsors, ...baseSponsors];
-    const radius = 350;
+    // Tighter orbit on phones so cards stay inside the viewport
+    const [viewportWidth, setViewportWidth] = useState(
+        typeof window !== 'undefined' ? window.innerWidth : 1280
+    );
+
+    useEffect(() => {
+        const onResize = () => setViewportWidth(window.innerWidth);
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+    }, []);
+
+    const radius = viewportWidth < 640 ? 190 : viewportWidth < 1024 ? 280 : 350;
 
     useGSAP(() => {
         // Initialize base tilt so GSAP controls it
@@ -58,24 +69,24 @@ export const Sponsors = () => {
     }, { scope: sectionRef });
 
     return (
-        <section ref={sectionRef} className="py-32 bg-[#020617] relative overflow-hidden border-b border-[#f97316]/10">
+        <section ref={sectionRef} className="py-20 sm:py-24 md:py-32 bg-[#020617] relative overflow-hidden border-b border-[#f97316]/10">
             
             {/* Background Glow (Orange Mix) */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-[#f97316]/10 to-[#ea580c]/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[800px] h-[300px] sm:h-[400px] bg-gradient-to-r from-[#f97316]/10 to-[#ea580c]/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
 
-            <div className="container mx-auto px-6 mb-24 relative z-10">
+            <div className="container mx-auto px-5 sm:px-6 mb-14 sm:mb-20 md:mb-24 relative z-10">
                 <div className="flex flex-col items-center text-center">
                     <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
                         {"// EXTERNAL_SUPPORT"}
                     </span>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 uppercase tracking-tight">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 uppercase tracking-tight px-2">
                         PARTNERS & SPONSORS
                     </h2>
                 </div>
             </div>
             
             {/* 3D Orbital Carousel Stage */}
-            <div className="relative w-full h-[400px] flex items-center justify-center z-10" style={{ perspective: '1200px' }}>
+            <div className="relative w-full h-[320px] sm:h-[360px] md:h-[400px] flex items-center justify-center z-10" style={{ perspective: '1200px' }}>
                 <div ref={parallaxWrapperRef} className="relative w-full h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
                     {/* Tilted Ring Wrapper */}
                 <div 
@@ -97,7 +108,7 @@ export const Sponsors = () => {
                                     backfaceVisibility: 'hidden', // Hide back of cards as they spin around
                                 }}
                             >
-                                <div className="group w-[220px] h-[100px] bg-[#0a0a0a]/80 backdrop-blur-md border border-white/10 rounded-xl flex items-center justify-center p-4 transition-all duration-500 hover:bg-[#111] hover:border-[#f97316]/50 shadow-[0_10px_30px_rgba(0,0,0,0.8)] relative overflow-hidden">
+                                <div className="group w-[150px] h-[80px] sm:w-[220px] sm:h-[100px] bg-[#0a0a0a]/80 backdrop-blur-md border border-white/10 rounded-xl flex items-center justify-center p-3 sm:p-4 transition-all duration-500 hover:bg-[#111] hover:border-[#f97316]/50 shadow-[0_10px_30px_rgba(0,0,0,0.8)] relative overflow-hidden">
                                     
                                     {/* Inner Glow on Hover */}
                                     <div className="absolute inset-0 bg-gradient-to-r from-[#f97316]/0 via-[#f97316]/10 to-[#ea580c]/20 opacity-0 group-hover:opacity-100 transition-all duration-700"></div>

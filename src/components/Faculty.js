@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Carousel from 'react-multi-carousel';
@@ -128,17 +128,17 @@ export const Faculty = () => {
     };
 
     return (
-        <section ref={containerRef} className="py-24 bg-black relative overflow-hidden border-b border-[#f97316]/10" id="faculty">
+        <section ref={containerRef} className="py-16 sm:py-20 md:py-24 bg-black relative overflow-hidden border-b border-[#f97316]/10" id="faculty">
             
             {/* Background elements */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-[#f97316]/5 to-transparent blur-[100px] rounded-full pointer-events-none"></div>
+            <div className="absolute top-0 right-0 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-gradient-to-bl from-[#f97316]/5 to-transparent blur-[100px] rounded-full pointer-events-none"></div>
 
-            <div className="container mx-auto px-6 relative z-10 mt-10 mb-16">
+            <div className="container mx-auto px-5 sm:px-6 relative z-10 mt-6 sm:mt-10 mb-10 sm:mb-16">
                 <div className="text-center">
                     <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
                         {"// ACADEMIC_LEADERSHIP"}
                     </span>
-                    <h2 className="text-4xl md:text-5xl font-display font-extrabold text-white uppercase tracking-tight">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-white uppercase tracking-tight px-2">
                         FACULTY ADVISORS
                     </h2>
                 </div>
@@ -146,7 +146,7 @@ export const Faculty = () => {
 
             {/* Interactive Animated Carousel */}
             <div
-                className="container mx-auto px-6 relative z-10"
+                className="container mx-auto px-4 sm:px-6 relative z-10"
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
             >
@@ -170,7 +170,7 @@ export const Faculty = () => {
                     {facultyMembers.map((member, idx) => (
                         <div
                             key={idx}
-                            className="group relative w-full max-w-[320px] aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-colors duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] shrink-0 cursor-grab active:cursor-grabbing mx-auto"
+                            className="group relative w-[82vw] max-w-[320px] sm:w-full aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-colors duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] shrink-0 cursor-grab active:cursor-grabbing mx-auto"
                         >
                             {/* Full Cover Image */}
                             {member.imgUrl ? (
@@ -196,7 +196,7 @@ export const Faculty = () => {
                                 </div>
                             )}
 
-                            <div className="absolute bottom-0 left-0 w-full p-6 flex flex-col justify-end pointer-events-none z-10">
+                            <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 flex flex-col justify-end pointer-events-none z-10">
                                 <div className="flex justify-between items-end">
                                     <div>
                                         <h3 className="text-xl md:text-2xl font-display font-bold text-white group-hover:text-[#f97316] transition-colors mb-1 drop-shadow-lg">

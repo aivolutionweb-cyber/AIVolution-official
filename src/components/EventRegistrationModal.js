@@ -186,11 +186,11 @@ export const EventRegistrationModal = ({ event, onClose }) => {
               )}
             </div>
 
-            <div className="flex items-center justify-between mt-10 pt-6 border-t border-gridline">
+            <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-4 sm:gap-0 sm:justify-between mt-10 pt-6 border-t border-gridline">
               <button
                 onClick={handleBack}
                 disabled={step === 0}
-                className="font-mono text-xs uppercase tracking-widest text-muted hover:text-white disabled:opacity-0 disabled:pointer-events-none transition-colors"
+                className="font-mono text-xs uppercase tracking-widest text-muted hover:text-white disabled:opacity-0 disabled:pointer-events-none transition-colors min-h-[44px]"
               >
                 ← Back
               </button>
@@ -198,7 +198,7 @@ export const EventRegistrationModal = ({ event, onClose }) => {
               {step < STEPS.length - 1 ? (
                 <button
                   onClick={handleNext}
-                  className="px-8 py-3 border border-white text-white font-mono text-xs tracking-widest uppercase hover:bg-primary hover:border-primary transition-all duration-300"
+                  className="w-full sm:w-auto px-8 py-3.5 border border-white text-white font-mono text-xs tracking-widest uppercase hover:bg-primary hover:border-primary transition-all duration-300 min-h-[48px]"
                 >
                   Next →
                 </button>
@@ -206,7 +206,7 @@ export const EventRegistrationModal = ({ event, onClose }) => {
                 <button
                   onClick={handleSubmit}
                   disabled={submitting}
-                  className="px-8 py-3 border border-primary bg-primary/10 text-white font-mono text-xs tracking-widest uppercase hover:bg-primary transition-all duration-300 disabled:opacity-60"
+                  className="w-full sm:w-auto px-8 py-3.5 border border-primary bg-primary/10 text-white font-mono text-xs tracking-widest uppercase hover:bg-primary transition-all duration-300 disabled:opacity-60 min-h-[48px]"
                 >
                   {submitting ? "Processing…" : "Submit Registration"}
                 </button>
@@ -453,7 +453,7 @@ const DetailsStep = ({
 };
 
 const ConfirmStep = ({ event, formData, isTeam }) => (
-  <div className="border border-gridline rounded-lg p-6 md:p-8 font-mono text-xs md:text-sm bg-surface/50">
+  <div className="border border-gridline rounded-lg p-4 sm:p-6 md:p-8 font-mono text-xs md:text-sm bg-surface/50">
     <div className="flex items-center justify-between mb-6 pb-4 border-b border-dashed border-gridline">
       <span className="text-muted uppercase tracking-widest">Registration Summary</span>
       <span className="text-primary uppercase tracking-widest">Review</span>
@@ -482,9 +482,9 @@ const ConfirmStep = ({ event, formData, isTeam }) => (
 );
 
 const Row = ({ label, value }) => (
-  <div className="flex justify-between gap-6">
+  <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-6">
     <dt className="text-muted uppercase tracking-widest shrink-0">{label}</dt>
-    <dd className="text-white text-right break-words">{value}</dd>
+    <dd className="text-white sm:text-right break-words">{value}</dd>
   </div>
 );
 

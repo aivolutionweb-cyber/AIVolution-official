@@ -41,11 +41,14 @@ export const CinematicHero = () => {
     gsap.set(coreRef.current, { scale: 0, opacity: 0 });
 
     // MAIN SCROLL TIMELINE
+    // Shorter pin distance on small screens so mobile users don't have to
+    // scroll through 6000px of pinned content to reach the rest of the page.
+    const getPinDistance = () => (window.innerWidth < 640 ? 3500 : window.innerWidth < 1024 ? 4500 : 6000);
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top top",
-        end: "+=6000",
+        end: () => `+=${getPinDistance()}`,
         scrub: 0.5,
         pin: true,
         anticipatePin: 1,
@@ -149,7 +152,7 @@ export const CinematicHero = () => {
           {/* --- THE AI CORE (Centerpiece) --- */}
           <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none">
             
-            <h1 ref={titleRef} className="text-5xl md:text-7xl font-display font-bold text-white mb-12 tracking-tight text-center px-4 mix-blend-difference z-30">
+            <h1 ref={titleRef} className="text-4xl sm:text-5xl md:text-7xl font-display font-bold text-white mb-8 sm:mb-12 tracking-tight text-center px-4 sm:px-6 mix-blend-difference z-30 leading-tight">
                 Shaping the Future <br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f97316] to-[#ea580c]">of Intelligence.</span>
             </h1>
@@ -170,7 +173,7 @@ export const CinematicHero = () => {
                 <div className="absolute w-[5vh] h-[5vh] bg-white rounded-full shadow-[0_0_30px_rgba(255,255,255,1)] blur-sm"></div>
             </div>
 
-            <p ref={subtitleRef} className="text-gray-400 font-mono tracking-widest text-sm uppercase mt-64 z-30 mix-blend-difference">
+            <p ref={subtitleRef} className="text-gray-400 font-mono tracking-widest text-xs sm:text-sm uppercase mt-40 sm:mt-64 z-30 mix-blend-difference text-center px-4">
                 Welcome to the Core
             </p>
           </div>
@@ -178,19 +181,19 @@ export const CinematicHero = () => {
           {/* --- OVERLAYS --- */}
 
           {/* Who Are We Overlay (Minimal & Sophisticated) */}
-          <div ref={whoAreWeRef} className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-40 px-6 opacity-0 pointer-events-none">
+          <div ref={whoAreWeRef} className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-40 px-4 sm:px-6 opacity-0 pointer-events-none overflow-y-auto py-8">
 
             {/* Typography Core - Minimal */}
-            <div className="max-w-5xl text-center relative z-10 p-4 md:p-12 pointer-events-auto">
-                <h2 className="text-5xl md:text-7xl font-display font-extrabold text-white uppercase tracking-tight drop-shadow-2xl mb-2">
+            <div className="max-w-5xl w-full text-center relative z-10 p-2 sm:p-4 md:p-12 pointer-events-auto my-auto">
+                <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold text-white uppercase tracking-tight drop-shadow-2xl mb-2 leading-none">
                     WHO ARE WE
                 </h2>
 
-                <div className="mb-8 text-[#f97316] font-mono text-[0.65rem] sm:text-xs tracking-[0.35em] uppercase">
+                <div className="mb-6 sm:mb-8 text-[#f97316] font-mono text-[0.65rem] sm:text-xs tracking-[0.35em] uppercase">
                     {"// WHERE CURIOSITY BECOMES CAPABILITY"}
                 </div>
 
-                <p className="max-w-4xl mx-auto text-white/90 font-light text-lg md:text-2xl leading-relaxed md:leading-[1.8] flex flex-wrap justify-center gap-x-2 gap-y-1">
+                <p className="max-w-4xl mx-auto text-white/90 font-light text-base sm:text-lg md:text-2xl leading-relaxed md:leading-[1.8] flex flex-wrap justify-center gap-x-2 gap-y-1 max-h-[45vh] sm:max-h-none overflow-y-auto sm:overflow-visible px-1">
                     {"AIvolution is a student-led ecosystem built for those who refuse to simply watch the future unfold. We explore emerging AI technologies, deconstruct how they work, and transform knowledge into practical solutions. Through hands-on learning, industry collaboration, competitive challenges, and experiential projects, we empower students to move from AI users to AI creators.".split(" ").map((word, i) => {
                         let hoverImg = null;
                         const w = word.toLowerCase();
@@ -216,35 +219,35 @@ export const CinematicHero = () => {
           </div>
 
           {/* Vision Overlay */}
-          <div ref={visionContainerRef} className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-40 px-6 opacity-0 pointer-events-none">
+          <div ref={visionContainerRef} className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-40 px-4 sm:px-6 opacity-0 pointer-events-none overflow-y-auto py-6">
             
-            <div className="mb-12 text-center mt-[-10vh]">
-                <h2 className="text-5xl md:text-7xl font-display font-extrabold text-white uppercase tracking-tight drop-shadow-2xl mb-2">
+            <div className="mb-6 sm:mb-10 md:mb-12 text-center mt-0 sm:mt-[-10vh] shrink-0">
+                <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold text-white uppercase tracking-tight drop-shadow-2xl mb-2 leading-none">
                     CORE DIRECTIVES
                 </h2>
-                <span className="font-mono text-[#f97316] text-xs tracking-widest uppercase block">
+                <span className="font-mono text-[#f97316] text-[0.65rem] sm:text-xs tracking-widest uppercase block">
                     {"// OPERATIONAL_MANDATES"}
                 </span>
             </div>
 
-            <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-px bg-black border border-[#f97316]/20 pointer-events-auto shadow-[0_0_50px_rgba(249,115,22,0.1)]">
-                <div ref={el => visionCardsRef.current[0] = el} className="p-8 bg-[#0a0a0a]/90 backdrop-blur-sm hover:bg-[#111] border border-transparent hover:border-[#f97316]/30 transition-colors duration-300">
-                    <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-8 inline-block">M_01</span>
-                    <h3 className="text-2xl font-display font-bold mb-4 uppercase text-white">MISSION</h3>
+            <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-px bg-black border border-[#f97316]/20 pointer-events-auto shadow-[0_0_50px_rgba(249,115,22,0.1)] w-full max-w-5xl max-h-[62vh] md:max-h-none overflow-y-auto md:overflow-visible">
+                <div ref={el => visionCardsRef.current[0] = el} className="p-5 sm:p-8 bg-[#0a0a0a]/90 backdrop-blur-sm hover:bg-[#111] border border-transparent hover:border-[#f97316]/30 transition-colors duration-300">
+                    <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-5 sm:mb-8 inline-block">M_01</span>
+                    <h3 className="text-xl sm:text-2xl font-display font-bold mb-3 sm:mb-4 uppercase text-white">MISSION</h3>
                     <p className="text-gray-400 font-sans text-sm leading-relaxed">
                         To recognize and discover cutting-edge AI tools and techniques, empowering students to accelerate their growth and build the future with Artificial Intelligence.
                     </p>
                 </div>
-                <div ref={el => visionCardsRef.current[1] = el} className="p-8 bg-[#0a0a0a]/90 backdrop-blur-sm hover:bg-[#111] border border-transparent hover:border-[#f97316]/30 transition-colors duration-300">
-                    <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-8 inline-block">V_02</span>
-                    <h3 className="text-2xl font-display font-bold mb-4 uppercase text-white">VISION</h3>
+                <div ref={el => visionCardsRef.current[1] = el} className="p-5 sm:p-8 bg-[#0a0a0a]/90 backdrop-blur-sm hover:bg-[#111] border border-transparent hover:border-[#f97316]/30 transition-colors duration-300">
+                    <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-5 sm:mb-8 inline-block">V_02</span>
+                    <h3 className="text-xl sm:text-2xl font-display font-bold mb-3 sm:mb-4 uppercase text-white">VISION</h3>
                     <p className="text-gray-400 font-sans text-sm leading-relaxed">
                         To forge a thriving ecosystem of student innovators pushing the boundaries of AI exploration, technical mastery, and creative application.
                     </p>
                 </div>
-                <div ref={el => visionCardsRef.current[2] = el} className="p-8 bg-[#0a0a0a]/90 backdrop-blur-sm hover:bg-[#111] border border-transparent hover:border-[#f97316]/30 transition-colors duration-300">
-                    <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-8 inline-block">P_03</span>
-                    <h3 className="text-2xl font-display font-bold mb-4 uppercase text-white">VALUES</h3>
+                <div ref={el => visionCardsRef.current[2] = el} className="p-5 sm:p-8 bg-[#0a0a0a]/90 backdrop-blur-sm hover:bg-[#111] border border-transparent hover:border-[#f97316]/30 transition-colors duration-300">
+                    <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-5 sm:mb-8 inline-block">P_03</span>
+                    <h3 className="text-xl sm:text-2xl font-display font-bold mb-3 sm:mb-4 uppercase text-white">VALUES</h3>
                     <p className="text-gray-400 font-sans text-sm leading-relaxed">
                         Continuous exploration of AI technologies. Hands-on learning and technical excellence. Empowering peers to leverage AI for real-world impact.
                     </p>
@@ -253,15 +256,15 @@ export const CinematicHero = () => {
 
           </div>
 
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-center z-50 pointer-events-none opacity-50">
-              <span className="font-mono text-xs tracking-[0.3em] uppercase text-[#f97316] block mb-2">Scroll Down to Sequence</span>
-              <div className="w-px h-12 bg-gradient-to-b from-[#f97316] to-transparent mx-auto"></div>
+          <div className="absolute bottom-6 sm:bottom-12 left-1/2 -translate-x-1/2 text-center z-50 pointer-events-none opacity-50 px-4">
+              <span className="font-mono text-[0.65rem] sm:text-xs tracking-[0.3em] uppercase text-[#f97316] block mb-2 whitespace-nowrap">Scroll Down to Sequence</span>
+              <div className="w-px h-8 sm:h-12 bg-gradient-to-b from-[#f97316] to-transparent mx-auto"></div>
           </div>
 
-          {/* Hover Image Reveal Stage */}
+          {/* Hover Image Reveal Stage — desktop hover only, hidden on touch */}
           <div 
             ref={hoverRevealRef} 
-            className={`fixed top-0 left-0 w-[300px] h-[200px] pointer-events-none z-[100] transition-opacity duration-300 rounded-xl overflow-hidden shadow-2xl border border-white/10 ${hoveredImage ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+            className={`hover-reveal-only hidden md:block fixed top-0 left-0 w-[300px] h-[200px] pointer-events-none z-[100] transition-opacity duration-300 rounded-xl overflow-hidden shadow-2xl border border-white/10 ${hoveredImage ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
           >
              {hoveredImage && <img src={hoveredImage} alt="Event Preview" className="w-full h-full object-cover" />}
           </div>

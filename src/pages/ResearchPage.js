@@ -1,6 +1,5 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
@@ -40,7 +39,7 @@ export const ResearchPage = () => {
 
             <div className="relative z-10 flex flex-col items-center text-center px-6">
                 <div className="coming-soon-text font-mono text-[#f97316] text-sm md:text-base tracking-[0.3em] uppercase mb-6">
-                    // Research & Development
+                    {"// Research & Development"}
                 </div>
                 
                 <h1 className="coming-soon-text text-6xl md:text-8xl lg:text-[10rem] font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-white/30 uppercase tracking-tighter leading-none mb-8">

@@ -49,15 +49,15 @@ export const Contact = () => {
   };
 
   return (
-    <section className="relative py-24 bg-dark border-b border-gridline" id="connect">
-      <div className="container mx-auto px-6">
+    <section className="relative py-16 sm:py-20 md:py-24 bg-dark border-b border-gridline" id="connect">
+      <div className="container mx-auto px-5 sm:px-6">
         
         {/* Section Header */}
-        <div className="border-b border-gridline pb-4 mb-16">
+        <div className="border-b border-gridline pb-4 mb-10 sm:mb-16">
           <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
             {"// SECURE_COMMS"}
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white uppercase tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white uppercase tracking-tight break-words">
             ESTABLISH CONNECTION
           </h2>
         </div>
@@ -65,7 +65,7 @@ export const Contact = () => {
         <div className="flex flex-col md:flex-row gap-0 border border-gridline bg-gridline">
           
           {/* Left Side: Image / Decoration */}
-          <div className="w-full md:w-1/2 bg-surface p-12 flex items-center justify-center relative overflow-hidden group">
+          <div className="w-full md:w-1/2 bg-surface p-6 sm:p-8 md:p-12 flex items-center justify-center relative overflow-hidden group">
             <TrackVisibility once partialVisibility offset={200}>
               {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__zoomIn" : "opacity-0"}>
@@ -91,7 +91,7 @@ export const Contact = () => {
           </div>
 
           {/* Right Side: Terminal Form */}
-          <div className="w-full md:w-1/2 bg-dark p-8 md:p-12 flex flex-col justify-center relative">
+          <div className="w-full md:w-1/2 bg-dark p-6 sm:p-8 md:p-12 flex flex-col justify-center relative">
             
             {/* Blinking Cursor Decoration */}
             <div className="absolute top-4 right-4 flex items-center gap-2">

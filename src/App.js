@@ -26,11 +26,11 @@ const InteractiveHoverText = () => {
 
   return (
     <div 
-      className="w-full flex justify-center items-center overflow-hidden select-none bg-black py-10 cursor-default relative group"
+      className="w-full flex justify-center items-center overflow-hidden select-none bg-black py-10 px-2 cursor-default relative group"
       onMouseMove={handleMouseMove}
     >
       <h1 
-        className="font-display font-extrabold text-[9vw] leading-[0.75] tracking-tighter whitespace-nowrap"
+        className="font-display font-extrabold text-[12vw] sm:text-[9vw] leading-[0.85] tracking-tighter whitespace-nowrap"
         style={{
           background: "radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), #f97316 0%, white 100%)",
           WebkitBackgroundClip: "text",
@@ -44,7 +44,7 @@ const InteractiveHoverText = () => {
       </h1>
       {/* Absolute overlay that fades to white when not hovering to hide the effect when mouse leaves */}
       <h1 
-        className="font-display font-extrabold text-[9vw] leading-[0.75] tracking-tighter whitespace-nowrap absolute text-white opacity-100 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none"
+        className="font-display font-extrabold text-[12vw] sm:text-[9vw] leading-[0.85] tracking-tighter whitespace-nowrap absolute text-white opacity-100 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none"
       >
         AIVOLUTIONS
       </h1>
@@ -126,7 +126,7 @@ const ScrollToTopButton = () => {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-8 right-8 z-50 p-3 rounded-full bg-white text-black shadow-lg shadow-white/20 transition-all duration-300 hover:scale-110 hover:shadow-white/40 active:scale-95 ${
+      className={`fixed bottom-5 right-5 sm:bottom-8 sm:right-8 z-50 p-3 rounded-full bg-white text-black shadow-lg shadow-white/20 transition-all duration-300 hover:scale-110 hover:shadow-white/40 active:scale-95 min-h-[48px] min-w-[48px] flex items-center justify-center ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
       }`}
       aria-label="Scroll to top"

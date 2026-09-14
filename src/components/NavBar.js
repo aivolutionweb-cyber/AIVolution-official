@@ -45,8 +45,10 @@ export const NavBar = () => {
 
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden text-white/80 hover:text-white focus:outline-none transition-colors"
+          className="md:hidden text-white/80 hover:text-white focus:outline-none transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
           onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
         >
           <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {isOpen ? (
@@ -93,8 +95,8 @@ export const NavBar = () => {
       </nav>
 
       {/* Mobile Menu Dropdown */}
-      <div className={`md:hidden absolute top-24 left-4 right-4 bg-black/80 backdrop-blur-3xl border border-white/10 rounded-3xl overflow-hidden transition-all duration-500 origin-top ${isOpen ? "opacity-100 scale-y-100 pointer-events-auto" : "opacity-0 scale-y-0 pointer-events-none"}`}>
-        <div className="flex flex-col items-center py-8 space-y-6">
+      <div className={`md:hidden absolute top-20 sm:top-24 left-4 right-4 max-h-[70vh] overflow-y-auto bg-black/80 backdrop-blur-3xl border border-white/10 rounded-3xl overflow-hidden transition-all duration-500 origin-top ${isOpen ? "opacity-100 scale-y-100 pointer-events-auto" : "opacity-0 scale-y-0 pointer-events-none"}`}>
+        <div className="flex flex-col items-center py-6 sm:py-8 space-y-5 sm:space-y-6">
             <NavLink to="/#home" active={activeLink === 'home'} onClick={() => onUpdateActiveLink('home')}>Home</NavLink>
             <NavLink to="/events" active={activeLink === 'events'} onClick={() => onUpdateActiveLink('events')}>Events</NavLink>
             <NavLink to="/team" active={activeLink === 'team'} onClick={() => onUpdateActiveLink('team')}>Team</NavLink>

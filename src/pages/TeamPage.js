@@ -63,7 +63,7 @@ const MemberCard = ({ member }) => {
       {member.img && (
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>
       )}
-                <div className="absolute bottom-0 left-0 w-full p-6 flex flex-col justify-end pointer-events-none z-10">
+                <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 flex flex-col justify-end pointer-events-none z-10">
                   <p className="text-sm md:text-base font-medium text-white/90 text-center">
                     {member.name}
                   </p>
@@ -78,25 +78,25 @@ export const TeamPage = () => {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="container mx-auto px-6 pt-32 pb-24">
-        <div className="text-center mb-16">
+      <div className="container mx-auto px-5 sm:px-6 pt-28 sm:pt-32 pb-16 sm:pb-24">
+        <div className="text-center mb-10 sm:mb-16">
           <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
             {'// OUR PEOPLE'}
           </span>
-          <h1 className="text-5xl md:text-6xl font-display font-extrabold text-white uppercase tracking-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-extrabold text-white uppercase tracking-tight px-2">
             Meet Our Team
           </h1>
-          <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
+          <p className="mt-4 text-gray-400 text-sm sm:text-base max-w-2xl mx-auto px-2">
             The minds behind AIVolution. Organized by department, united by vision.
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 mb-16">
+        <div className="flex flex-wrap justify-center gap-2.5 sm:gap-4 mb-10 sm:mb-16 px-1">
           {departments.map((dept) => (
             <Link
               key={dept.key}
               to={`/team?dept=${dept.key}`}
-              className={`px-6 py-3 rounded-full border text-sm font-medium tracking-wide transition-all duration-300 ${
+              className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-full border text-xs sm:text-sm font-medium tracking-wide transition-all duration-300 text-center ${
                 activeDept === dept.key
                   ? 'bg-[#f97316] border-[#f97316] text-black'
                   : 'border-white/10 text-white hover:border-[#f97316]/50 hover:text-[#f97316]'
@@ -107,7 +107,7 @@ export const TeamPage = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
           {teamMembers[activeDept]?.map((member, idx) => (
             <MemberCard key={idx} member={member} />
           ))}

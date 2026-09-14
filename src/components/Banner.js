@@ -165,11 +165,11 @@ export const Banner = () => {
       <div className="container mx-auto px-6 relative z-10 h-full flex flex-col justify-center">
         
         {/* Terminal Header */}
-        <div className="w-full border-b border-gridline pb-4 mb-12 flex justify-between items-end animate__animated animate__fadeInDown">
-          <span className="font-mono text-muted text-xs tracking-[0.3em] uppercase">
+        <div className="w-full border-b border-gridline pb-4 mb-8 sm:mb-12 flex flex-col sm:flex-row gap-2 sm:justify-between sm:items-end animate__animated animate__fadeInDown">
+          <span className="font-mono text-muted text-[0.65rem] sm:text-xs tracking-[0.3em] uppercase break-words">
             SYS.INIT // MAIT.DELHI // AIVOLUTION_CORE_V2.0
           </span>
-          <span className="font-mono text-primary text-xs tracking-widest bg-primary/10 px-2 py-1 border border-primary/20">
+          <span className="font-mono text-primary text-xs tracking-widest bg-primary/10 px-2 py-1 border border-primary/20 self-start sm:self-auto">
             STATUS: ONLINE
           </span>
         </div>
@@ -177,7 +177,7 @@ export const Banner = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
           
           <div className="w-full lg:w-7/12 animate__animated animate__fadeInLeft">
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-extrabold text-white mb-6 uppercase tracking-tight leading-none">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-extrabold text-white mb-6 uppercase tracking-tight leading-[1.02] break-words">
               WE ARE A <br/>
               <span className="text-primary block mt-2">
                 {text}<span className="border-r-[6px] border-white ml-2 animate-pulse"></span>

@@ -3,8 +3,20 @@ import React, { useState, useEffect } from 'react';
 const MouseFollower = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
+  const [isFinePointer, setIsFinePointer] = useState(false);
 
   useEffect(() => {
+    // Only show the custom dot on devices with a real mouse/trackpad.
+    // On touch phones/tablets there is no hover cursor to follow.
+    const mq = window.matchMedia('(hover: hover) and (pointer: fine)');
+    setIsFinePointer(mq.matches);
+    const onChange = (e) => setIsFinePointer(e.matches);
+    mq.addEventListener?.('change', onChange);
+    return () => mq.removeEventListener?.('change', onChange);
+  }, []);
+
+  useEffect(() => {
+    if (!isFinePointer) return;
     const handleMouseMove = (e) => {
       setPosition({ x: e.clientX, y: e.clientY });
       if (!isVisible) setIsVisible(true);
@@ -23,7 +35,9 @@ const MouseFollower = () => {
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, [isVisible]);
+  }, [isVisible, isFinePointer]);
+
+  if (!isFinePointer) return null;
 
   return (
     <div

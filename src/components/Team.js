@@ -62,15 +62,15 @@ export const Team = () => {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className="py-24 bg-black relative overflow-hidden border-b border-[#f97316]/10" id="team">
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-br from-[#f97316]/5 to-transparent blur-[120px] rounded-full pointer-events-none"></div>
+    <section ref={containerRef} className="py-16 sm:py-20 md:py-24 bg-black relative overflow-hidden border-b border-[#f97316]/10" id="team">
+      <div className="absolute top-0 left-0 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-gradient-to-br from-[#f97316]/5 to-transparent blur-[120px] rounded-full pointer-events-none"></div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-12">
+      <div className="container mx-auto px-5 sm:px-6 relative z-10">
+        <div className="text-center mb-10 sm:mb-12">
           <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block team-section-title">
             {"// THE_BUILDERS"}
           </span>
-          <h2 className="text-4xl md:text-5xl font-display font-extrabold text-white uppercase tracking-tight team-section-title">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-white uppercase tracking-tight team-section-title px-2">
             Meet Our Team
           </h2>
         </div>
@@ -93,7 +93,7 @@ export const Team = () => {
             {sampleMembers.map((member, idx) => (
               <div
                 key={idx}
-                className="group block w-full max-w-[320px] aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-colors duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] shrink-0 cursor-pointer mx-auto"
+                className="group relative block w-[82vw] max-w-[320px] sm:w-full aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-colors duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] shrink-0 cursor-pointer mx-auto"
               >
                 <img
                   src={member.img}
