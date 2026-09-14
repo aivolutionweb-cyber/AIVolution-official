@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Carousel from 'react-multi-carousel';
@@ -18,8 +18,8 @@ const facultyMembers = [
         name: "Dr. Anshu Khurana",
         role: "Assistant Professor",
         linkedin: "https://www.linkedin.com/school/7942020/",
-        imgUrl: "https://i.postimg.cc/63VZpcjp/1675939070856.jpg",
-        imgPosition: "object-[center_20%]" // Adjusted to pull face into view for portrait
+        imgUrl: "https://i.postimg.cc/qM6S3LGL/anshu.jpg",
+        imgPosition: "object-[center_20%]"
     },
     {
         name: "Mr. Nitin Garg",
@@ -48,11 +48,77 @@ const facultyMembers = [
         linkedin: "https://www.linkedin.com/school/7942020/",
         imgUrl: "https://i.postimg.cc/MG41nrVF/1712746260400.jpg",
         imgPosition: "object-top"
+    },
+    {
+        name: "Dr. Tripti Lamba",
+        role: "Assistant Professor",
+        linkedin: "https://www.linkedin.com/school/7942020/",
+        imgUrl: null
+    },
+    {
+        name: "Dr. Mohit",
+        role: "Assistant Professor",
+        linkedin: "https://www.linkedin.com/school/7942020/",
+        imgUrl: null
     }
 ];
 
+/* ─── Custom Arrow Button ─────────────────────────────────────── */
+const ArrowBtn = ({ direction, onClick }) => (
+    <button
+        onClick={onClick}
+        aria-label={direction === 'left' ? 'Previous faculty' : 'Next faculty'}
+        style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '44px',
+            height: '44px',
+            borderRadius: '50%',
+            background: 'rgba(0,0,0,0.55)',
+            border: '1px solid rgba(249,115,22,0.35)',
+            cursor: 'pointer',
+            transition: 'background 0.25s, border-color 0.25s, transform 0.2s',
+            flexShrink: 0,
+        }}
+        onMouseEnter={e => {
+            e.currentTarget.style.background = 'rgba(249,115,22,0.18)';
+            e.currentTarget.style.borderColor = '#f97316';
+            e.currentTarget.style.transform = 'scale(1.1)';
+        }}
+        onMouseLeave={e => {
+            e.currentTarget.style.background = 'rgba(0,0,0,0.55)';
+            e.currentTarget.style.borderColor = 'rgba(249,115,22,0.35)';
+            e.currentTarget.style.transform = 'scale(1)';
+        }}
+    >
+        <svg
+            width="18" height="18" viewBox="0 0 24 24"
+            fill="none" stroke="#f97316" strokeWidth="2.2"
+            strokeLinecap="round" strokeLinejoin="round"
+            style={{ transform: direction === 'left' ? 'rotate(0deg)' : 'rotate(180deg)' }}
+        >
+            <polyline points="15 18 9 12 15 6" />
+        </svg>
+    </button>
+);
+
+/* ─── Custom Button Group (sits below or beside carousel) ─────── */
+const CustomButtonGroup = ({ next, previous }) => (
+    <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '14px',
+        marginTop: '28px',
+    }}>
+        <ArrowBtn direction="left" onClick={previous} />
+        <ArrowBtn direction="right" onClick={next} />
+    </div>
+);
+
 export const Faculty = () => {
     const containerRef = useRef(null);
+    const [isPaused, setIsPaused] = useState(false);
 
     const responsive = {
         superLargeDesktop: { breakpoint: { max: 4000, min: 3000 }, items: 4 },
@@ -79,38 +145,57 @@ export const Faculty = () => {
             </div>
 
             {/* Interactive Animated Carousel */}
-            <div className="container mx-auto px-6 relative z-10">
-                <Carousel 
+            <div
+                className="container mx-auto px-6 relative z-10"
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+            >
+                <Carousel
                     responsive={responsive}
                     infinite={true}
-                    autoPlay={true}
-                    autoPlaySpeed={5000}
+                    autoPlay={!isPaused}
+                    autoPlaySpeed={2000}
                     keyBoardControl={true}
-                    customTransition="transform 800ms ease-in-out"
-                    transitionDuration={800}
+                    customTransition="transform 500ms ease-in-out"
+                    transitionDuration={500}
                     containerClass="carousel-container py-10"
                     itemClass="px-4 flex justify-center"
-                    removeArrowOnDeviceType={["tablet", "mobile"]}
+                    removeArrowOnDeviceType={[]}
                     showDots={false}
                     customLeftArrow={<></>}
                     customRightArrow={<></>}
+                    customButtonGroup={<CustomButtonGroup />}
+                    renderButtonGroupOutside={true}
                 >
                     {facultyMembers.map((member, idx) => (
-                        <div 
+                        <div
                             key={idx}
                             className="group relative w-full max-w-[320px] aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-colors duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] shrink-0 cursor-grab active:cursor-grabbing mx-auto"
                         >
                             {/* Full Cover Image */}
-                            <img 
-                                src={member.imgUrl} 
-                                alt={member.name}
-                                className={`w-full h-full object-cover ${member.imgPosition || 'object-center'} grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700`}
-                            />
-                            
-                            {/* Gradient Overlay for Text Legibility */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>
+                            {member.imgUrl ? (
+                                <>
+                                    <img
+                                        src={member.imgUrl}
+                                        alt={member.name}
+                                        className={`w-full h-full object-cover ${member.imgPosition || 'object-center'} grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700`}
+                                    />
 
-                            {/* Info Container */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>
+                                </>
+                            ) : (
+                                <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a]">
+                                    <span className="text-4xl font-display font-bold text-white/10 tracking-widest select-none">
+                                        {member.name
+                                            .split(' ')
+                                            .filter(Boolean)
+                                            .slice(0, 2)
+                                            .map((name) => name[0]?.toUpperCase() || '')
+                                            .join('')}
+                                    </span>
+                                </div>
+                            )}
+
                             <div className="absolute bottom-0 left-0 w-full p-6 flex flex-col justify-end pointer-events-none z-10">
                                 <div className="flex justify-between items-end">
                                     <div>
@@ -123,7 +208,7 @@ export const Faculty = () => {
                                     </div>
                                     
                                     {/* LinkedIn Icon Button */}
-                                    <a 
+                                    <a
                                         href={member.linkedin}
                                         target="_blank"
                                         rel="noopener noreferrer"
