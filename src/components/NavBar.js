@@ -21,6 +21,7 @@ export const NavBar = () => {
     else if (location.pathname === '/events') setActiveLink('events');
     else if (location.hash === '#skills') setActiveLink('skills');
     else if (location.hash === '#connect') setActiveLink('connect');
+    else if (location.pathname === '/research') setActiveLink('research');
     else setActiveLink('home');
   }, [location]);
 
@@ -63,6 +64,7 @@ export const NavBar = () => {
           <NavLink to="/#home" active={activeLink === 'home'} onClick={() => onUpdateActiveLink('home')}>Home</NavLink>
           <NavLink to="/events" active={activeLink === 'events'} onClick={() => onUpdateActiveLink('events')}>Events</NavLink>
           <NavLink to="/team" active={activeLink === 'team'} onClick={() => onUpdateActiveLink('team')}>Team</NavLink>
+          <NavLink to="/research" active={activeLink === 'research'} onClick={() => onUpdateActiveLink('research')}>Research</NavLink>
         </div>
 
         {/* Desktop Menu - Right Actions */}
@@ -98,6 +100,7 @@ export const NavBar = () => {
             <NavLink to="/#home" active={activeLink === 'home'} onClick={() => onUpdateActiveLink('home')}>Home</NavLink>
             <NavLink to="/events" active={activeLink === 'events'} onClick={() => onUpdateActiveLink('events')}>Events</NavLink>
             <NavLink to="/team" active={activeLink === 'team'} onClick={() => onUpdateActiveLink('team')}>Team</NavLink>
+            <NavLink to="/research" active={activeLink === 'research'} onClick={() => onUpdateActiveLink('research')}>Research</NavLink>
             
             <div className="w-12 h-px bg-white/20 my-4"></div>
             

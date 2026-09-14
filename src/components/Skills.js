@@ -20,6 +20,9 @@ export const Skills = () => {
   const pathRef = useRef(null);
 
   useGSAP(() => {
+    // Prime the track for GPU compositing before any animation
+    gsap.set(trackRef.current, { willChange: "transform", force3D: true });
+
     // Horizontal scrolling for the track
     gsap.to(trackRef.current, {
       x: `-${100 * (departments.length - 1)}vw`,
@@ -27,18 +30,18 @@ export const Skills = () => {
       scrollTrigger: {
         trigger: containerRef.current,
         pin: true,
-        scrub: 1,
+        scrub: 0.4,          // was 1 — much snappier catch-up
         start: "top top",
         end: () => `+=${window.innerWidth * departments.length}`,
-        anticipatePin: 1,
         refreshPriority: 1
+        // anticipatePin removed — it caused a micro-jump on entry
       }
     });
 
     // Morphing Bezier Curve for the glowing beam
-    const curve = { 
-        startX: 900, 
-        cx: 500, 
+    const curve = {
+        startX: 900,
+        cx: 500,
         endX: 100,
         colorR: 6, colorG: 182, colorB: 212 // Start with Cyan (#06b6d4)
     };
@@ -53,18 +56,18 @@ export const Skills = () => {
     const bgTl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
-        scrub: 1,
+        scrub: 0.4,           // was 1 — matches track scrub
         start: "top top",
         end: () => `+=${window.innerWidth * departments.length}`,
       }
     });
 
     // Animate the control points to bend and sweep the beam across the screen
-    bgTl.to(curve, { startX: 700, cx: 900, endX: 300, colorR: 139, colorG: 92, colorB: 246, ease: "power1.inOut", duration: 1, onUpdate: updatePath }) // Purple curve right
-        .to(curve, { startX: 300, cx: 100, endX: 600, colorR: 236, colorG: 72, colorB: 153, ease: "power1.inOut", duration: 1, onUpdate: updatePath }) // Pink curve left
-        .to(curve, { startX: 800, cx: 500, endX: 200, colorR: 16, colorG: 185, colorB: 129, ease: "power1.inOut", duration: 1, onUpdate: updatePath }) // Green straight
-        .to(curve, { startX: 400, cx: 800, endX: 100, colorR: 59, colorG: 130, colorB: 246, ease: "power1.inOut", duration: 1, onUpdate: updatePath }) // Blue curve right
-        .to(curve, { startX: 900, cx: 500, endX: 100, colorR: 249, colorG: 115, colorB: 22, ease: "power1.inOut", duration: 1, onUpdate: updatePath }); // Orange straight
+    bgTl.to(curve, { startX: 700, cx: 900, endX: 300, colorR: 139, colorG: 92, colorB: 246, ease: "none", duration: 1, onUpdate: updatePath }) // Purple curve right
+        .to(curve, { startX: 300, cx: 100, endX: 600, colorR: 236, colorG: 72, colorB: 153, ease: "none", duration: 1, onUpdate: updatePath }) // Pink curve left
+        .to(curve, { startX: 800, cx: 500, endX: 200, colorR: 16, colorG: 185, colorB: 129, ease: "none", duration: 1, onUpdate: updatePath }) // Green straight
+        .to(curve, { startX: 400, cx: 800, endX: 100, colorR: 59, colorG: 130, colorB: 246, ease: "none", duration: 1, onUpdate: updatePath }) // Blue curve right
+        .to(curve, { startX: 900, cx: 500, endX: 100, colorR: 249, colorG: 115, colorB: 22, ease: "none", duration: 1, onUpdate: updatePath }); // Orange straight
 
   }, { scope: containerRef });
 
@@ -106,7 +109,7 @@ export const Skills = () => {
       </div>
 
       {/* Horizontal Track */}
-      <div ref={trackRef} className="relative flex h-screen w-[400vw] z-10">
+      <div ref={trackRef} className="relative flex h-screen w-[400vw] z-10" style={{ willChange: 'transform' }}>
         {departments.map((dept, index) => (
             <div 
                 key={dept.id} 
