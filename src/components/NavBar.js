@@ -30,9 +30,25 @@ export const NavBar = () => {
     setIsOpen(false);
   };
 
+  // While the mobile menu is open: keep the navbar visible (don't auto-hide
+  // on scroll), lock background scroll, and allow Escape to close.
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isOpen]);
+
   return (
-    <div className={`fixed top-0 left-0 w-full z-50 flex justify-center px-4 md:px-8 pt-6 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] mix-blend-difference ${scrolled ? "opacity-0 -translate-y-10 pointer-events-none" : "opacity-100 translate-y-0 pointer-events-auto"}`}>
-      <nav className="w-full max-w-7xl flex items-center justify-between">
+    <div className={`fixed top-0 left-0 w-full z-50 flex justify-center px-4 md:px-8 pt-6 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] md:mix-blend-difference ${scrolled && !isOpen ? "opacity-0 -translate-y-10 pointer-events-none" : "opacity-100 translate-y-0 pointer-events-auto"}`}>
+      <nav className="w-full max-w-7xl flex items-center justify-between max-md:relative">
         
         {/* Logo Area */}
         <HashLink to="/#home" className="flex items-center group">
@@ -92,40 +108,49 @@ export const NavBar = () => {
           </a>
         </div>
 
-      </nav>
+      {/* Mobile Menu Dropdown — self-contained solid panel anchored
+          directly below the bar (top-full), stacked above page content,
+          scrollable when taller than the viewport. Desktop unaffected. */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site menu"
+        className={`md:hidden absolute top-full left-0 right-0 mt-3 z-50 max-h-[calc(100svh-7rem)] overflow-y-auto overscroll-contain overflow-x-hidden bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/60 transition-all duration-300 origin-top ${isOpen ? "opacity-100 scale-y-100 pointer-events-auto" : "opacity-0 scale-y-0 pointer-events-none"}`}
+      >
+        <div className="flex flex-col items-stretch gap-1 px-3 py-4">
+            <NavLink mobile to="/#home" active={activeLink === 'home'} onClick={() => onUpdateActiveLink('home')}>Home</NavLink>
+            <NavLink mobile to="/events" active={activeLink === 'events'} onClick={() => onUpdateActiveLink('events')}>Events</NavLink>
+            <NavLink mobile to="/team" active={activeLink === 'team'} onClick={() => onUpdateActiveLink('team')}>Team</NavLink>
+            <NavLink mobile to="/research" active={activeLink === 'research'} onClick={() => onUpdateActiveLink('research')}>Research</NavLink>
 
-      {/* Mobile Menu Dropdown */}
-      <div className={`md:hidden absolute top-20 sm:top-24 left-4 right-4 max-h-[70vh] overflow-y-auto bg-black/80 backdrop-blur-3xl border border-white/10 rounded-3xl overflow-hidden transition-all duration-500 origin-top ${isOpen ? "opacity-100 scale-y-100 pointer-events-auto" : "opacity-0 scale-y-0 pointer-events-none"}`}>
-        <div className="flex flex-col items-center py-6 sm:py-8 space-y-5 sm:space-y-6">
-            <NavLink to="/#home" active={activeLink === 'home'} onClick={() => onUpdateActiveLink('home')}>Home</NavLink>
-            <NavLink to="/events" active={activeLink === 'events'} onClick={() => onUpdateActiveLink('events')}>Events</NavLink>
-            <NavLink to="/team" active={activeLink === 'team'} onClick={() => onUpdateActiveLink('team')}>Team</NavLink>
-            <NavLink to="/research" active={activeLink === 'research'} onClick={() => onUpdateActiveLink('research')}>Research</NavLink>
-            
-            <div className="w-12 h-px bg-white/20 my-4"></div>
-            
-            <div className="flex space-x-8">
-               <a href="https://www.instagram.com/aivolutions.mait?stkn=MTAwbGdpdHI0enA0bQ%3D%3D" target="_blank" rel="noreferrer" className="text-white/50 hover:text-white text-sm font-medium tracking-wide uppercase transition-colors">Instagram</a>
-               <a href="https://www.linkedin.com/company/aivolutionaries/" target="_blank" rel="noreferrer" className="text-white/50 hover:text-white text-sm font-medium tracking-wide uppercase transition-colors">LinkedIn</a>
+            <div className="w-12 h-px bg-white/20 my-3 mx-auto"></div>
+
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 px-2">
+               <a href="https://www.instagram.com/aivolutions.mait?stkn=MTAwbGdpdHI0enA0bQ%3D%3D" target="_blank" rel="noreferrer" className="min-h-[44px] inline-flex items-center px-3 text-white/50 hover:text-white text-sm font-medium tracking-wide uppercase transition-colors">Instagram</a>
+               <a href="https://www.linkedin.com/company/aivolutionaries/" target="_blank" rel="noreferrer" className="min-h-[44px] inline-flex items-center px-3 text-white/50 hover:text-white text-sm font-medium tracking-wide uppercase transition-colors">LinkedIn</a>
             </div>
 
-            <a href="https://whatsapp.com/channel/0029Vb9S7lj8F2pN7ghfV00Q" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)}>
-              <button className="mt-4 px-10 py-3 rounded-full bg-white text-black font-semibold text-xs tracking-wide uppercase">
+            <a href="https://whatsapp.com/channel/0029Vb9S7lj8F2pN7ghfV00Q" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)} className="mt-3">
+              <button className="w-full min-h-[48px] px-10 py-3 rounded-full bg-white text-black font-semibold text-xs tracking-wide uppercase flex items-center justify-center">
                 Connect
               </button>
             </a>
         </div>
       </div>
+
+      </nav>
     </div>
   );
 };
 
 // Helper Components
-const NavLink = ({ to, active, onClick, children }) => (
-  <HashLink 
-    smooth 
-    to={to} 
-    className={`relative text-sm font-medium tracking-wide transition-colors duration-300 group ${active ? "text-white" : "text-white/60 hover:text-white"}`}
+const NavLink = ({ to, active, onClick, children, mobile = false }) => (
+  <HashLink
+    smooth
+    to={to}
+    className={mobile
+      ? `relative w-full flex items-center justify-center min-h-[48px] px-4 py-3 rounded-xl text-base font-medium tracking-wide transition-colors duration-300 ${active ? "text-white bg-white/10" : "text-white/70 hover:text-white hover:bg-white/5"}`
+      : `relative text-sm font-medium tracking-wide transition-colors duration-300 group ${active ? "text-white" : "text-white/60 hover:text-white"}`}
     onClick={onClick}
   >
     {children}
