@@ -24,11 +24,11 @@ export const Newsletter = ({ status, message, onValidated }) => {
   return (
     <div className="w-full">
   
-      <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-[40px] md:rounded-[60px] p-8 md:p-16 shadow-2xl relative z-10 -mt-20">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+      <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-[24px] sm:rounded-[40px] md:rounded-[60px] p-5 sm:p-8 md:p-16 shadow-2xl relative z-10 -mt-20">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8">
     
           <div className="w-full lg:w-1/2 text-center lg:text-left">
-            <h3 className="text-2xl md:text-3xl font-bold font-mono leading-tight">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold font-mono leading-tight">
               Join Our WhatsApp Group & Access All Our Resources
             </h3>
             

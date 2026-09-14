@@ -8,15 +8,15 @@ export const Footer = () => {
       <div className="w-full h-px bg-gradient-to-r from-transparent via-[#f97316]/40 to-transparent"></div>
 
       {/* Main footer content */}
-      <div className="container mx-auto px-6 md:px-16 lg:px-32 pt-8 pb-12">
+      <div className="container mx-auto px-5 sm:px-6 md:px-16 lg:px-32 pt-8 pb-10 sm:pb-12">
         
         {/* Top row: Logo + Tagline */}
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 mb-20">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 sm:gap-8 mb-12 sm:mb-16 md:mb-20">
           <div>
             <img 
               src="/main-logo-no-bg.png" 
               alt="AIvolution Logo" 
-              className="h-14 w-auto object-contain mb-5 opacity-90" 
+              className="h-12 sm:h-14 w-auto object-contain mb-4 sm:mb-5 opacity-90" 
             />
             <p className="text-gray-500 font-sans text-sm leading-relaxed max-w-md">
               The official AI Society of Maharaja Agrasen Institute of Technology.
@@ -52,7 +52,7 @@ export const Footer = () => {
         </div>
 
         {/* Navigation grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-16 md:mb-20">
           {/* Quick Links */}
           <div>
             <h4 className="font-mono text-[#f97316] text-[10px] tracking-[0.3em] uppercase mb-6">Navigate</h4>
@@ -84,7 +84,7 @@ export const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 z-10 relative">
+        <div className="border-t border-white/5 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4 z-10 relative text-center md:text-left">
           <p className="text-gray-600 font-sans text-xs">
             © {new Date().getFullYear()} AIvolution. All rights reserved.
           </p>

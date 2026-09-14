@@ -149,9 +149,9 @@ export const Preloader = () => {
       ref={containerRef}
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black"
     >
-      <div className="w-full max-w-2xl px-6 flex flex-col items-center">
-        <div className="h-8 md:h-10 mb-6 overflow-hidden whitespace-nowrap inline-block w-max text-center" ref={textRef}>
-          <h1 className="text-xl md:text-3xl font-mono text-white tracking-widest uppercase">
+      <div className="w-full max-w-2xl px-5 sm:px-6 flex flex-col items-center">
+        <div className="min-h-8 md:h-10 mb-6 overflow-hidden text-center w-full" ref={textRef}>
+          <h1 className="text-base sm:text-xl md:text-3xl font-mono text-white tracking-widest uppercase break-words leading-snug">
             {displayedText}
             <span ref={cursorRef} className="inline-block w-[3px] h-[1em] bg-[#f97316] ml-1 animate-pulse align-middle"></span>
           </h1>

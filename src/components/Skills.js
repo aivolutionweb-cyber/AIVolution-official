@@ -98,9 +98,9 @@ export const Skills = () => {
       </div>
 
       {/* Global Section Label */}
-      <div className="absolute top-12 left-6 md:left-16 lg:left-32 z-20 flex items-center gap-4">
-          <div className="w-3 h-3 rounded-full bg-[#f97316]"></div>
-          <span className="font-mono text-gray-400 text-xs md:text-sm tracking-[0.3em] uppercase">
+      <div className="absolute top-20 sm:top-12 left-5 sm:left-6 md:left-16 lg:left-32 z-20 flex items-center gap-3 sm:gap-4">
+          <div className="w-3 h-3 rounded-full bg-[#f97316] shrink-0"></div>
+          <span className="font-mono text-gray-400 text-[0.65rem] sm:text-xs md:text-sm tracking-[0.3em] uppercase">
               THE DEPARTMENTS
           </span>
       </div>
@@ -110,17 +110,17 @@ export const Skills = () => {
         {departments.map((dept, index) => (
             <div 
                 key={dept.id} 
-                className="w-screen h-full flex-shrink-0 px-6 md:px-16 lg:px-32 flex items-center justify-center relative pt-[15vh]"
+                className="w-screen h-full flex-shrink-0 px-5 sm:px-6 md:px-16 lg:px-32 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-0 relative pt-[12vh] md:pt-[15vh] pb-10 md:pb-0"
             >
                 {/* Giant background number positioned behind the title */}
-                <span className="absolute left-6 md:left-16 lg:left-32 font-display font-extrabold text-[20rem] md:text-[28rem] lg:text-[34rem] leading-none text-white/[0.03] select-none pointer-events-none z-0 top-10 md:top-20">
+                <span className="absolute left-4 sm:left-6 md:left-16 lg:left-32 font-display font-extrabold text-[7rem] sm:text-[10rem] md:text-[28rem] lg:text-[34rem] leading-none text-white/[0.03] select-none pointer-events-none z-0 top-16 md:top-20">
                     {`0${index + 1}`}
                 </span>
 
                 {/* Left: Title Block */}
-                <div className="left-title-block w-full md:w-[50%] flex flex-col items-start z-10 mt-[15vh]">
+                <div className="left-title-block w-full md:w-[50%] flex flex-col items-start z-10 md:mt-[15vh]">
                     
-                    <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold text-white tracking-tight leading-[1.1] mb-8">
+                    <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold text-white tracking-tight leading-[1.05] mb-5 sm:mb-8">
                         {dept.title}
                     </h2>
                     
@@ -128,9 +128,9 @@ export const Skills = () => {
                 </div>
 
                 {/* Right: Glass Description Box */}
-                <Link to={`/team?dept=${dept.id.replace('MOD_', '').toLowerCase().replace('&', '').replace(/\s+/g, '-')}`} className="w-full md:w-[40%] z-10 pb-20 md:pb-0 flex items-center justify-center md:justify-start md:-ml-16 md:-mt-[15vh]">
-                    <div className="bg-white/[0.04] backdrop-blur-md rounded-2xl px-8 py-6 max-w-md">
-                        <p className="text-gray-400 font-sans text-base md:text-lg leading-relaxed">
+                <Link to={`/team?dept=${dept.id.replace('MOD_', '').toLowerCase().replace('&', '').replace(/\s+/g, '-')}`} className="w-full md:w-[40%] z-10 md:pb-0 flex items-center justify-center md:justify-start md:-ml-16 md:-mt-[15vh]">
+                    <div className="bg-white/[0.04] backdrop-blur-md rounded-2xl px-5 py-5 sm:px-8 sm:py-6 w-full max-w-md">
+                        <p className="text-gray-400 font-sans text-sm sm:text-base md:text-lg leading-relaxed">
                             {dept.desc}
                         </p>
                     </div>

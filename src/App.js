@@ -38,8 +38,8 @@ function App() {
               <Sponsors />
               <Faculty />
               <Team />
-              <div className="w-full flex justify-center items-center overflow-hidden select-none pointer-events-none bg-black">
-                <h1 className="font-display font-extrabold text-[9vw] leading-[0.75] text-white tracking-tighter whitespace-nowrap">
+              <div className="w-full flex justify-center items-center overflow-hidden select-none pointer-events-none bg-black px-2">
+                <h1 className="font-display font-extrabold text-[12vw] sm:text-[9vw] leading-[0.85] text-white tracking-tighter whitespace-nowrap">
                   AIVOLUTIONS
                 </h1>
               </div>
@@ -91,7 +91,7 @@ const ScrollToTopButton = () => {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-8 right-8 z-50 p-3 rounded-full bg-white text-black shadow-lg shadow-white/20 transition-all duration-300 hover:scale-110 hover:shadow-white/40 active:scale-95 ${
+      className={`fixed bottom-5 right-5 sm:bottom-8 sm:right-8 z-50 p-3 rounded-full bg-white text-black shadow-lg shadow-white/20 transition-all duration-300 hover:scale-110 hover:shadow-white/40 active:scale-95 min-h-[48px] min-w-[48px] flex items-center justify-center ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
       }`}
       aria-label="Scroll to top"
