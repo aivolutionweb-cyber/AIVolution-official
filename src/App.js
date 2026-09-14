@@ -12,7 +12,45 @@ import { Sponsors } from "./components/Sponsors";
 import { Faculty } from "./components/Faculty";
 import { Team } from "./components/Team";
 import { TeamPage } from "./pages/TeamPage";
+import { ResearchPage } from "./pages/ResearchPage";
 import { Preloader } from "./components/Preloader";
+
+const InteractiveHoverText = () => {
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty("--x", `${x}px`);
+    e.currentTarget.style.setProperty("--y", `${y}px`);
+  };
+
+  return (
+    <div 
+      className="w-full flex justify-center items-center overflow-hidden select-none bg-black py-10 cursor-default relative group"
+      onMouseMove={handleMouseMove}
+    >
+      <h1 
+        className="font-display font-extrabold text-[9vw] leading-[0.75] tracking-tighter whitespace-nowrap"
+        style={{
+          background: "radial-gradient(circle 250px at var(--x, 50%) var(--y, 50%), #f97316 0%, white 100%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+          color: "transparent",
+          transition: "transform 0.5s ease-out",
+        }}
+      >
+        AIVOLUTIONS
+      </h1>
+      {/* Absolute overlay that fades to white when not hovering to hide the effect when mouse leaves */}
+      <h1 
+        className="font-display font-extrabold text-[9vw] leading-[0.75] tracking-tighter whitespace-nowrap absolute text-white opacity-100 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none"
+      >
+        AIVOLUTIONS
+      </h1>
+    </div>
+  );
+};
 
 function App() {
   return (
@@ -38,15 +76,12 @@ function App() {
               <Sponsors />
               <Faculty />
               <Team />
-              <div className="w-full flex justify-center items-center overflow-hidden select-none pointer-events-none bg-black">
-                <h1 className="font-display font-extrabold text-[9vw] leading-[0.75] text-white tracking-tighter whitespace-nowrap">
-                  AIVOLUTIONS
-                </h1>
-              </div>
+              <InteractiveHoverText />
             </>
           } />
           <Route path="/team" element={<TeamPage />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/research" element={<ResearchPage />} />
         </Routes>
         
         <Footer />

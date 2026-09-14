@@ -29,6 +29,9 @@ const teamMembers = {
   ],
   'public-relations': [
     { name: 'Sharad', role: 'PR Lead', img: 'https://i.postimg.cc/tgbZcZW2/sharad.jpg' },
+    { name: 'Bharti', role: 'PR Member', img: 'https://i.postimg.cc/gkf9S5Jw/bharti.jpg' },
+    { name: 'Sumit', role: 'PR Member', img: 'https://i.postimg.cc/9XLCpJZ5/sumit.jpg' },
+    { name: 'Vansh', role: 'PR Member', img: 'https://i.postimg.cc/WpYcrtc2/vansh.jpg' },
   ],
 };
 

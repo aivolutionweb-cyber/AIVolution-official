@@ -7,32 +7,6 @@ import { EventRegistrationModal } from "./EventRegistrationModal";
 
 export const EVENTS = [
   {
-    type: "workshop",
-    title: "AI/ML, RAG & LLMs Workshop",
-    date: "27 Sep 2026",
-    registrationOpen: true,
-    registrationKind: "solo",
-    summary:
-      "A hands-on dive into ML foundations, Retrieval-Augmented Generation, and building with LLMs.",
-    facts: ["Hands-On Workshop", "RAG · LLMs · ML", "Open to All Branches"],
-    sections: [
-      {
-        heading: "Overview",
-        body: "AIvolutions is hosting a hands-on workshop this September diving into the technologies powering today's AI systems — core Machine Learning foundations, Retrieval-Augmented Generation (RAG) pipelines, and building real applications with Large Language Models (LLMs).",
-      },
-      {
-        heading: "What You'll Learn",
-        body: "Participants will get a practical walkthrough of ML fundamentals, how RAG grounds LLM outputs in real data, and hands-on exercises building a mini LLM-powered application — no prior AI experience required, just curiosity and a laptop.",
-      },
-      {
-        heading: "Who Should Attend",
-        body: "Open to students across CSE-AI, CSE-DS, CSE-AIML, and any branch curious about applied AI. Seats are limited, so register early to secure a spot.",
-      },
-    ],
-    imgUrl: "/assets/events/upcoming-ai-workshop.svg",
-    id: "WRK_AIML_2026",
-  },
-  {
     type: "competition",
     featured: true,
     registrationOpen: false,
