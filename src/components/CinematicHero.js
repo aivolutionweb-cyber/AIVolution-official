@@ -23,7 +23,7 @@ export const CinematicHero = () => {
   const visionCardsRef = useRef([]);
 
   useGSAP(() => {
-    // Continuous idle animation for the core rings
+    // Continuous idle animation for the core rings (runs on all screen sizes)
     gsap.to(ring1Ref.current, {
         rotate: 360,
         duration: 20,
@@ -37,13 +37,11 @@ export const CinematicHero = () => {
         ease: "none"
     });
 
-    // Initial state of the core is hidden and small
-    gsap.set(coreRef.current, { scale: 0, opacity: 0 });
+    // Skip pinned scroll animation on small screens — show hero content statically
+    const isMobile = window.innerWidth < 640;
 
-    // MAIN SCROLL TIMELINE
-    // Shorter pin distance on small screens so mobile users don't have to
-    // scroll through 6000px of pinned content to reach the rest of the page.
-    const getPinDistance = () => (window.innerWidth < 640 ? 3500 : window.innerWidth < 1024 ? 4500 : 6000);
+    if (!isMobile) {
+    const getPinDistance = () => (window.innerWidth < 1024 ? 4500 : 6000);
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
@@ -55,6 +53,9 @@ export const CinematicHero = () => {
         refreshPriority: 2,
       }
     });
+
+    // Initial state of the core is hidden and small
+    gsap.set(coreRef.current, { scale: 0, opacity: 0 });
 
     // SCENE 1: Typography fades out, Orb appears and scales up to normal size (0 to 1 seconds)
     tl.to(titleRef.current, { y: -100, opacity: 0, duration: 1 }, 0)
@@ -80,7 +81,7 @@ export const CinematicHero = () => {
         3.0
     ).to(whoAreWeRef.current,
         { opacity: 0, scale: 1.05, duration: 1 },
-        6.5 // Wait longer so text is fully readable
+        6.5
     );
 
     // SCENE 4: Directives Slide Up
@@ -96,6 +97,16 @@ export const CinematicHero = () => {
 
     // Hold the final state
     tl.to({}, { duration: 1 });
+    } else {
+      // Mobile: show all hero content statically, no scroll animation
+      gsap.set(coreRef.current, { scale: 1, opacity: 1 });
+      gsap.set(titleRef.current, { y: 0, opacity: 1 });
+      gsap.set(subtitleRef.current, { y: 0, opacity: 1 });
+      gsap.set(whoAreWeRef.current, { opacity: 1, scale: 1 });
+      gsap.set(whoAreWeWordsRef.current, { opacity: 1, y: 0, filter: "blur(0px)" });
+      gsap.set(visionContainerRef.current, { opacity: 1, y: 0 });
+      gsap.set(visionCardsRef.current, { opacity: 1, y: 0 });
+    }
 
   }, { scope: wrapperRef }); // Scope to outer wrapper
 
@@ -230,7 +241,7 @@ export const CinematicHero = () => {
                 </span>
             </div>
 
-            <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-px bg-black border border-[#f97316]/20 pointer-events-auto shadow-[0_0_50px_rgba(249,115,22,0.1)] w-full max-w-5xl max-h-[62vh] md:max-h-none overflow-y-auto md:overflow-visible">
+            <div className="container mx-auto grid grid-cols-3 gap-px bg-black border border-[#f97316]/20 pointer-events-auto shadow-[0_0_50px_rgba(249,115,22,0.1)] w-full max-w-5xl max-h-[45vh] overflow-x-auto overflow-y-hidden md:max-h-none md:overflow-visible">
                 <div ref={el => visionCardsRef.current[0] = el} className="p-5 sm:p-8 bg-[#0a0a0a]/90 backdrop-blur-sm hover:bg-[#111] border border-transparent hover:border-[#f97316]/30 transition-colors duration-300">
                     <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-5 sm:mb-8 inline-block">M_01</span>
                     <h3 className="text-xl sm:text-2xl font-display font-bold mb-3 sm:mb-4 uppercase text-white">MISSION</h3>
