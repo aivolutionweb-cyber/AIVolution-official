@@ -13,7 +13,7 @@ export const Skills = () => {
   const departments = [
     { title: "Tech & Dev", id: "MOD_01", desc: "Engineering the future through modern web, mobile, and AI solutions. The core backbone of AIVolution's technical infrastructure." },
     { title: "Event Management", id: "MOD_02", desc: "Architecting seamless and immersive technical and cultural experiences. From hackathons to global summits." },
-    { title: "Social Media & Content Creation", id: "MOD_03", desc: "Forging the premium visual identity and aesthetic of our brand. Creating the award-winning graphics that represent us." },
+    { title: "Social Media", id: "MOD_03", desc: "Building and growing AIVolution's online presence, crafting engaging visual content, and connecting with audiences across platforms." },
     { title: "Public Relations", id: "MOD_04", desc: "Establishing strategic partnerships, driving external communications, and bridging the gap between industry and academia." },
   ];
 
@@ -131,7 +131,7 @@ export const Skills = () => {
                 </div>
 
                 {/* Right: Glass Description Box */}
-                <Link to={`/team?dept=${dept.id.replace('MOD_', '').toLowerCase().replace('&', '').replace(/\s+/g, '-')}`} className="w-full md:w-[40%] z-10 md:pb-0 flex items-center justify-center md:justify-start md:-ml-16 md:-mt-[15vh]">
+                <Link to={`/team?dept=${dept.key}`} className="w-full md:w-[40%] z-10 md:pb-0 flex items-center justify-center md:justify-start md:-ml-16 md:-mt-[15vh]">
                     <div className="bg-white/[0.04] backdrop-blur-md rounded-2xl px-5 py-5 sm:px-8 sm:py-6 w-full max-w-md">
                         <p className="text-gray-400 font-sans text-sm sm:text-base md:text-lg leading-relaxed">
                             {dept.desc}

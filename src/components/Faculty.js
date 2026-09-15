@@ -48,18 +48,6 @@ const facultyMembers = [
         linkedin: "https://www.linkedin.com/school/7942020/",
         imgUrl: "https://i.postimg.cc/MG41nrVF/1712746260400.jpg",
         imgPosition: "object-top"
-    },
-    {
-        name: "Dr. Tripti Lamba",
-        role: "Assistant Professor",
-        linkedin: "https://www.linkedin.com/school/7942020/",
-        imgUrl: null
-    },
-    {
-        name: "Dr. Mohit",
-        role: "Assistant Professor",
-        linkedin: "https://www.linkedin.com/school/7942020/",
-        imgUrl: null
     }
 ];
 

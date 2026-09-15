@@ -19,7 +19,7 @@ const sampleMembers = [
   { name: 'Kshitij', img: 'https://i.postimg.cc/BQy2mnhG/kshtiij.jpg' },
   { name: 'Naman', img: 'https://i.postimg.cc/ryZ4ppXB/naman.jpg' },
   { name: 'Pranjal', img: 'https://i.postimg.cc/nzyCvXFY/pranjal.jpg' },
-  { name: 'Sharad', img: 'https://i.postimg.cc/tgbZcZW2/sharad.jpg' },
+  { name: 'Sharad', img: 'https://i.postimg.cc/pXJ1SBBd/Whats-App-Image-2026-09-15-at-12-49-31.jpg' },
 ];
 
 const responsive = {

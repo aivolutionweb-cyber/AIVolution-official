@@ -4,7 +4,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 const departments = [
   { key: 'tech-dev', label: 'Tech & Dev', id: 'MOD_01' },
   { key: 'event-mgmt', label: 'Event Management', id: 'MOD_02' },
-  { key: 'design-creative', label: 'Social Media & Content Creation', id: 'MOD_03' },
+  { key: 'social-media', label: 'Social Media', id: 'MOD_03' },
   { key: 'public-relations', label: 'Public Relations', id: 'MOD_04' },
 ];
 
@@ -21,14 +21,14 @@ const teamMembers = {
     { name: 'Madhur', role: 'Event Manager', img: 'https://i.postimg.cc/hGRTq3W3/madhur.jpg' },
     { name: 'Parth', role: 'Event Manager', img: 'https://i.postimg.cc/dt7yZKJC/parth.jpg' },
   ],
-  'design-creative': [
+  'social-media': [
     { name: 'Apoorva', role: 'Content Creator', img: 'https://i.postimg.cc/PxzBMchy/apoorva.jpg' },
     { name: 'Kshitij', role: 'Content Creator', img: 'https://i.postimg.cc/BQy2mnhG/kshtiij.jpg' },
     { name: 'Naman', role: 'Content Creator', img: 'https://i.postimg.cc/ryZ4ppXB/naman.jpg' },
     { name: 'Pranjal', role: 'Content Creator', img: 'https://i.postimg.cc/nzyCvXFY/pranjal.jpg' },
   ],
   'public-relations': [
-    { name: 'Sharad', role: 'PR Lead', img: 'https://i.postimg.cc/tgbZcZW2/sharad.jpg' },
+    { name: 'Sharad', role: 'PR Lead', img: 'https://i.postimg.cc/pXJ1SBBd/Whats-App-Image-2026-09-15-at-12-49-31.jpg' },
     { name: 'Bharti', role: 'PR Member', img: 'https://i.postimg.cc/gkf9S5Jw/bharti.jpg' },
     { name: 'Sumit', role: 'PR Member', img: 'https://i.postimg.cc/9XLCpJZ5/sumit.jpg' },
     { name: 'Vansh', role: 'PR Member', img: 'https://i.postimg.cc/WpYcrtc2/vansh.jpg' },
