@@ -20,6 +20,9 @@ const teamMembers = {
   'event-mgmt': [
     { name: 'Madhur', role: 'Event Manager', img: 'https://i.postimg.cc/hGRTq3W3/madhur.jpg' },
     { name: 'Parth', role: 'Event Manager', img: 'https://i.postimg.cc/dt7yZKJC/parth.jpg' },
+    { name: 'Sumit Kumar', role: 'Event Member', img: 'https://i.postimg.cc/6pTWjhXQ/sumit-kumar.png' },
+    { name: 'Kanishka Bharwaj', role: 'Event Member', img: 'https://i.postimg.cc/1XyzYbGq/kanishka.jpg' },
+    { name: 'Ashwini Jha', role: 'Event Member', img: 'https://i.postimg.cc/NFb0hbDJ/ashwini.jpg' },
   ],
   'social-media': [
     { name: 'Apoorva', role: 'Content Creator', img: 'https://i.postimg.cc/PxzBMchy/apoorva.jpg' },

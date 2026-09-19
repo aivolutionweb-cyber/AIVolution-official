@@ -39,7 +39,21 @@ const facultyMembers = [
         name: "Ms. Aneesha Shokeen",
         role: "Assistant Professor",
         linkedin: "https://www.linkedin.com/in/aneesha-shokeen-39a7921aa/",
-        imgUrl: "https://i.postimg.cc/RV4RK6Kd/1687721540968.jpg",
+        imgUrl: "https://i.postimg.cc/t7Qc3ppb/annesha.jpg",
+        imgPosition: "object-top"
+    },
+    {
+        name: "Dr. Sandeep Kumar",
+        role: "Professor",
+        linkedin: "https://www.linkedin.com/school/7942020/",
+        imgUrl: "https://i.postimg.cc/Bvqd7SD9/sandeep.jpg",
+        imgPosition: "object-top"
+    },
+    {
+        name: "Dr. Mohit Mittal",
+        role: "Assistant Professor",
+        linkedin: "https://www.linkedin.com/school/7942020/",
+        imgUrl: "https://i.postimg.cc/j52BKMZ3/mohit.jpg",
         imgPosition: "object-top"
     },
     {
