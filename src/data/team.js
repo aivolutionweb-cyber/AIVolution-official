@@ -14,4 +14,5 @@ export const TEAM_HIGHLIGHTS = [
   { name: 'Naman', img: 'https://i.postimg.cc/ryZ4ppXB/naman.jpg' },
   { name: 'Pranjal', img: 'https://i.postimg.cc/nzyCvXFY/pranjal.jpg' },
   { name: 'Sharad', img: 'https://i.postimg.cc/pXJ1SBBd/Whats-App-Image-2026-09-15-at-12-49-31.jpg' },
+  { name: 'Vansh', img: 'https://i.postimg.cc/WpYcrtc2/vansh.jpg' },
 ];

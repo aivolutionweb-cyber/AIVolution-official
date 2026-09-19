@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TEAM_HIGHLIGHTS } from '../../data/team';
-import { SectionHeading, SnapRow, pillPrimary, ArrowIcon } from './primitives';
+import { SectionHeading, SnapRow, pillPrimary, ArrowIcon, pressable } from './primitives';
 
 // Mobile counterpart of Team. Two-up snap row instead of the 1.2s autoplay
 // carousel (whose 13 pagination dots also overflowed narrow screens).
@@ -33,6 +33,23 @@ export const TeamMobile = () => (
           </div>
         </div>
       ))}
+
+      {/* Trailing card: arrow through to the full roster. */}
+      <Link
+        to="/team"
+        aria-label="See the full team"
+        className={`reveal w-[44vw] max-w-[200px] shrink-0 snap-start sm:w-[180px] ${pressable}`}
+        style={{ '--reveal-i': 4 }}
+      >
+        <div className="flex aspect-[3/4] flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-[#f97316]/40 bg-[#f97316]/5 text-center active:bg-[#f97316]/10">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-black">
+            <ArrowIcon className="h-5 w-5" />
+          </span>
+          <span className="px-3 font-mono text-[0.6rem] uppercase tracking-widest text-[#f97316]">
+            See all<br />members
+          </span>
+        </div>
+      </Link>
     </SnapRow>
 
     <div className="reveal mt-10 px-5 text-center sm:px-8">
