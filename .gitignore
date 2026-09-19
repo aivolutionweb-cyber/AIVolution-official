@@ -32,3 +32,7 @@ venv/
 .claude/
 .agents/
 agent/
+
+# Unreferenced assets, original (pre-WebP) images and scratch scripts.
+# Kept on disk for reference, not shipped or tracked.
+/unused-assets/

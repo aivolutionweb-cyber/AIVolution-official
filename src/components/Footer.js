@@ -14,7 +14,7 @@ export const Footer = () => {
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 sm:gap-8 mb-12 sm:mb-16 md:mb-20">
           <div>
             <img 
-              src="/main-logo-small.png" 
+              src="/main-logo-small.webp" 
               alt="AIvolution Logo" 
               width="240"
               height="199"

@@ -54,7 +54,7 @@ export const NavBar = () => {
         {/* Logo Area */}
         <HashLink to="/#home" className="flex items-center group">
           <img 
-            src="/main-logo-small.png" 
+            src="/main-logo-small.webp" 
             alt="AIvolution" 
             width="240"
             height="199"
