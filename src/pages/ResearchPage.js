@@ -18,7 +18,10 @@ export const ResearchPage = () => {
             { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: "power3.out", stagger: 0.2 }
         );
 
-        // Continuous subtle floating animation
+        // Continuous subtle floating animation. Skipped on phones/tablets:
+        // moving a blur(100px+) layer every frame is the single most
+        // expensive thing a mobile GPU can be asked to do for a decoration.
+        if (window.matchMedia('(max-width: 1023px)').matches) return;
         gsap.to('.floating-element', {
             y: -20,
             duration: 2,
@@ -42,11 +45,11 @@ export const ResearchPage = () => {
                     {"// Research & Development"}
                 </div>
                 
-                <h1 className="coming-soon-text text-6xl md:text-8xl lg:text-[10rem] font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-white/30 uppercase tracking-tighter leading-none mb-8">
+                <h1 className="coming-soon-text text-5xl sm:text-6xl md:text-8xl lg:text-[10rem] font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-white to-white/30 uppercase tracking-tighter leading-none mb-8">
                     COMING<br />SOON
                 </h1>
                 
-                <p className="coming-soon-text max-w-2xl text-gray-400 font-sans text-lg md:text-xl leading-relaxed">
+                <p className="coming-soon-text max-w-2xl text-gray-400 font-sans text-base sm:text-lg md:text-xl leading-relaxed">
                     We are currently building something extraordinary. Our research publications and technical whitepapers will be available here shortly.
                 </p>
                 

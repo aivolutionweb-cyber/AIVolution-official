@@ -3,18 +3,19 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/main-logo-icon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#000000" />
     <!--
       Web fonts are linked here (instead of an @import inside the CSS bundle)
       so the browser discovers them from the HTML and starts the connection
-      before the app CSS/JS has even finished downloading.
+      before the app CSS/JS has even finished downloading. Only the weights
+      the UI actually uses are requested (mono 400, display 700/800).
     -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&family=Syne:wght@700;800&display=swap"
     />
     <!-- Team/faculty photos and the sponsor logo are served from these hosts -->
     <link rel="preconnect" href="https://i.postimg.cc" />

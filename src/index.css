@@ -36,6 +36,10 @@
   img, video, svg {
     max-width: 100%;
   }
+  /* Drop the double-tap-to-zoom wait on tappable elements (iOS Safari) */
+  a, button, [role="button"] {
+    touch-action: manipulation;
+  }
   /* Pinned full-screen GSAP sections: fall back to small-viewport height
      so mobile browser chrome doesn't clip content */
   .h-screen {
@@ -64,6 +68,19 @@
   .glow-contain {
     max-width: 100vw;
     overflow: hidden;
+  }
+
+  /* Native horizontal snap scroller (mobile carousels) */
+  .snap-row {
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1.25rem;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  @media (min-width: 640px) {
+    .snap-row {
+      scroll-padding-inline: 2rem;
+    }
   }
 
   /* Hide hover-only affordances on touch devices */
@@ -144,4 +161,145 @@
   .animate-pulse, .animate-bounce, .animate-ping {
     animation: none;
   }
+}
+
+/* ── Boot preloader (CSS-driven; see components/Preloader.js) ──────────── */
+.preloader {
+  will-change: transform, opacity;
+  transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1),
+              opacity 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.preloader--leaving {
+  transform: scale(2);
+  opacity: 0;
+}
+.preloader__fade {
+  transition: opacity 0.2s linear;
+}
+.preloader--leaving .preloader__fade {
+  opacity: 0;
+}
+.preloader__bar {
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: preloader-bar 1.4s forwards;
+}
+/* 0→0.3 eased out, 0.3→0.6 in three steps, 0.6→1 eased in-out */
+@keyframes preloader-bar {
+  0%     { transform: scaleX(0);   animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); }
+  28.57% { transform: scaleX(0.3); animation-timing-function: steps(3, end); }
+  71.43% { transform: scaleX(0.6); animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1); }
+  100%   { transform: scaleX(1); }
+}
+
+/* ── Mobile homepage decorations ───────────────────────────────────────── */
+/* Hero core rings: transform-only, so they animate on the compositor. */
+.hero-ring {
+  animation: hero-spin 20s linear infinite;
+  will-change: transform;
+}
+.hero-ring--reverse {
+  animation-duration: 15s;
+  animation-direction: reverse;
+}
+@keyframes hero-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Sponsor logo marquee: the row holds two identical strips, so sliding by
+   exactly half loops seamlessly. */
+.marquee {
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+@keyframes marquee {
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ring, .marquee, .preloader__bar {
+    animation: none;
+  }
+  .preloader__bar {
+    transform: scaleX(1);
+  }
+}
+
+/* ── Mobile homepage motion ────────────────────────────────────────────── */
+/* Everything below animates opacity/transform only (compositor work), runs
+   once or on a small element, and is switched off under reduced-motion. */
+
+/* Scroll reveal (hooks/useReveal.js adds .is-visible on first intersection) */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--reveal-i, 0) * 80ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero entrance: staggered fade-up. Paused while the boot preloader is on
+   screen (html.is-booting) so it plays the moment the page is revealed. */
+.hero-in {
+  animation: hero-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(0.15s + var(--i, 0) * 0.11s);
+}
+.hero-core-in {
+  animation: hero-core-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+html.is-booting .hero-in,
+html.is-booting .hero-core-in {
+  animation-play-state: paused;
+}
+@keyframes hero-in {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes hero-core-in {
+  from { opacity: 0; transform: scale(0.55); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Breathing inner core */
+.hero-pulse {
+  animation: hero-pulse 3.2s ease-in-out infinite;
+}
+@keyframes hero-pulse {
+  0%, 100% { transform: scale(1);    opacity: 0.85; }
+  50%      { transform: scale(1.14); opacity: 1; }
+}
+
+/* Dot travelling down the "scroll to explore" line */
+.scroll-dot {
+  animation: scroll-dot 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@keyframes scroll-dot {
+  0%   { transform: translateY(-4px); opacity: 0; }
+  25%  { opacity: 1; }
+  100% { transform: translateY(30px); opacity: 0; }
+}
+
+/* Wordmark: one orange sweep across the text when it scrolls into view */
+.wordmark {
+  background-image: linear-gradient(100deg, #fff 0%, #fff 42%, #f97316 50%, #fff 58%, #fff 100%);
+  background-size: 260% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.wordmark.is-visible {
+  animation: wordmark-sweep 1.5s ease-out 0.25s forwards;
+}
+@keyframes wordmark-sweep {
+  to { background-position: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .hero-in, .hero-core-in, .hero-pulse, .scroll-dot, .wordmark.is-visible { animation: none; }
 }

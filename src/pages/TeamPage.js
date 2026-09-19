@@ -68,8 +68,8 @@ const MemberCard = ({ member }) => {
       {member.img && (
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>
       )}
-      <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 flex flex-col justify-end pointer-events-none z-10">
-        <p className="text-sm md:text-base font-medium text-white/90 text-center">
+      <div className="absolute bottom-0 left-0 w-full p-3 sm:p-6 flex flex-col justify-end pointer-events-none z-10">
+        <p className="text-sm md:text-base font-medium text-white/90 text-center truncate">
           {member.name}
         </p>
       </div>
@@ -88,7 +88,7 @@ export const TeamPage = () => {
           <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
             {'// OUR PEOPLE'}
           </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-extrabold text-white uppercase tracking-tight px-2">
+          <h1 className="text-3xl min-[400px]:text-4xl sm:text-5xl md:text-6xl font-display font-extrabold text-white uppercase tracking-tight px-2 [text-wrap:balance]">
             Meet Our Team
           </h1>
           <p className="mt-4 text-gray-400 text-sm sm:text-base max-w-2xl mx-auto px-2">
@@ -112,7 +112,9 @@ export const TeamPage = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+        {/* Two-up on phones: a single 3:4 card filled the whole viewport and
+            turned a 6-person department into six screens of scrolling. */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 md:gap-8">
           {teamMembers[activeDept]?.map((member, idx) => (
             <MemberCard key={idx} member={member} />
           ))}

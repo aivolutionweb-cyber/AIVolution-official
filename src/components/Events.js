@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import TrackVisibility from "react-on-screen";
 import "animate.css";
 import { fetchEvents } from "../services/eventsService";
+import { isSupabaseConfigured } from "../lib/supabaseClient";
 import { EventRegistrationModal } from "./EventRegistrationModal";
 
 import { EVENTS } from "../data/events";
@@ -32,7 +33,9 @@ export const Events = () => {
   const [registeringEvent, setRegisteringEvent] = useState(null);
   const [loadedImages, setLoadedImages] = useState({});
   const [events, setEvents] = useState(EVENTS);
-  const [loading, setLoading] = useState(true);
+  // Without Supabase the static catalogue is final, so don't flash a
+  // "Loading…" state (and shift the whole grid) for a call that returns [].
+  const [loading, setLoading] = useState(isSupabaseConfigured);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -103,7 +106,7 @@ export const Events = () => {
               <div>
                 <div className="flex items-center gap-3 mb-10">
                   <span className="w-6 h-px bg-primary/60" />
-                  <h2 className="font-display font-extrabold text-3xl md:text-4xl uppercase tracking-tight text-white">
+                  <h2 className="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl uppercase tracking-tight text-white">
                     Past Events
                   </h2>
                 </div>
@@ -319,7 +322,7 @@ const FullscreenGallery = ({ event, loadedImages, onMarkLoaded, onClose, onRegis
                   <div
                     key={idx}
                     className={`relative aspect-[4/3] border border-gridline overflow-hidden bg-dark rounded-lg cursor-zoom-in ${
-                      idx === images.length - 1 && images.length % 2 !== 0 ? "col-span-2" : ""
+                      idx === images.length - 1 && images.length % 2 !== 0 ? "sm:col-span-2" : ""
                     }`}
                     onClick={() => setZoomedImage(img)}
                   >
@@ -429,7 +432,7 @@ const EventCard = ({ event, meta, alternate, onGalleryClick }) => {
           </div>
         )}
         <div
-          className={`${event.featured ? "aspect-[21/9]" : "aspect-[16/10]"} transition-[opacity,filter] duration-700 ${
+          className={`${event.featured ? "aspect-[16/10] md:aspect-[21/9]" : "aspect-[16/10]"} transition-[opacity,filter] duration-700 ${
             imgLoaded ? "opacity-100 blur-0" : "opacity-0 blur-sm"
           }`}
         >

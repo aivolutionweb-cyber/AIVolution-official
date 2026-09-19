@@ -2,6 +2,7 @@ import React, { useRef, useState, useMemo, useEffect } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ABOUT_TAGLINE, ABOUT_TEXT, DIRECTIVES } from '../data/about';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -227,11 +228,11 @@ export const CinematicHero = () => {
                 </h2>
 
                 <div className="mb-6 sm:mb-8 text-[#f97316] font-mono text-[0.65rem] sm:text-xs tracking-[0.35em] uppercase">
-                    {"// WHERE CURIOSITY BECOMES CAPABILITY"}
+                    {ABOUT_TAGLINE}
                 </div>
 
                 <p className="max-w-4xl mx-auto text-white/90 font-light text-base sm:text-lg md:text-2xl leading-relaxed md:leading-[1.8] flex flex-wrap justify-center gap-x-2 gap-y-1 max-h-[45vh] sm:max-h-none overflow-y-auto sm:overflow-visible px-1">
-                    {"AIvolution is a student-led ecosystem built for those who refuse to simply watch the future unfold. We explore emerging AI technologies, deconstruct how they work, and transform knowledge into practical solutions. Through hands-on learning, industry collaboration, competitive challenges, and experiential projects, we empower students to move from AI users to AI creators.".split(" ").map((word, i) => {
+                    {ABOUT_TEXT.split(" ").map((word, i) => {
                         let hoverImg = null;
                         const w = word.toLowerCase();
                         if (w.includes("masterclass")) hoverImg = "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=600&auto=format&fit=crop"; 
@@ -272,27 +273,15 @@ export const CinematicHero = () => {
             </div>
 
             <div className="container mx-auto grid grid-cols-3 gap-px bg-black border border-[#f97316]/20 pointer-events-auto shadow-[0_0_50px_rgba(249,115,22,0.1)] w-full max-w-5xl max-h-[45vh] overflow-x-auto overflow-y-hidden md:max-h-none md:overflow-visible">
-                <div ref={el => visionCardsRef.current[0] = el} className="p-5 sm:p-8 bg-[#0a0a0a]/90 backdrop-blur-sm hover:bg-[#111] border border-transparent hover:border-[#f97316]/30 transition-colors duration-300">
-                    <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-5 sm:mb-8 inline-block">M_01</span>
-                    <h3 className="text-xl sm:text-2xl font-display font-bold mb-3 sm:mb-4 uppercase text-white">MISSION</h3>
+                {DIRECTIVES.map((d, i) => (
+                <div key={d.id} ref={el => visionCardsRef.current[i] = el} className="p-5 sm:p-8 bg-[#0a0a0a]/90 backdrop-blur-sm hover:bg-[#111] border border-transparent hover:border-[#f97316]/30 transition-colors duration-300">
+                    <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-5 sm:mb-8 inline-block">{d.id}</span>
+                    <h3 className="text-xl sm:text-2xl font-display font-bold mb-3 sm:mb-4 uppercase text-white">{d.title}</h3>
                     <p className="text-gray-400 font-sans text-sm leading-relaxed">
-                        To recognize and discover cutting-edge AI tools and techniques, empowering students to accelerate their growth and build the future with Artificial Intelligence.
+                        {d.body}
                     </p>
                 </div>
-                <div ref={el => visionCardsRef.current[1] = el} className="p-5 sm:p-8 bg-[#0a0a0a]/90 backdrop-blur-sm hover:bg-[#111] border border-transparent hover:border-[#f97316]/30 transition-colors duration-300">
-                    <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-5 sm:mb-8 inline-block">V_02</span>
-                    <h3 className="text-xl sm:text-2xl font-display font-bold mb-3 sm:mb-4 uppercase text-white">VISION</h3>
-                    <p className="text-gray-400 font-sans text-sm leading-relaxed">
-                        To forge a thriving ecosystem of student innovators pushing the boundaries of AI exploration, technical mastery, and creative application.
-                    </p>
-                </div>
-                <div ref={el => visionCardsRef.current[2] = el} className="p-5 sm:p-8 bg-[#0a0a0a]/90 backdrop-blur-sm hover:bg-[#111] border border-transparent hover:border-[#f97316]/30 transition-colors duration-300">
-                    <span className="font-mono text-[#f97316] text-xs tracking-widest border border-[#f97316]/30 bg-[#f97316]/10 px-2 py-1 mb-5 sm:mb-8 inline-block">P_03</span>
-                    <h3 className="text-xl sm:text-2xl font-display font-bold mb-3 sm:mb-4 uppercase text-white">VALUES</h3>
-                    <p className="text-gray-400 font-sans text-sm leading-relaxed">
-                        Continuous exploration of AI technologies. Hands-on learning and technical excellence. Empowering peers to leverage AI for real-world impact.
-                    </p>
-                </div>
+                ))}
             </div>
 
           </div>

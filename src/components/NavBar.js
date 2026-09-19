@@ -1,21 +1,42 @@
 import { useState, useEffect } from "react";
 import { HashLink } from "react-router-hash-link";
 import { useLocation } from "react-router-dom";
+import { useIsMobile } from "../hooks/useMediaQuery";
 
 export const NavBar = () => {
   const [activeLink, setActiveLink] = useState("home");
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
+    // Desktop: the bar tucks away once the page is scrolled at all.
+    // Touch screens: there's no hover to bring it back, so it hides while
+    // scrolling down and reappears as soon as the user scrolls up — the
+    // menu is always one flick away. Small moves are ignored so rubber-band
+    // bounce at the top/bottom doesn't flicker it.
+    let lastY = window.scrollY;
     const onScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const y = window.scrollY;
+      if (!isMobile) {
+        setScrolled(y > 50);
+        return;
+      }
+      const delta = y - lastY;
+      if (y <= 50) {
+        setScrolled(false);
+      } else if (delta > 6) {
+        setScrolled(true);
+      } else if (delta < -6) {
+        setScrolled(false);
+      }
+      if (Math.abs(delta) > 6) lastY = y;
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
     if (location.pathname === '/team') setActiveLink('team');
@@ -48,8 +69,8 @@ export const NavBar = () => {
   }, [isOpen]);
 
   return (
-    <div className={`fixed top-0 left-0 w-full z-50 flex justify-center px-4 md:px-8 pt-6 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled && !isOpen ? "opacity-0 -translate-y-10 pointer-events-none" : "opacity-100 translate-y-0 pointer-events-auto"}`}>
-      <nav className="w-full max-w-7xl flex items-center justify-between max-md:relative">
+    <div className={`fixed top-0 left-0 w-full z-50 flex justify-center px-4 md:px-8 pt-4 md:pt-6 transition-[opacity,transform] duration-300 lg:duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled && !isOpen ? "opacity-0 -translate-y-10 pointer-events-none" : "opacity-100 translate-y-0 pointer-events-auto"}`}>
+      <nav className="w-full max-w-7xl flex items-center justify-between max-lg:relative">
         
         {/* Logo Area */}
         <HashLink to="/#home" className="flex items-center group">
@@ -64,7 +85,7 @@ export const NavBar = () => {
 
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden text-white/80 hover:text-white focus:outline-none transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+          className="lg:hidden text-white/80 hover:text-white focus:outline-none transition-colors min-h-[48px] min-w-[48px] -mr-2 flex items-center justify-center"
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? "Close menu" : "Open menu"}
           aria-expanded={isOpen}
@@ -79,7 +100,7 @@ export const NavBar = () => {
         </button>
 
         {/* Desktop Menu - Center Links */}
-        <div className="hidden md:flex items-center space-x-12 absolute left-1/2 -translate-x-1/2">
+        <div className="hidden lg:flex items-center space-x-12 absolute left-1/2 -translate-x-1/2">
           <NavLink to="/#home" active={activeLink === 'home'} onClick={() => onUpdateActiveLink('home')}>Home</NavLink>
           <NavLink to="/events" active={activeLink === 'events'} onClick={() => onUpdateActiveLink('events')}>Events</NavLink>
           <NavLink to="/team" active={activeLink === 'team'} onClick={() => onUpdateActiveLink('team')}>Team</NavLink>
@@ -87,7 +108,7 @@ export const NavBar = () => {
         </div>
 
         {/* Desktop Menu - Right Actions */}
-        <div className="hidden md:flex items-center space-x-6">
+        <div className="hidden lg:flex items-center space-x-6">
           <div className="flex items-center space-x-4 mr-4">
              {/* SVG Icons for Instagram and LinkedIn */}
              <a href="https://www.instagram.com/aivolutions.mait?stkn=MTAwbGdpdHI0enA0bQ%3D%3D" target="_blank" rel="noreferrer" className="text-white/60 hover:text-white transition-colors">
@@ -111,14 +132,16 @@ export const NavBar = () => {
           </a>
         </div>
 
-      {/* Mobile Menu Dropdown — self-contained solid panel anchored
+      {/* Mobile/tablet Menu Dropdown — self-contained solid panel anchored
           directly below the bar (top-full), stacked above page content,
-          scrollable when taller than the viewport. Desktop unaffected. */}
+          scrollable when taller than the viewport. Shown below `lg`: at
+          768–1023px the centred desktop links collided with the right-hand
+          icons. Desktop (>= 1024px) unaffected. */}
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Site menu"
-        className={`md:hidden absolute top-full left-0 right-0 mt-3 z-50 max-h-[calc(100svh-7rem)] overflow-y-auto overscroll-contain overflow-x-hidden bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/60 transition-all duration-300 origin-top ${isOpen ? "opacity-100 scale-y-100 pointer-events-auto" : "opacity-0 scale-y-0 pointer-events-none"}`}
+        className={`lg:hidden absolute top-full left-0 right-0 mt-3 z-50 max-h-[calc(100svh-6rem)] overflow-y-auto overscroll-contain overflow-x-hidden bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-2xl shadow-black/60 transition-[opacity,transform] duration-200 ease-out ${isOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"}`}
       >
         <div className="flex flex-col items-stretch gap-1 px-3 py-4">
             <NavLink mobile to="/#home" active={activeLink === 'home'} onClick={() => onUpdateActiveLink('home')}>Home</NavLink>
@@ -157,7 +180,9 @@ const NavLink = ({ to, active, onClick, children, mobile = false }) => (
     onClick={onClick}
   >
     {children}
-    {/* Animated underline for active/hover state */}
-    <span className={`absolute -bottom-2 left-1/2 w-1 h-1 bg-white rounded-full transition-all duration-300 -translate-x-1/2 ${active ? "opacity-100 scale-100" : "opacity-0 scale-0 group-hover:opacity-50 group-hover:scale-100"}`}></span>
+    {/* Animated underline for active/hover state (desktop links only) */}
+    {!mobile && (
+      <span className={`absolute -bottom-2 left-1/2 w-1 h-1 bg-white rounded-full transition-all duration-300 -translate-x-1/2 ${active ? "opacity-100 scale-100" : "opacity-0 scale-0 group-hover:opacity-50 group-hover:scale-100"}`}></span>
+    )}
   </HashLink>
 );

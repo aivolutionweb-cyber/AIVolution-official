@@ -2,21 +2,17 @@ import React, { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { SPONSORS } from '../data/sponsors';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const baseSponsors = SPONSORS;
 
 export const Sponsors = () => {
     const sectionRef = useRef(null);
     const ringRef = useRef(null);
     const parallaxWrapperRef = useRef(null);
 
-    const baseSponsors = [
-        { name: "NEIGHBORLY", logo: "/assets/events/img/neighbourly.webp" },
-        { name: "UNSTOP", logo: "/assets/partners/unstop.svg" },
-        { name: "DEVPOST", logo: "/assets/partners/devpost.svg" },
-        { name: "DEVFOLIO", logo: "/assets/partners/devfolio.svg" },
-        { name: "OSEN", logo: "/assets/partners/osen.webp" },
-    ];
     // Double array for a fuller 3D ring
     const sponsors = [...baseSponsors, ...baseSponsors];
     // Tighter orbit on phones so cards stay inside the viewport

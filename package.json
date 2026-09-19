@@ -63,5 +63,11 @@
     "core-js@3.47.0": true,
     "core-js-pure@3.47.0": true,
     "fsevents@2.3.3": true
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\](?!(gsap|@gsap)[/\\\\]).+\\.(js|jsx|mjs|cjs|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ]
   }
 }
