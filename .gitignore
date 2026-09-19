@@ -25,3 +25,10 @@ yarn-error.log*
 
 # environment variables
 .env
+
+# local / development environments & agent configs
+venv/
+.venv/
+.claude/
+.agents/
+agent/
