@@ -14,8 +14,12 @@ export const Footer = () => {
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 sm:gap-8 mb-12 sm:mb-16 md:mb-20">
           <div>
             <img 
-              src="/main-logo-no-bg.png" 
+              src="/main-logo-small.png" 
               alt="AIvolution Logo" 
+              width="240"
+              height="199"
+              loading="lazy"
+              decoding="async"
               className="h-12 sm:h-14 w-auto object-contain mb-4 sm:mb-5 opacity-90" 
             />
             <p className="text-gray-500 font-sans text-sm leading-relaxed max-w-md">

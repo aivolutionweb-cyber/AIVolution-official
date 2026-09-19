@@ -48,13 +48,15 @@ const MemberCard = ({ member }) => {
 
   return (
     <div
-      className="group relative w-full aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-colors duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]"
+      className="group relative w-full aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-[border-color,box-shadow] duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]"
     >
       {member.img ? (
         <img
           src={member.img}
           alt={member.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
       ) : (
         <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a]">
@@ -66,11 +68,11 @@ const MemberCard = ({ member }) => {
       {member.img && (
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>
       )}
-                <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 flex flex-col justify-end pointer-events-none z-10">
-                  <p className="text-sm md:text-base font-medium text-white/90 text-center">
-                    {member.name}
-                  </p>
-                </div>
+      <div className="absolute bottom-0 left-0 w-full p-4 sm:p-6 flex flex-col justify-end pointer-events-none z-10">
+        <p className="text-sm md:text-base font-medium text-white/90 text-center">
+          {member.name}
+        </p>
+      </div>
     </div>
   );
 };

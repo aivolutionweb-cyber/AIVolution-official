@@ -1,10 +1,6 @@
 import React, { useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const facultyMembers = [
     {
@@ -172,7 +168,7 @@ export const Faculty = () => {
                     {facultyMembers.map((member, idx) => (
                         <div
                             key={idx}
-                            className="group relative w-[82vw] max-w-[320px] sm:w-full aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-colors duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] shrink-0 cursor-grab active:cursor-grabbing mx-auto"
+                            className="group relative w-[82vw] max-w-[320px] sm:w-full aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-[border-color,box-shadow] duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] shrink-0 cursor-grab active:cursor-grabbing mx-auto"
                         >
                             {/* Full Cover Image */}
                             {member.imgUrl ? (
@@ -180,7 +176,9 @@ export const Faculty = () => {
                                     <img
                                         src={member.imgUrl}
                                         alt={member.name}
-                                        className={`w-full h-full object-cover ${member.imgPosition || 'object-center'} grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700`}
+                                        loading="lazy"
+                                        decoding="async"
+                                        className={`w-full h-full object-cover ${member.imgPosition || 'object-center'} grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-[filter,opacity,transform] duration-700`}
                                     />
 
                                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"></div>

@@ -93,12 +93,14 @@ export const Team = () => {
             {sampleMembers.map((member, idx) => (
               <div
                 key={idx}
-                className="group relative block w-[82vw] max-w-[320px] sm:w-full aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-colors duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] shrink-0 cursor-pointer mx-auto"
+                className="group relative block w-[82vw] max-w-[320px] sm:w-full aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-[border-color,box-shadow] duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] shrink-0 cursor-pointer mx-auto"
               >
                 <img
                   src={member.img}
                   alt={member.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute bottom-0 left-0 w-full p-4 flex flex-col justify-end pointer-events-none z-10 bg-gradient-to-t from-black/80 to-transparent">
                   <p className="text-sm md:text-base font-medium text-white/90 text-center">{member.name}</p>
@@ -111,26 +113,15 @@ export const Team = () => {
         <div className="text-center mt-12 team-view-all">
           <Link
             to="/team"
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-white text-black font-semibold text-xs tracking-wide uppercase transition-transform hover:scale-105 active:scale-95"
+            className="group inline-flex items-center gap-2 px-8 py-3 rounded-full bg-white text-black font-semibold text-xs tracking-wide uppercase transition-transform duration-300 hover:scale-105 active:scale-95"
           >
             View All
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </Link>
         </div>
       </div>
-
-      <style jsx global>{`
-        .react-multi-carousel-dot button {
-          border-color: #333 !important;
-          background: #111 !important;
-        }
-        .react-multi-carousel-dot--active button {
-          background: #f97316 !important;
-          border-color: #f97316 !important;
-        }
-      `}</style>
     </section>
   );
 };

@@ -1,6 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const Sponsors = () => {
     const sectionRef = useRef(null);
@@ -34,7 +37,7 @@ export const Sponsors = () => {
         gsap.set(ringRef.current, { rotationX: -15, y: 0 });
 
         // Infinite 3D rotation - Faster and reversed direction
-        gsap.to(ringRef.current, {
+        const spin = gsap.to(ringRef.current, {
             rotationY: 360,
             ease: "none",
             duration: 18,
@@ -42,7 +45,7 @@ export const Sponsors = () => {
         });
 
         // Organic floating/bobbing effect to change the "flow"
-        gsap.to(ringRef.current, {
+        const bob = gsap.to(ringRef.current, {
             y: -25,
             rotationX: -5, // subtle wobble
             ease: "sine.inOut",
@@ -64,8 +67,27 @@ export const Sponsors = () => {
             yTo(y);
         };
 
-        window.addEventListener("mousemove", handleMouseMove);
-        return () => window.removeEventListener("mousemove", handleMouseMove);
+        // Two infinite tweens on a 10-card 3D ring plus a global mousemove
+        // handler were running for the entire page lifetime. Only do that
+        // work while the section is actually on screen.
+        const attach = () => window.addEventListener("mousemove", handleMouseMove, { passive: true });
+        const detach = () => window.removeEventListener("mousemove", handleMouseMove);
+
+        const setActive = (active) => {
+            spin.paused(!active);
+            bob.paused(!active);
+            if (active) attach(); else detach();
+        };
+
+        const visibility = ScrollTrigger.create({
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            onToggle: (self) => setActive(self.isActive),
+        });
+        setActive(visibility.isActive);
+
+        return detach;
     }, { scope: sectionRef });
 
     return (
@@ -108,7 +130,7 @@ export const Sponsors = () => {
                                     backfaceVisibility: 'hidden', // Hide back of cards as they spin around
                                 }}
                             >
-                                <div className="group w-[150px] h-[80px] sm:w-[220px] sm:h-[100px] bg-[#0a0a0a]/80 backdrop-blur-md border border-white/10 rounded-xl flex items-center justify-center p-3 sm:p-4 transition-all duration-500 hover:bg-[#111] hover:border-[#f97316]/50 shadow-[0_10px_30px_rgba(0,0,0,0.8)] relative overflow-hidden">
+                                <div className="group w-[150px] h-[80px] sm:w-[220px] sm:h-[100px] bg-[#0a0a0a]/90 border border-white/10 rounded-xl flex items-center justify-center p-3 sm:p-4 transition-[background-color,border-color] duration-500 hover:bg-[#111] hover:border-[#f97316]/50 shadow-[0_10px_30px_rgba(0,0,0,0.8)] relative overflow-hidden">
                                     
                                     {/* Inner Glow on Hover */}
                                     <div className="absolute inset-0 bg-gradient-to-r from-[#f97316]/0 via-[#f97316]/10 to-[#ea580c]/20 opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
@@ -118,7 +140,9 @@ export const Sponsors = () => {
                                             <img 
                                                 src={sponsor.logo} 
                                                 alt={sponsor.name} 
-                                                className="max-w-full max-h-full object-contain opacity-80 group-hover:opacity-10 group-hover:scale-95 transition-all duration-500 relative z-10"
+                                                loading="lazy"
+                                                decoding="async"
+                                                className="max-w-full max-h-full object-contain opacity-80 group-hover:opacity-10 group-hover:scale-95 transition-[opacity,transform] duration-500 relative z-10"
                                             />
                                             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 pointer-events-none">
                                                 <span className="font-display font-bold text-sm tracking-widest text-white uppercase drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] text-center px-2">

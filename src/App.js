@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import  {NavBar}  from "./components/NavBar";
 import { CinematicHero } from "./components/CinematicHero";
 import { Skills } from "./components/Skills";
@@ -7,13 +7,28 @@ import { EventHighlights } from "./components/EventHighlights";
 import { Footer } from "./components/Footer";
 import MouseFollower from './components/MouseFollower';
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Events } from "./components/Events";
 import { Sponsors } from "./components/Sponsors";
 import { Faculty } from "./components/Faculty";
 import { Team } from "./components/Team";
-import { TeamPage } from "./pages/TeamPage";
-import { ResearchPage } from "./pages/ResearchPage";
 import { Preloader } from "./components/Preloader";
+
+// Secondary routes are code-split so the homepage bundle doesn't carry the
+// Supabase client, registration modal or animate.css. `webpackPrefetch`
+// makes the browser fetch these chunks during idle time after first paint,
+// so navigation is still instant.
+const Events = lazy(() =>
+  import(/* webpackPrefetch: true */ "./components/Events").then((m) => ({ default: m.Events }))
+);
+const TeamPage = lazy(() =>
+  import(/* webpackPrefetch: true */ "./pages/TeamPage").then((m) => ({ default: m.TeamPage }))
+);
+const ResearchPage = lazy(() =>
+  import(/* webpackPrefetch: true */ "./pages/ResearchPage").then((m) => ({ default: m.ResearchPage }))
+);
+
+// Full-height black placeholder so a route chunk loading never flashes the
+// footer up into the viewport.
+const RouteFallback = () => <div className="min-h-screen bg-dark" aria-hidden="true" />;
 
 const InteractiveHoverText = () => {
   const handleMouseMove = (e) => {
@@ -67,22 +82,24 @@ function App() {
         <ScrollToTop />
         <NavBar />
 
-        <Routes>
-          <Route path="/" element={
-            <>
-              <CinematicHero />
-              <Skills />
-              <EventHighlights />
-              <Sponsors />
-              <Faculty />
-              <Team />
-              <InteractiveHoverText />
-            </>
-          } />
-          <Route path="/team" element={<TeamPage />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/research" element={<ResearchPage />} />
-        </Routes>
+        <Suspense fallback={<RouteFallback />}>
+          <Routes>
+            <Route path="/" element={
+              <>
+                <CinematicHero />
+                <Skills />
+                <EventHighlights />
+                <Sponsors />
+                <Faculty />
+                <Team />
+                <InteractiveHoverText />
+              </>
+            } />
+            <Route path="/team" element={<TeamPage />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/research" element={<ResearchPage />} />
+          </Routes>
+        </Suspense>
         
         <Footer />
       </div>
@@ -96,7 +113,13 @@ function App() {
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
+    // `html { scroll-behavior: smooth }` would otherwise animate this jump,
+    // so a route change visibly scrolls up from wherever the user was.
+    const root = document.documentElement;
+    const prev = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
     window.scrollTo(0, 0);
+    root.style.scrollBehavior = prev;
   }, [pathname]);
   return null;
 };
@@ -106,13 +129,10 @@ const ScrollToTopButton = () => {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.scrollY > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      setIsVisible(window.scrollY > 300);
     };
-    window.addEventListener("scroll", toggleVisibility);
+    toggleVisibility();
+    window.addEventListener("scroll", toggleVisibility, { passive: true });
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
@@ -126,7 +146,7 @@ const ScrollToTopButton = () => {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-5 right-5 sm:bottom-8 sm:right-8 z-50 p-3 rounded-full bg-white text-black shadow-lg shadow-white/20 transition-all duration-300 hover:scale-110 hover:shadow-white/40 active:scale-95 min-h-[48px] min-w-[48px] flex items-center justify-center ${
+      className={`fixed bottom-5 right-5 sm:bottom-8 sm:right-8 z-50 p-3 rounded-full bg-white text-black shadow-lg shadow-white/20 transition-[opacity,transform,box-shadow] duration-300 hover:scale-110 hover:shadow-white/40 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f97316] focus-visible:ring-offset-2 focus-visible:ring-offset-black min-h-[48px] min-w-[48px] flex items-center justify-center ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
       }`}
       aria-label="Scroll to top"

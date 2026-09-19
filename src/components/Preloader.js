@@ -49,12 +49,26 @@ const createRevealSound = (audioCtx) => {
   });
 };
 
+// The boot sequence plays once per browser tab. Reloads and in-site
+// navigation within the same session skip straight to the content.
+const SESSION_KEY = 'aiv:booted';
+const hasBootedThisSession = () => {
+  try { return sessionStorage.getItem(SESSION_KEY) === '1'; } catch { return false; }
+};
+const markBooted = () => {
+  try { sessionStorage.setItem(SESSION_KEY, '1'); } catch { /* storage unavailable */ }
+};
+
+// Typing cadence (ms per character). Drives both the visible text and the
+// timeline's hold, so the two never drift apart.
+const TYPE_INTERVAL_MS = 45;
+
 export const Preloader = () => {
   const containerRef = useRef(null);
   const loadingBarRef = useRef(null);
   const textRef = useRef(null);
   const cursorRef = useRef(null);
-  const [isFinished, setIsFinished] = useState(false);
+  const [isFinished, setIsFinished] = useState(hasBootedThisSession);
   const [displayedText, setDisplayedText] = useState('');
   const audioCtxRef = useRef(null);
 
@@ -78,27 +92,31 @@ export const Preloader = () => {
   }, [isFinished]);
 
   useEffect(() => {
+    if (isFinished) return;
     const ctx = getAudioCtx();
     if (ctx.state === 'suspended') {
       ctx.resume();
     }
-  }, [getAudioCtx]);
+  }, [getAudioCtx, isFinished]);
 
   useGSAP(() => {
+    if (isFinished) return;
+
     const tl = gsap.timeline({
       onComplete: () => {
+        markBooted();
         setTimeout(() => {
           setIsFinished(true);
           document.body.style.overflow = 'unset';
-        }, 200);
+        }, 100);
       }
     });
 
     gsap.set(loadingBarRef.current, { scaleX: 0, transformOrigin: 'left center' });
 
-    tl.to(loadingBarRef.current, { scaleX: 0.3, duration: 0.5, ease: 'power2.out' })
-      .to(loadingBarRef.current, { scaleX: 0.6, duration: 0.8, ease: 'steps(3)' })
-      .to(loadingBarRef.current, { scaleX: 1, duration: 0.5, ease: 'power4.inOut' });
+    tl.to(loadingBarRef.current, { scaleX: 0.3, duration: 0.4, ease: 'power2.out' })
+      .to(loadingBarRef.current, { scaleX: 0.6, duration: 0.6, ease: 'steps(3)' })
+      .to(loadingBarRef.current, { scaleX: 1, duration: 0.4, ease: 'power4.inOut' });
 
     let charIndex = 0;
     const typeInterval = setInterval(() => {
@@ -117,25 +135,27 @@ export const Preloader = () => {
       } else {
         clearInterval(typeInterval);
       }
-    }, 60);
+    }, TYPE_INTERVAL_MS);
 
-    const typingDuration = tagline.length * 0.06 + 0.5;
+    const typingDuration = tagline.length * (TYPE_INTERVAL_MS / 1000) + 0.3;
 
-    tl.to({}, { duration: typingDuration }, "-=1.0");
+    tl.to({}, { duration: typingDuration }, "-=0.8");
 
     tl.call(() => {
         try {
           const ctx = getAudioCtx();
           createRevealSound(ctx);
         } catch(e) { /* silent fallback */ }
-      }, null, `+=${0.5}`)
+      }, null, `+=${0.3}`)
       .to(textRef.current, { opacity: 0, duration: 0.2 }, "<")
       .to(loadingBarRef.current, { opacity: 0, duration: 0.2 }, "<")
+      // Scale + opacity only: both are compositor-driven. The previous
+      // animated blur() re-rasterised a full-screen layer every frame for no
+      // visible gain (the content is already faded out by this point).
       .to(containerRef.current, {
         scale: 2,
         opacity: 0,
-        filter: "blur(10px)",
-        duration: 1,
+        duration: 0.8,
         ease: 'power3.inOut'
       });
 
@@ -148,10 +168,14 @@ export const Preloader = () => {
     <div
       ref={containerRef}
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black"
+      style={{ willChange: 'transform, opacity' }}
     >
-      <div className="w-full max-w-2xl px-5 sm:px-6 flex flex-col items-center">
+      <div className="w-full max-w-2xl md:max-w-3xl px-5 sm:px-6 flex flex-col items-center">
+        {/* md:whitespace-nowrap + the wider container keep the full tagline on
+            one line at desktop sizes; it used to wrap and the second line was
+            clipped by the fixed-height, overflow-hidden wrapper. */}
         <div className="min-h-8 md:h-10 mb-6 overflow-hidden text-center w-full" ref={textRef}>
-          <h1 className="text-base sm:text-xl md:text-3xl font-mono text-white tracking-widest uppercase break-words leading-snug">
+          <h1 className="text-base sm:text-xl md:text-3xl font-mono text-white tracking-widest uppercase break-words md:whitespace-nowrap leading-snug">
             {displayedText}
             <span ref={cursorRef} className="inline-block w-[3px] h-[1em] bg-[#f97316] ml-1 animate-pulse align-middle"></span>
           </h1>

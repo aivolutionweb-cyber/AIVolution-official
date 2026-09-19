@@ -12,7 +12,8 @@ export const NavBar = () => {
     const onScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-    window.addEventListener("scroll", onScroll);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -47,15 +48,17 @@ export const NavBar = () => {
   }, [isOpen]);
 
   return (
-    <div className={`fixed top-0 left-0 w-full z-50 flex justify-center px-4 md:px-8 pt-6 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] md:mix-blend-difference ${scrolled && !isOpen ? "opacity-0 -translate-y-10 pointer-events-none" : "opacity-100 translate-y-0 pointer-events-auto"}`}>
+    <div className={`fixed top-0 left-0 w-full z-50 flex justify-center px-4 md:px-8 pt-6 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled && !isOpen ? "opacity-0 -translate-y-10 pointer-events-none" : "opacity-100 translate-y-0 pointer-events-auto"}`}>
       <nav className="w-full max-w-7xl flex items-center justify-between max-md:relative">
         
         {/* Logo Area */}
         <HashLink to="/#home" className="flex items-center group">
           <img 
-            src="/main-logo-no-bg.png" 
-            alt="Logo" 
-            className="object-contain h-8 md:h-10 transition-all duration-500 ease-out group-hover:scale-105" 
+            src="/main-logo-small.png" 
+            alt="AIvolution" 
+            width="240"
+            height="199"
+            className="object-contain h-8 md:h-10 w-auto transition-transform duration-500 ease-out group-hover:scale-105" 
           />
         </HashLink>
 
@@ -100,7 +103,7 @@ export const NavBar = () => {
           </div>
 
           <a href="https://whatsapp.com/channel/0029Vb9S7lj8F2pN7ghfV00Q" target="_blank" rel="noopener noreferrer">
-            <button className="relative overflow-hidden px-6 py-2.5 rounded-full bg-white text-black font-semibold text-xs tracking-wide uppercase transition-transform hover:scale-105 active:scale-95 flex items-center justify-center group">
+            <button className="relative overflow-hidden px-6 py-2.5 rounded-full bg-white text-black font-semibold text-xs tracking-wide uppercase transition-transform duration-300 hover:scale-105 active:scale-95 flex items-center justify-center group">
               <span className="relative z-10">Connect</span>
               {/* Subtle hover gradient inside the button */}
               <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

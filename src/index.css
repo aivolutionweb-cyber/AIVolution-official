@@ -1,5 +1,6 @@
 /* src/index.css */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@500;700;800&display=swap');
+/* Web fonts are loaded from public/index.html so they start downloading in
+   parallel with the app bundle instead of after it. */
 
 @tailwind base;
 @tailwind components;
@@ -24,6 +25,13 @@
     @apply font-display font-bold;
     /* Keep long display headings from blowing out small screens */
     overflow-wrap: break-word;
+  }
+  /* Keyboard focus ring for links/buttons that don't define their own.
+     Mouse clicks are unaffected (focus-visible only). */
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid rgba(249, 115, 22, 0.8);
+    outline-offset: 3px;
+    border-radius: 4px;
   }
   img, video, svg {
     max-width: 100%;
@@ -116,4 +124,24 @@
   60% { clip-path: inset(20% 0 50% 0); }
   80% { clip-path: inset(50% 0 30% 0); }
   100% { clip-path: inset(5% 0 80% 0); }
+}
+
+/* Plain (non-layer) rules so Tailwind's content scan never purges them. */
+
+/* react-multi-carousel pagination dots (Team section). !important because the
+   library's own stylesheet is bundled after this file. */
+.react-multi-carousel-dot button {
+  border-color: #333 !important;
+  background: #111 !important;
+}
+.react-multi-carousel-dot--active button {
+  background: #f97316 !important;
+  border-color: #f97316 !important;
+}
+
+/* Honour the OS "reduce motion" preference for infinite decorative loops */
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse, .animate-bounce, .animate-ping {
+    animation: none;
+  }
 }

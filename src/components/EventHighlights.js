@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { EVENTS } from './Events';
+import { EVENTS } from '../data/events';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,6 +43,41 @@ export const EventHighlights = () => {
   const yStep = 20;
   const totalY = events.length * yStep;
 
+  // Keep a plain, non-3D-transformed hitbox glued to wherever the active card
+  // actually renders on screen. Hit-testing pointer events through a chain of
+  // nested `preserve-3d` transforms is unreliable across browsers once a card
+  // carries its own rotateY (every card except the one at angle 0) — the
+  // paint position is correct but the browser's pointer hit-test can miss it.
+  // getBoundingClientRect() always reflects the true final on-screen geometry
+  // regardless of that, so syncing a flat overlay to it sidesteps the bug
+  // entirely instead of fighting it.
+  //
+  // The card's screen rect only changes when the cylinder tween ticks (scroll
+  // or scrub settling), on resize, or on ScrollTrigger refresh — so the sync
+  // runs from those hooks instead of a permanent requestAnimationFrame loop
+  // that forced two layouts per frame for the whole page lifetime.
+  const syncHitbox = () => {
+    const activeCard = cardRefs.current[activeIndexRef.current];
+    const hitbox = hitboxRef.current;
+    const section = containerRef.current;
+    if (!activeCard || !hitbox || !section) return;
+    // `section` carries inline `perspective`, which makes it the containing
+    // block for any `position: fixed` descendant — so a fixed-position
+    // hitbox would resolve against the section box, not the viewport,
+    // while getBoundingClientRect() is always viewport-relative. Using
+    // `position: absolute` against the section and subtracting its own
+    // rect avoids that mismatch (and stays correct through GSAP's pin,
+    // which toggles the section's own positioning during scroll).
+    const sectionRect = section.getBoundingClientRect();
+    const rect = activeCard.getBoundingClientRect();
+    hitbox.style.width = `${rect.width}px`;
+    hitbox.style.height = `${rect.height}px`;
+    hitbox.style.transform = `translate(${rect.left - sectionRect.left}px, ${rect.top - sectionRect.top}px)`;
+    // Hide the hitbox if the active card has rotated far enough that it's
+    // basically edge-on (mid-transition), so it never sits over the wrong card.
+    hitbox.style.visibility = rect.width > 20 ? 'visible' : 'hidden';
+  };
+
   useGSAP(() => {
     // Rotate the entire cylinder as the user scrolls, AND move it vertically
     // to keep the active card in the center of the screen
@@ -51,6 +86,7 @@ export const EventHighlights = () => {
       y: -totalY,
       ease: "none",
       onUpdate: function () {
+        syncHitbox();
         // Figure out which card is currently facing the camera.
         // `scrub: 1` means rotationY keeps easing toward its resting value for
         // a moment after scrolling stops, so a plain "closest wins" pick can
@@ -87,46 +123,21 @@ export const EventHighlights = () => {
         anticipatePin: 1,
         refreshPriority: 0,
         invalidateOnRefresh: true,
+        onRefresh: syncHitbox,
       }
     });
+
+    // Initial placement once the browser has laid the 3D stage out.
+    const frameId = requestAnimationFrame(syncHitbox);
+    return () => cancelAnimationFrame(frameId);
   }, { scope: wrapperRef }); // Scope is the outer wrapper so cleanup targets the pin-spacer correctly
 
-  // Keep a plain, non-3D-transformed hitbox glued to wherever the active card
-  // actually renders on screen. Hit-testing pointer events through a chain of
-  // nested `preserve-3d` transforms is unreliable across browsers once a card
-  // carries its own rotateY (every card except the one at angle 0) — the
-  // paint position is correct but the browser's pointer hit-test can miss it.
-  // getBoundingClientRect() always reflects the true final on-screen geometry
-  // regardless of that, so syncing a flat overlay to it sidesteps the bug
-  // entirely instead of fighting it.
+  // The radius (and therefore every card's rect) changes with viewport width.
   useEffect(() => {
-    let frameId;
-    const syncHitbox = () => {
-      const activeCard = cardRefs.current[activeIndexRef.current];
-      const hitbox = hitboxRef.current;
-      const section = containerRef.current;
-      if (activeCard && hitbox && section) {
-        // `section` carries inline `perspective`, which makes it the containing
-        // block for any `position: fixed` descendant — so a fixed-position
-        // hitbox would resolve against the section box, not the viewport,
-        // while getBoundingClientRect() is always viewport-relative. Using
-        // `position: absolute` against the section and subtracting its own
-        // rect avoids that mismatch (and stays correct through GSAP's pin,
-        // which toggles the section's own positioning during scroll).
-        const sectionRect = section.getBoundingClientRect();
-        const rect = activeCard.getBoundingClientRect();
-        hitbox.style.width = `${rect.width}px`;
-        hitbox.style.height = `${rect.height}px`;
-        hitbox.style.transform = `translate(${rect.left - sectionRect.left}px, ${rect.top - sectionRect.top}px)`;
-        // Hide the hitbox if the active card has rotated far enough that it's
-        // basically edge-on (mid-transition), so it never sits over the wrong card.
-        hitbox.style.visibility = rect.width > 20 ? 'visible' : 'hidden';
-      }
-      frameId = requestAnimationFrame(syncHitbox);
-    };
-    frameId = requestAnimationFrame(syncHitbox);
+    const frameId = requestAnimationFrame(syncHitbox);
     return () => cancelAnimationFrame(frameId);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [radius]);
 
   return (
     <div ref={wrapperRef} className="events-gsap-wrapper">
@@ -176,7 +187,7 @@ export const EventHighlights = () => {
                       see the flat hitbox overlay outside the 3D stage instead. */}
                   <div
                     ref={(el) => (cardRefs.current[i] = el)}
-                     className={`relative w-full h-[320px] sm:h-[360px] md:h-[480px] bg-[#0a0a0a]/80 backdrop-blur-md border-2 rounded-xl overflow-hidden z-10 transition-shadow duration-300 ${isActive ? 'border-[#ea580c] shadow-[0_0_35px_rgba(249,115,22,0.55),0_10px_20px_rgba(0,0,0,0.8)]' : 'border-[#f97316]/60 shadow-[0_0_18px_rgba(249,115,22,0.3),0_10px_20px_rgba(0,0,0,0.8)]'} ${showHover ? 'shadow-[0_0_45px_rgba(249,115,22,0.7)]' : ''}`}
+                     className={`relative w-full h-[320px] sm:h-[360px] md:h-[480px] bg-[#0a0a0a]/80 border-2 rounded-xl overflow-hidden z-10 transition-shadow duration-300 ${isActive ? 'border-[#ea580c] shadow-[0_0_35px_rgba(249,115,22,0.55),0_10px_20px_rgba(0,0,0,0.8)]' : 'border-[#f97316]/60 shadow-[0_0_18px_rgba(249,115,22,0.3),0_10px_20px_rgba(0,0,0,0.8)]'} ${showHover ? 'shadow-[0_0_45px_rgba(249,115,22,0.7)]' : ''}`}
                     style={{ perspective: '1200px' }}
                   >
                     {/* Flip wrapper: rotates 180deg on hover to reveal the back face */}
@@ -191,8 +202,8 @@ export const EventHighlights = () => {
                       <div className="absolute inset-0" style={{ backfaceVisibility: 'hidden' }}>
                         {evt.imgUrl ? (
                           <>
-                            <img src={evt.imgUrl} alt="" className="absolute inset-0 w-full h-full object-cover blur-md scale-110 opacity-50" />
-                            <img src={evt.imgUrl} alt={evt.title} className="relative w-full h-full object-contain" />
+                            <img src={evt.imgUrl} alt="" aria-hidden="true" decoding="async" className="absolute inset-0 w-full h-full object-cover blur-md scale-110 opacity-50" />
+                            <img src={evt.imgUrl} alt={evt.title} decoding="async" className="relative w-full h-full object-contain" />
                           </>
                         ) : (
                           <div className="w-full h-full bg-gradient-to-br from-[#1a1a1a] to-black flex items-center justify-center">
@@ -207,7 +218,7 @@ export const EventHighlights = () => {
                         style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                       >
                         {evt.imgUrl ? (
-                          <img src={evt.imgUrl} alt="" className="absolute inset-0 w-full h-full object-cover blur-sm scale-105" />
+                          <img src={evt.imgUrl} alt="" aria-hidden="true" decoding="async" className="absolute inset-0 w-full h-full object-cover blur-sm scale-105" />
                         ) : (
                           <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a1a] to-black" />
                         )}

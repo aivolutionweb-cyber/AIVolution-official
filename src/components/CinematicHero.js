@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -22,20 +22,48 @@ export const CinematicHero = () => {
   const visionContainerRef = useRef(null);
   const visionCardsRef = useRef([]);
 
+  // Particle positions are randomised once. Generating them inline in render
+  // re-rolled every particle (and its CSS animation) on each re-render.
+  const particles = useMemo(
+    () =>
+      [...Array(20)].map(() => ({
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        animationDuration: `${Math.random() * 5 + 3}s`,
+        animationDelay: `${Math.random() * 5}s`,
+        opacity: Math.random() * 0.5 + 0.1,
+      })),
+    []
+  );
+
   useGSAP(() => {
     // Continuous idle animation for the core rings (runs on all screen sizes)
-    gsap.to(ring1Ref.current, {
+    const ringSpin1 = gsap.to(ring1Ref.current, {
         rotate: 360,
         duration: 20,
         repeat: -1,
         ease: "none"
     });
-    gsap.to(ring2Ref.current, {
+    const ringSpin2 = gsap.to(ring2Ref.current, {
         rotate: -360,
         duration: 15,
         repeat: -1,
         ease: "none"
     });
+
+    // The rings only need to spin while the hero is on screen. Once the user
+    // has scrolled past, keep the two infinite tweens from ticking forever.
+    const setRingsActive = (active) => {
+      ringSpin1.paused(!active);
+      ringSpin2.paused(!active);
+    };
+    const visibility = ScrollTrigger.create({
+      trigger: wrapperRef.current,
+      start: "top bottom",
+      end: "bottom top",
+      onToggle: (self) => setRingsActive(self.isActive),
+    });
+    setRingsActive(visibility.isActive);
 
     // Skip pinned scroll animation on small screens — show hero content statically
     const isMobile = window.innerWidth < 640;
@@ -110,22 +138,24 @@ export const CinematicHero = () => {
 
   }, { scope: wrapperRef }); // Scope to outer wrapper
 
-  // Hover Reveal Mouse Tracker
-  useGSAP(() => {
-    if (hoverRevealRef.current) {
-      gsap.set(hoverRevealRef.current, { xPercent: -50, yPercent: -50 });
-      const xTo = gsap.quickTo(hoverRevealRef.current, "x", { duration: 0.4, ease: "power3" });
-      const yTo = gsap.quickTo(hoverRevealRef.current, "y", { duration: 0.4, ease: "power3" });
+  // Hover Reveal Mouse Tracker — only listens while a preview is showing, so
+  // the global mousemove handler (two GSAP tweens per event) isn't running
+  // for the whole page lifetime.
+  useEffect(() => {
+    const el = hoverRevealRef.current;
+    if (!el || !hoveredImage) return;
+    gsap.set(el, { xPercent: -50, yPercent: -50 });
+    const xTo = gsap.quickTo(el, "x", { duration: 0.4, ease: "power3" });
+    const yTo = gsap.quickTo(el, "y", { duration: 0.4, ease: "power3" });
 
-      const handleMouseMove = (e) => {
-        xTo(e.clientX);
-        yTo(e.clientY);
-      };
+    const handleMouseMove = (e) => {
+      xTo(e.clientX);
+      yTo(e.clientY);
+    };
 
-      window.addEventListener("mousemove", handleMouseMove);
-      return () => window.removeEventListener("mousemove", handleMouseMove);
-    }
-  }, []);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [hoveredImage]);
 
   return (
     <div ref={wrapperRef} className="hero-gsap-wrapper">
@@ -145,17 +175,11 @@ export const CinematicHero = () => {
 
           {/* --- PARTICLES --- */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
-              {[...Array(20)].map((_, i) => (
+              {particles.map((style, i) => (
                   <div 
                     key={i} 
                     className="absolute w-1 h-1 bg-[#f97316] rounded-full animate-bounce"
-                    style={{
-                        left: `${Math.random() * 100}%`,
-                        top: `${Math.random() * 100}%`,
-                        animationDuration: `${Math.random() * 5 + 3}s`,
-                        animationDelay: `${Math.random() * 5}s`,
-                        opacity: Math.random() * 0.5 + 0.1
-                    }}
+                    style={style}
                   />
               ))}
           </div>
@@ -184,7 +208,9 @@ export const CinematicHero = () => {
                 <div className="absolute w-[5vh] h-[5vh] bg-white rounded-full shadow-[0_0_30px_rgba(255,255,255,1)] blur-sm"></div>
             </div>
 
-            <p ref={subtitleRef} className="text-gray-400 font-mono tracking-widest text-xs sm:text-sm uppercase mt-40 sm:mt-64 z-30 mix-blend-difference text-center px-4">
+            {/* Viewport-relative offset so the subtitle keeps clear of the
+                "scroll down" hint on short laptop screens (720p). */}
+            <p ref={subtitleRef} className="text-gray-400 font-mono tracking-widest text-xs sm:text-sm uppercase mt-40 sm:mt-[28vh] z-30 mix-blend-difference text-center px-4">
                 Welcome to the Core
             </p>
           </div>
@@ -218,7 +244,11 @@ export const CinematicHero = () => {
                                 key={i} 
                                 ref={el => whoAreWeWordsRef.current[i] = el} 
                                 className={`inline-block opacity-0 ${hoverImg ? 'text-white cursor-pointer hover:text-[#f97316] transition-colors duration-300 relative z-50' : ''}`}
-                                onMouseEnter={() => hoverImg && setHoveredImage(hoverImg)}
+                                onMouseEnter={(e) => {
+                                    if (!hoverImg) return;
+                                    gsap.set(hoverRevealRef.current, { x: e.clientX, y: e.clientY });
+                                    setHoveredImage(hoverImg);
+                                }}
                                 onMouseLeave={() => hoverImg && setHoveredImage(null)}
                             >
                                 {word}

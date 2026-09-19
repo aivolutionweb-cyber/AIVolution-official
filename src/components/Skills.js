@@ -10,11 +10,13 @@ export const Skills = () => {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
 
+  // `key` must match the department keys used by pages/TeamPage.js — the
+  // description card links to /team?dept=<key>.
   const departments = [
-    { title: "Tech & Dev", id: "MOD_01", desc: "Engineering the future through modern web, mobile, and AI solutions. The core backbone of AIVolution's technical infrastructure." },
-    { title: "Event Management", id: "MOD_02", desc: "Architecting seamless and immersive technical and cultural experiences. From hackathons to global summits." },
-    { title: "Social Media", id: "MOD_03", desc: "Building and growing AIVolution's online presence, crafting engaging visual content, and connecting with audiences across platforms." },
-    { title: "Public Relations", id: "MOD_04", desc: "Establishing strategic partnerships, driving external communications, and bridging the gap between industry and academia." },
+    { key: "tech-dev", title: "Tech & Dev", id: "MOD_01", desc: "Engineering the future through modern web, mobile, and AI solutions. The core backbone of AIVolution's technical infrastructure." },
+    { key: "event-mgmt", title: "Event Management", id: "MOD_02", desc: "Architecting seamless and immersive technical and cultural experiences. From hackathons to global summits." },
+    { key: "social-media", title: "Social Media", id: "MOD_03", desc: "Building and growing AIVolution's online presence, crafting engaging visual content, and connecting with audiences across platforms." },
+    { key: "public-relations", title: "Public Relations", id: "MOD_04", desc: "Establishing strategic partnerships, driving external communications, and bridging the gap between industry and academia." },
   ];
 
   const pathRef = useRef(null);
@@ -76,22 +78,24 @@ export const Skills = () => {
       
       {/* Background Layer (Pinned) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden flex items-center justify-center">
-        {/* Dynamic Morphing Beam */}
+        {/* Dynamic Morphing Beam. The blur is a CSS filter on the <svg>
+            (GPU-composited) rather than an SVG feGaussianBlur on the path,
+            which was re-rasterised on the CPU across a 200vw×150vh bitmap on
+            every scroll frame while the path morphs. */}
         <div className="absolute w-[200vw] h-[150vh] left-[-50vw] top-[-25vh]">
-            <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" className="w-full h-full opacity-30">
-                <defs>
-                    <filter id="beam-blur" x="-50%" y="-50%" width="200%" height="200%">
-                        <feGaussianBlur stdDeviation="20" />
-                    </filter>
-                </defs>
+            <svg
+                viewBox="0 0 1000 1000"
+                preserveAspectRatio="none"
+                className="w-full h-full opacity-30"
+                style={{ filter: 'blur(48px)', willChange: 'filter' }}
+                aria-hidden="true"
+            >
                 <path 
                     ref={pathRef}
                     d="M 900,-200 Q 500,500 100,1200" 
                     fill="none" 
                     stroke="#06b6d4" 
                     strokeWidth="40" 
-                    filter="url(#beam-blur)"
-                    className="mix-blend-screen"
                 />
             </svg>
         </div>
