@@ -4,7 +4,6 @@ import  {NavBar}  from "./components/NavBar";
 import { Footer } from "./components/Footer";
 import MouseFollower from './components/MouseFollower';
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Preloader } from "./components/Preloader";
 import { Home } from "./pages/Home";
 
 // Secondary routes are code-split so the homepage bundle doesn't carry the
@@ -29,8 +28,6 @@ function App() {
   return (
     <div className="relative min-h-screen text-white selection:bg-secondary selection:text-white">
       
-      {/* The System Boot Preloader */}
-      <Preloader />
 
       {/* Mouse Follower stays on top */}
       <MouseFollower />

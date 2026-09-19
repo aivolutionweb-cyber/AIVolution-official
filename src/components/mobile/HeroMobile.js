@@ -1,10 +1,11 @@
 import React from 'react';
+import { LivingCore } from '../LivingCore';
 import { Link } from 'react-router-dom';
 import { ABOUT_TAGLINE, ABOUT_TEXT, DIRECTIVES } from '../../data/about';
 import { SectionHeading, pillPrimary, pillSecondary, ArrowIcon } from './primitives';
 
 // Mobile counterpart of CinematicHero. The desktop version pins the viewport
-// and scrubs three overlays through a 6000px GSAP timeline; on a phone that
+// and scrubs three overlays through a pinned GSAP timeline; on a phone that
 // meant every overlay rendered on top of each other in a single 100svh box.
 // Here the same three beats — hero, "who are we", core directives — are
 // laid out as normal stacked sections that scroll natively.
@@ -13,21 +14,12 @@ const [firstSentence, ...restSentences] = ABOUT_TEXT.split('. ');
 const aboutLede = `${firstSentence}.`;
 const aboutBody = restSentences.join('. ');
 
-// Static decorative core: the desktop orb's rings, but a fixed 160px element
-// spun by a compositor-only CSS animation (see .hero-ring in index.css).
-const Core = () => (
-  <div className="hero-core-in relative mx-auto flex h-40 w-40 items-center justify-center sm:h-52 sm:w-52" aria-hidden="true">
-    <div className="hero-ring absolute inset-0 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] border border-[#f97316]/40 shadow-[0_0_40px_rgba(249,115,22,0.25)]" />
-    <div className="hero-ring hero-ring--reverse absolute inset-[12%] rounded-[60%_40%_30%_70%/60%_30%_70%_40%] border-2 border-[#ea580c]/60" />
-    <div className="hero-pulse absolute inset-[30%] rounded-full bg-gradient-to-tr from-[#f97316] to-[#c2410c] shadow-[0_0_40px_rgba(249,115,22,0.6)]" />
-    <div className="absolute inset-[44%] rounded-full bg-white shadow-[0_0_14px_rgba(255,255,255,0.9)]" />
-  </div>
-);
-
 export const HeroMobile = () => (
   <>
     <section
       id="home"
+      data-core-hero
+      data-core-mobile
       className="relative flex min-h-[100svh] flex-col overflow-hidden bg-black px-5 pb-10 pt-24 sm:px-8 sm:pt-28"
     >
       {/* Ambient glow as a static radial gradient. The desktop layer is a
@@ -44,8 +36,8 @@ export const HeroMobile = () => (
       <div className="bg-grid pointer-events-none absolute inset-0 opacity-[0.14]" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black to-transparent" aria-hidden="true" />
 
-      <div className="relative z-10 flex flex-1 flex-col justify-center py-6">
-        <Core />
+      <div data-core-intro className="relative z-10 flex flex-1 flex-col justify-center py-6">
+        <LivingCore mobile />
 
         <span className="hero-in mb-4 mt-10 block text-center font-mono text-[0.65rem] uppercase tracking-[0.25em] text-[#f97316] sm:mt-12" style={{ '--i': 1 }}>
           {"// MAIT's Official AI Society"}

@@ -163,49 +163,6 @@
   }
 }
 
-/* ── Boot preloader (CSS-driven; see components/Preloader.js) ──────────── */
-.preloader {
-  will-change: transform, opacity;
-  transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1),
-              opacity 0.8s cubic-bezier(0.77, 0, 0.175, 1);
-}
-.preloader--leaving {
-  transform: scale(2);
-  opacity: 0;
-}
-.preloader__fade {
-  transition: opacity 0.2s linear;
-}
-.preloader--leaving .preloader__fade {
-  opacity: 0;
-}
-.preloader__bar {
-  transform: scaleX(0);
-  transform-origin: left center;
-  animation: preloader-bar 1.4s forwards;
-}
-/* 0→0.3 eased out, 0.3→0.6 in three steps, 0.6→1 eased in-out */
-@keyframes preloader-bar {
-  0%     { transform: scaleX(0);   animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); }
-  28.57% { transform: scaleX(0.3); animation-timing-function: steps(3, end); }
-  71.43% { transform: scaleX(0.6); animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1); }
-  100%   { transform: scaleX(1); }
-}
-
-/* ── Mobile homepage decorations ───────────────────────────────────────── */
-/* Hero core rings: transform-only, so they animate on the compositor. */
-.hero-ring {
-  animation: hero-spin 20s linear infinite;
-  will-change: transform;
-}
-.hero-ring--reverse {
-  animation-duration: 15s;
-  animation-direction: reverse;
-}
-@keyframes hero-spin {
-  to { transform: rotate(360deg); }
-}
-
 /* Sponsor logo marquee: the row holds two identical strips, so sliding by
    exactly half loops seamlessly. */
 .marquee {
@@ -217,11 +174,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-ring, .marquee, .preloader__bar {
+  .marquee {
     animation: none;
-  }
-  .preloader__bar {
-    transform: scaleX(1);
   }
 }
 
@@ -242,37 +196,15 @@
   transform: none;
 }
 
-/* Hero entrance: staggered fade-up. Paused while the boot preloader is on
-   screen (html.is-booting) so it plays the moment the page is revealed. */
+/* Returning visits use the existing short content entrance. */
 .hero-in {
   animation: hero-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: calc(0.15s + var(--i, 0) * 0.11s);
-}
-.hero-core-in {
-  animation: hero-core-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-html.is-booting .hero-in,
-html.is-booting .hero-core-in {
-  animation-play-state: paused;
 }
 @keyframes hero-in {
   from { opacity: 0; transform: translate3d(0, 18px, 0); }
   to   { opacity: 1; transform: none; }
 }
-@keyframes hero-core-in {
-  from { opacity: 0; transform: scale(0.55); }
-  to   { opacity: 1; transform: none; }
-}
-
-/* Breathing inner core */
-.hero-pulse {
-  animation: hero-pulse 3.2s ease-in-out infinite;
-}
-@keyframes hero-pulse {
-  0%, 100% { transform: scale(1);    opacity: 0.85; }
-  50%      { transform: scale(1.14); opacity: 1; }
-}
-
 /* Dot travelling down the "scroll to explore" line */
 .scroll-dot {
   animation: scroll-dot 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
@@ -301,5 +233,179 @@ html.is-booting .hero-core-in {
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
-  .hero-in, .hero-core-in, .hero-pulse, .scroll-dot, .wordmark.is-visible { animation: none; }
+  .hero-in, .scroll-dot, .wordmark.is-visible { animation: none; }
 }
+
+/* One living structure, from genesis through the hero. Mobile motion uses
+   transforms/opacity only. Desktop also morphs two bounded SVG mesh paths. */
+.core-system {
+  --core-white: #fff6df;
+  --core-cream: #ffd6a0;
+  --core-orange: #f97316;
+  --core-ember: #9a3412;
+  position: relative;
+  width: clamp(240px, 35svh, 360px);
+  height: clamp(240px, 35svh, 360px);
+  flex: 0 0 auto;
+  margin-inline: auto;
+}
+.hero-intro { gap: clamp(12px, 2.6vh, 26px); padding: 70px 0 65px; }
+.hero-title { font-size: clamp(40px, 5.2vw, 72px); line-height: 1.05; }
+.hero-subtitle { margin-top: 6px; }
+.hero-core-slot { position: relative; z-index: 51; }
+.core-placement { position: relative; z-index: 51; width: 100%; height: 100%; }
+.living-core, .core-pointer, .core-breath { width: 100%; height: 100%; }
+.living-core { perspective: 650px; pointer-events: none; }
+.core-pointer, .core-breath { position: relative; }
+.core-breath { animation: core-breathe 10.9s ease-in-out infinite; }
+.core-atmosphere, .core-proximity {
+  position: absolute; inset: 9%; border-radius: 50%;
+  background: radial-gradient(ellipse at center, #fff6df70 0%, #ffd6a045 4%, #f9731640 12%, #9a341227 30%, #9a34120d 49%, transparent 69%);
+}
+.core-atmosphere { animation: core-light 11.3s ease-in-out infinite; }
+.core-atmosphere::after {
+  content: ''; position: absolute; inset: 20%; opacity: 0.035; border-radius: 50%;
+  background-image: radial-gradient(#ffd6a0 0.45px, transparent 0.6px);
+  background-size: 5px 7px;
+}
+.core-proximity { opacity: 0; transition: opacity 0.8s ease; }
+.core-near .core-proximity { opacity: 0.55; }
+.core-volume { position: absolute; inset: 0; }
+.core-volume::before {
+  content: ''; position: absolute; inset: 13%; border-radius: 43% 57% 48% 52%;
+  background: radial-gradient(ellipse at 46% 44%, #863e4928, #9a34121c 45%, transparent 72%);
+}
+.core-surface { position: absolute; inset: 0; width: 100%; height: 100%; }
+.core-surface { animation: core-surface-tide 11.8s ease-in-out infinite; }
+.core-seed {
+  position: absolute; left: 49.2%; top: 49.2%; width: 1.6%; height: 1.6%;
+  border-radius: 45% 55% 53% 47%; background: var(--core-white); opacity: 0.8;
+  box-shadow: 0 0 9px 2px #ffd6a080, 0 0 24px 5px #f9731640;
+}
+@keyframes core-surface-tide {
+  0%, 100% { transform: rotate(-7deg) scale(0.975, 1.02); }
+  50% { transform: rotate(7deg) scale(1.03, 0.97); }
+}
+.core-orbit { position: absolute; inset: 0; }
+.core-orbit--0 { transform: rotate(-28deg) scaleY(0.72); }
+.core-orbit--1 { transform: rotate(18deg) scaleX(0.66); }
+.core-orbit--2 { transform: rotate(12deg) scaleY(0.92); }
+.core-precession, .core-orbit-spin { position: absolute; inset: 0; }
+.core-precession { animation: core-precess 13.1s ease-in-out infinite; }
+.core-orbit--1 .core-precession { animation-delay: -5s; animation-direction: reverse; }
+.core-orbit--2 .core-precession { animation-delay: -8s; }
+.core-orbit-spin { animation: core-spin 76s linear infinite; }
+.core-orbit--1 .core-orbit-spin { animation-duration: 97s; animation-direction: reverse; }
+.core-orbit--2 .core-orbit-spin { animation-duration: 113s; }
+.core-orbit svg { width: 100%; height: 100%; overflow: visible; }
+.core-material { stroke: var(--core-cream); stroke-width: 0.8; opacity: 0.18; }
+.core-orbit--1 .core-material { stroke: var(--core-orange); stroke-width: 0.8; opacity: 0.25; }
+.core-orbit--2 .core-material { stroke: var(--core-orange); stroke-width: 0.8; stroke-dasharray: 0.12 0.035 0.22 0.07; opacity: 0.25; }
+.core-traveller {
+  position: absolute; left: 49.5%; top: 11%; width: 3px; height: 3px;
+  border-radius: 50%; background: var(--core-cream); box-shadow: 0 0 6px #f97316;
+  animation: core-spark 12.1s ease-in-out infinite;
+}
+.core-orbit--1 .core-traveller { top: 15%; animation-delay: -4s; opacity: 0.5; }
+.core-orbit--2 .core-traveller { display: none; }
+.core-dust { position: absolute; inset: 0; }
+.core-dust i { position: absolute; left: 50%; top: 50%; transform: rotate(var(--angle)); }
+.core-dust i::after {
+  content: ''; display: block; width: 2px; height: 2px; border-radius: 50%;
+  background: var(--core-cream); opacity: 0;
+  animation: core-drift 13s calc(var(--particle) * -2.1s) ease-in-out infinite;
+}
+.core-paused *, .core-paused *::after { animation-play-state: paused !important; }
+@keyframes core-spin { to { transform: rotate(360deg); } }
+@keyframes core-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.025); } }
+@keyframes core-light { 0%, 100% { opacity: 0.7; } 50% { opacity: 0.92; } }
+@keyframes core-precess { 0%, 100% { transform: rotate(-4deg) scaleX(0.97); } 50% { transform: rotate(4deg) scaleX(1.03); } }
+@keyframes core-spark { 0%, 58%, 100% { opacity: 0.15; } 70%, 80% { opacity: 0.9; } }
+@keyframes core-drift {
+  0%, 60% { transform: translateX(125px) scale(0.5); opacity: 0; }
+  68% { opacity: 0.5; }
+  92%, 100% { transform: translateX(15px) scale(0.4); opacity: 0; }
+}
+
+/* The veil is inside the hero so the actual hero core stays mounted above it.
+   Elevate that hero over navigation only for the short formation sequence. */
+html.is-booting [data-core-hero] { position: relative; z-index: 60; }
+@media (prefers-reduced-motion: no-preference) {
+  [data-core-hero]:has(.core-system--introduced) .hero-in {
+    animation: genesis-copy 3.8s ease both;
+  }
+}
+@keyframes genesis-copy {
+  0%, 74% { opacity: 0; transform: none; }
+  100% { opacity: 1; transform: none; }
+}
+.genesis-screen {
+  position: fixed; inset: 0; z-index: 50; background: #000;
+  animation: genesis-veil 3.8s linear both;
+}
+.genesis-screen p {
+  position: absolute; top: max(32px, 7svh); left: 0; right: 0;
+  text-align: center; font: 400 11px/1.5 Inter, sans-serif;
+  letter-spacing: 0.08em; color: #a1a1aa;
+}
+.core-system--introduced .core-placement { animation: genesis-place 3.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.core-system--introduced .core-breath { animation: genesis-wake 3.8s ease-in-out both, core-breathe 10.9s 3.8s ease-in-out infinite; }
+.core-system--introduced .core-volume { animation: genesis-volume 2.8s 0.65s ease-out both; }
+.core-system--introduced .core-volume::before { animation: genesis-light 3.8s ease both; }
+.core-system--introduced .core-mesh-path { animation: genesis-weave 2.6s 0.65s linear both; }
+.core-system--introduced .core-mesh-path--1 { animation-delay: 1s; }
+.core-system--introduced .core-seed { animation: genesis-seed 1.5s ease-out both; }
+.core-system--introduced .core-atmosphere { animation: genesis-light 3.8s ease both, core-light 11.3s 3.8s ease-in-out infinite; }
+.core-system--introduced .core-material { animation: genesis-orbit 1.6s 0.55s ease both; }
+.core-system--introduced .core-orbit--1 .core-material { animation-delay: 0.95s; }
+.core-system--introduced .core-orbit--2 .core-material { animation-name: genesis-fragments; animation-delay: 1.4s; }
+.core-system--introduced .core-dust { animation: genesis-dust 3.8s ease both; }
+.core-system--introduced .core-traveller { animation: genesis-dust 3.8s ease both, core-spark 12.1s 3.8s ease-in-out infinite; }
+@keyframes genesis-volume {
+  from { transform: scale(0.88) rotate(-7deg); }
+  to { transform: scale(1) rotate(0); }
+}
+@keyframes genesis-weave {
+  from { stroke-dasharray: 520; stroke-dashoffset: 520; }
+  to { stroke-dasharray: 520; stroke-dashoffset: 0; }
+}
+@keyframes genesis-veil { 0%, 74% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes genesis-place { 0%, 74% { transform: translateY(var(--genesis-y, 0px)); } 100% { transform: translateY(0); } }
+@keyframes genesis-wake { 0%, 20% { transform: scale(0.84); } 74% { transform: scale(1.025); } 100% { transform: scale(1); } }
+@keyframes genesis-seed { 0% { opacity: 0; transform: scale(0.15); } 20% { opacity: 1; transform: scale(0.3); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes genesis-light { 0%, 16% { opacity: 0; } 68% { opacity: 0.6; } 85% { opacity: 0.95; } 100% { opacity: 0.7; } }
+@keyframes genesis-orbit { from { stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; } to { stroke-dasharray: 1; stroke-dashoffset: 0; } }
+@keyframes genesis-fragments { from { opacity: 0; stroke-dashoffset: 0.5; } to { stroke-dashoffset: 0; } }
+@keyframes genesis-dust { 0%, 18% { opacity: 0; } 50%, 100% { opacity: 1; } }
+
+@media (max-width: 1023px) {
+  .core-system { width: clamp(185px, 27svh, 255px); height: clamp(185px, 27svh, 255px); }
+  .core-seed { box-shadow: 0 0 7px 1px #ffd6a070, 0 0 15px 3px #f9731630; }
+  .core-atmosphere { inset: 15%; }
+  .core-atmosphere::after, .core-proximity { display: none; }
+  .core-precession { animation: none; }
+  /* Native scrolling, with a small departure only where scroll timelines
+     are supported. Other browsers keep the same natural document flow. */
+  @supports (animation-timeline: view()) {
+    [data-core-mobile] { view-timeline-name: --core-hero; view-timeline-axis: block; }
+    .living-core--mobile {
+      animation: core-depart linear both;
+      animation-timeline: --core-hero;
+      animation-range: exit 0% exit 65%;
+    }
+    @keyframes core-depart { to { transform: translateY(26px) scale(0.82); opacity: 0.45; } }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .core-system *, .core-system *::after { animation: none !important; transition: none !important; }
+  .genesis-screen { display: none; }
+  .core-placement, .core-pointer { transform: none !important; }
+  .core-atmosphere { opacity: 0.75; }
+  .hero-cinema { height: auto; overflow: visible; }
+  .hero-intro { position: relative; min-height: 100svh; }
+  .hero-about, .hero-directives { position: relative; opacity: 1; min-height: 75svh; pointer-events: auto; }
+  .hero-about span { opacity: 1; }
+  .hero-cinema > .absolute.bottom-6 { display: none; }
+}
+
+html.is-booting .hero-cinema > .absolute.bottom-6 { opacity: 0; }
