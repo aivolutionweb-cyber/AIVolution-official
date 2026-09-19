@@ -18,9 +18,7 @@ export const ResearchPage = () => {
             { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: "power3.out", stagger: 0.2 }
         );
 
-        // Continuous subtle floating animation. Skipped on phones/tablets:
-        // moving a blur(100px+) layer every frame is the single most
-        // expensive thing a mobile GPU can be asked to do for a decoration.
+        // Disable floating animation on mobile
         if (window.matchMedia('(max-width: 1023px)').matches) return;
         gsap.to('.floating-element', {
             y: -20,
@@ -34,7 +32,6 @@ export const ResearchPage = () => {
 
     return (
         <section className="relative min-h-screen bg-black text-white flex items-center justify-center overflow-hidden pt-20">
-            {/* Background elements */}
             <div className="absolute inset-0 pointer-events-none z-0">
                 <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#f97316]/10 blur-[100px] rounded-full floating-element"></div>
                 <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/10 blur-[120px] rounded-full floating-element"></div>

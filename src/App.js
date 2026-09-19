@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import  {NavBar}  from "./components/NavBar";
 import { Footer } from "./components/Footer";
@@ -6,10 +5,6 @@ import MouseFollower from './components/MouseFollower';
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Home } from "./pages/Home";
 
-// Secondary routes are code-split so the homepage bundle doesn't carry the
-// Supabase client, registration modal or animate.css. `webpackPrefetch`
-// makes the browser fetch these chunks during idle time after first paint,
-// so navigation is still instant.
 const Events = lazy(() =>
   import(/* webpackPrefetch: true */ "./components/Events").then((m) => ({ default: m.Events }))
 );
@@ -20,19 +15,13 @@ const ResearchPage = lazy(() =>
   import(/* webpackPrefetch: true */ "./pages/ResearchPage").then((m) => ({ default: m.ResearchPage }))
 );
 
-// Full-height black placeholder so a route chunk loading never flashes the
-// footer up into the viewport.
 const RouteFallback = () => <div className="min-h-screen bg-dark" aria-hidden="true" />;
 
 function App() {
   return (
     <div className="relative min-h-screen text-white selection:bg-secondary selection:text-white">
-      
-
-      {/* Mouse Follower stays on top */}
       <MouseFollower />
 
-      {/* Main Content - Relative z-10 ensures it sits ABOVE the background */}
       <div className="relative z-10">
         <ScrollToTop />
         <NavBar />
@@ -49,7 +38,6 @@ function App() {
         <Footer />
       </div>
 
-      {/* Scroll To Top Button */}
       <ScrollToTopButton />
     </div>
   );
@@ -58,8 +46,7 @@ function App() {
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
-    // `html { scroll-behavior: smooth }` would otherwise animate this jump,
-    // so a route change visibly scrolls up from wherever the user was.
+    // Temporarily disable smooth scroll during route transitions
     const root = document.documentElement;
     const prev = root.style.scrollBehavior;
     root.style.scrollBehavior = "auto";

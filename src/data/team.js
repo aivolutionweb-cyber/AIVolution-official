@@ -1,5 +1,3 @@
-// Members featured in the homepage team carousel. The full roster by
-// department lives in pages/TeamPage.js.
 export const TEAM_HIGHLIGHTS = [
   { name: 'Ishan', img: 'https://i.postimg.cc/VvJdtjPw/Ishan.jpg' },
   { name: 'Diwakar', img: 'https://i.postimg.cc/fyy0vGm4/Diwakar.jpg' },

@@ -13,7 +13,6 @@ const LiveDot = () => (
   </span>
 );
 
-// Shared "Register Now" anchor. Opens the Google Form in a new tab.
 export const RegisterLink = ({ className = '', children }) => (
   <a
     href={RECRUITMENT.formUrl}
@@ -29,12 +28,7 @@ export const RegisterLink = ({ className = '', children }) => (
   </a>
 );
 
-// Desktop homepage: a compact fixed card in the bottom-left corner. The
-// desktop hero is pinned for ~4200px of scroll, so anything placed in normal
-// flow below it is only reached after the full sequence — a small floating
-// card is the only way to be in the first viewport without touching the
-// Living Core. It stays hidden behind the genesis veil (`html.is-booting`)
-// and fades in once the core has formed. Dismissal is remembered per tab.
+// Floating recruitment card for desktop
 export const RecruitmentFloatingCard = () => {
   const [dismissed, setDismissed] = useState(isDismissed);
   if (dismissed) return null;
@@ -58,9 +52,6 @@ export const RecruitmentFloatingCard = () => {
       >
         ×
       </button>
-
-      {/* 1024–1279px: the hero title spans nearly the full width at this
-          size, so only a two-line pill fits beside it without overlap. */}
       <div className="xl:hidden">
         <div className="mb-1.5 flex items-center gap-2 font-mono text-[0.6rem] uppercase tracking-[0.3em] text-[#f97316]">
           <LiveDot />
@@ -86,15 +77,7 @@ export const RecruitmentFloatingCard = () => {
   );
 };
 
-// Mobile homepage: a single-line fixed strip along the bottom of the first
-// viewport, short enough to sit in the scroll indicator's band under the
-// hero's own buttons. The mobile hero already fills 100svh, so an in-flow card would
-// land below the fold; floating is the only way to be seen on landing
-// without moving hero elements. While it is live the hero's "Scroll to
-// explore" indicator (which it would cover) is not rendered; dismissing the
-// notice restores it. It hides once the page is scrolled past the hero
-// start so it never collides with the scroll-to-top button, and stays behind
-// the genesis veil like the desktop card.
+// Floating recruitment notice for mobile
 export const RecruitmentHeroNotice = ({ fallback }) => {
   const [dismissed, setDismissed] = useState(isDismissed);
   const [atTop, setAtTop] = useState(true);

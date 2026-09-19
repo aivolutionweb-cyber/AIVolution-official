@@ -52,7 +52,6 @@ export const Contact = () => {
     <section className="relative py-16 sm:py-20 md:py-24 bg-dark border-b border-gridline" id="connect">
       <div className="container mx-auto px-5 sm:px-6">
         
-        {/* Section Header */}
         <div className="border-b border-gridline pb-4 mb-10 sm:mb-16">
           <span className="font-mono text-muted text-xs tracking-widest uppercase mb-2 block">
             {"// SECURE_COMMS"}
@@ -64,7 +63,6 @@ export const Contact = () => {
 
         <div className="flex flex-col md:flex-row gap-0 border border-gridline bg-gridline">
           
-          {/* Left Side: Image / Decoration */}
           <div className="w-full md:w-1/2 bg-surface p-6 sm:p-8 md:p-12 flex items-center justify-center relative overflow-hidden group">
             <TrackVisibility once partialVisibility offset={200}>
               {({ isVisible }) =>
@@ -77,7 +75,6 @@ export const Contact = () => {
                 </div>
               }
             </TrackVisibility>
-            {/* Grid overlay */}
             <div className="absolute inset-0 pointer-events-none">
               <div
                 className="absolute inset-0"
@@ -90,10 +87,8 @@ export const Contact = () => {
             </div>
           </div>
 
-          {/* Right Side: Terminal Form */}
           <div className="w-full md:w-1/2 bg-dark p-6 sm:p-8 md:p-12 flex flex-col justify-center relative">
             
-            {/* Blinking Cursor Decoration */}
             <div className="absolute top-4 right-4 flex items-center gap-2">
               <span className="font-mono text-[10px] text-muted tracking-widest">STATUS: ONLINE</span>
               <div className="w-2 h-2 bg-green-500 animate-pulse"></div>

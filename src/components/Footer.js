@@ -4,13 +4,10 @@ export const Footer = () => {
   return (
     <footer className="relative bg-black text-white overflow-hidden">
       
-      {/* Top accent line */}
       <div className="w-full h-px bg-gradient-to-r from-transparent via-[#f97316]/40 to-transparent"></div>
 
-      {/* Main footer content */}
       <div className="container mx-auto px-5 sm:px-6 md:px-16 lg:px-32 pt-8 pb-10 sm:pb-12">
         
-        {/* Top row: Logo + Tagline */}
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 sm:gap-8 mb-12 sm:mb-16 md:mb-20">
           <div>
             <img 
@@ -28,7 +25,6 @@ export const Footer = () => {
             </p>
           </div>
           
-          {/* Social icons */}
           <div className="flex items-center gap-5">
             <a 
               href="https://www.instagram.com/aivolutions.mait?stkn=MTAwbGdpdHI0enA0bQ%3D%3D" 
@@ -55,9 +51,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Navigation grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-16 md:mb-20">
-          {/* Quick Links */}
           <div>
             <h4 className="font-mono text-[#f97316] text-[10px] tracking-[0.3em] uppercase mb-6">Navigate</h4>
             <ul className="space-y-4">
@@ -67,7 +61,6 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Socials */}
           <div>
             <h4 className="font-mono text-[#f97316] text-[10px] tracking-[0.3em] uppercase mb-6">Connect</h4>
             <ul className="space-y-4">
@@ -76,7 +69,6 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Location */}
           <div className="col-span-2 md:col-span-2 md:text-right">
             <h4 className="font-mono text-[#f97316] text-[10px] tracking-[0.3em] uppercase mb-6 md:text-right">Location</h4>
             <p className="text-gray-500 text-sm font-sans leading-relaxed">
@@ -87,7 +79,6 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div className="border-t border-white/5 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4 z-10 relative text-center md:text-left">
           <p className="text-gray-600 font-sans text-xs">
             © {new Date().getFullYear()} AIvolution. All rights reserved.

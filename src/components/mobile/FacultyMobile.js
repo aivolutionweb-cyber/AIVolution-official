@@ -2,10 +2,6 @@ import React from 'react';
 import { FACULTY } from '../../data/faculty';
 import { SectionHeading, SnapRow, LinkedInIcon } from './primitives';
 
-// Mobile counterpart of Faculty. The desktop react-multi-carousel autoplays
-// a transform transition every 2s and greys every photo out with a
-// `grayscale` filter that only lifts on hover — which never happens on a
-// touch screen. Here the photos are shown in colour in a native snap row.
 export const FacultyMobile = () => (
   <section id="faculty" className="border-t border-white/5 bg-black py-16 sm:py-20">
     <div className="mx-auto flex max-w-5xl items-end justify-between gap-4 px-5 sm:px-8">

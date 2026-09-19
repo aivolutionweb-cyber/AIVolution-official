@@ -5,12 +5,6 @@ import { ABOUT_TAGLINE, ABOUT_TEXT, DIRECTIVES } from '../../data/about';
 import { SectionHeading, pillPrimary, pillSecondary, ArrowIcon } from './primitives';
 import { RecruitmentHeroNotice } from '../RecruitmentCTA';
 
-// Mobile counterpart of CinematicHero. The desktop version pins the viewport
-// and scrubs three overlays through a pinned GSAP timeline; on a phone that
-// meant every overlay rendered on top of each other in a single 100svh box.
-// Here the same three beats — hero, "who are we", core directives — are
-// laid out as normal stacked sections that scroll natively.
-
 const [firstSentence, ...restSentences] = ABOUT_TEXT.split('. ');
 const aboutLede = `${firstSentence}.`;
 const aboutBody = restSentences.join('. ');
@@ -23,9 +17,6 @@ export const HeroMobile = () => (
       data-core-mobile
       className="relative flex min-h-[100svh] flex-col overflow-hidden bg-black px-5 pb-10 pt-24 sm:px-8 sm:pt-28"
     >
-      {/* Ambient glow as a static radial gradient. The desktop layer is a
-          blur(100px) filter that pulses forever — that alone was enough to
-          drop the phone below 30fps while the hero was on screen. */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -84,7 +75,6 @@ export const HeroMobile = () => (
       />
     </section>
 
-    {/* WHO ARE WE */}
     <section className="border-t border-white/5 bg-black px-5 py-16 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-2xl">
         <SectionHeading label={ABOUT_TAGLINE} title="Who are we" />
@@ -97,7 +87,6 @@ export const HeroMobile = () => (
       </div>
     </section>
 
-    {/* CORE DIRECTIVES */}
     <section className="bg-black px-5 pb-16 pt-4 sm:px-8 sm:pb-20">
       <div className="mx-auto max-w-5xl">
         <SectionHeading label="// OPERATIONAL_MANDATES" title="Core Directives" />

@@ -3,10 +3,6 @@ import { Link } from 'react-router-dom';
 import { DEPARTMENTS } from '../../data/departments';
 import { SectionHeading, ArrowIcon, pressable } from './primitives';
 
-// Mobile counterpart of Skills. The desktop version pins a 400vw track and
-// scrubs it sideways while morphing a 200vw blurred SVG beam; on a phone the
-// cards were cut off at both edges and the beam re-rasterised every frame.
-// Here each department is a tappable card in a normal vertical list.
 export const DepartmentsMobile = () => (
   <section id="skills" className="border-t border-white/5 bg-black px-5 py-16 sm:px-8 sm:py-20">
     <div className="mx-auto max-w-5xl">

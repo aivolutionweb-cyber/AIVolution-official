@@ -1,6 +1,3 @@
-// Static event catalogue. Lives in its own module so the homepage carousel
-// can import it without pulling the whole Events page (Supabase client,
-// registration modal, animate.css) into the initial bundle.
 export const EVENTS = [
   {
     type: "competition",

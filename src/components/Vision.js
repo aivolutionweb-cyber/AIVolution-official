@@ -16,7 +16,6 @@ export const Vision = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-gridline border border-gridline">
                     
-                    {/* Card 1 */}
                     <div className="p-10 bg-dark hover:bg-surface transition-colors duration-300 flex flex-col group relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-1 bg-primary transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
                         <div className="flex justify-between items-start mb-12">
@@ -33,7 +32,6 @@ export const Vision = () => {
                         </p>
                     </div>
 
-                    {/* Card 2 */}
                     <div className="p-10 bg-dark hover:bg-surface transition-colors duration-300 flex flex-col group relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-1 bg-primary transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
                         <div className="flex justify-between items-start mb-12">
@@ -50,7 +48,6 @@ export const Vision = () => {
                         </p>
                     </div>
 
-                    {/* Card 3 */}
                     <div className="p-10 bg-dark hover:bg-surface transition-colors duration-300 flex flex-col group relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-1 bg-primary transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
                         <div className="flex justify-between items-start mb-12">

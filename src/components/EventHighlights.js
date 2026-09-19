@@ -143,10 +143,8 @@ export const EventHighlights = () => {
     <div ref={wrapperRef} className="events-gsap-wrapper">
         <section ref={containerRef} className="h-screen w-full bg-black relative overflow-hidden flex items-center justify-center" style={{ perspective: '2000px' }}>
 
-          {/* 3D Stage */}
           <div className="relative w-full h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
 
-            {/* Background Typography (Positioned entirely in the background) */}
             <div
               className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
               style={{ transform: `translateZ(-800px)` }}
@@ -156,7 +154,6 @@ export const EventHighlights = () => {
               </h2>
             </div>
 
-            {/* 3D Helix Container */}
             <div
               ref={cylinderRef}
                className="relative w-[200px] h-[340px] sm:w-[240px] sm:h-[380px] md:w-[300px] md:h-[500px]"
@@ -182,9 +179,6 @@ export const EventHighlights = () => {
                     backfaceVisibility: 'hidden', // hides cards when they spin to the back
                   }}
                 >
-
-                  {/* Glass Card: image only. Purely visual — no listeners here,
-                      see the flat hitbox overlay outside the 3D stage instead. */}
                   <div
                     ref={(el) => (cardRefs.current[i] = el)}
                      className={`relative w-full h-[320px] sm:h-[360px] md:h-[480px] bg-[#0a0a0a]/80 border-2 rounded-xl overflow-hidden z-10 transition-shadow duration-300 ${isActive ? 'border-[#ea580c] shadow-[0_0_35px_rgba(249,115,22,0.55),0_10px_20px_rgba(0,0,0,0.8)]' : 'border-[#f97316]/60 shadow-[0_0_18px_rgba(249,115,22,0.3),0_10px_20px_rgba(0,0,0,0.8)]'} ${showHover ? 'shadow-[0_0_45px_rgba(249,115,22,0.7)]' : ''}`}
@@ -195,10 +189,6 @@ export const EventHighlights = () => {
                       className="relative w-full h-full transition-transform duration-700 ease-out"
                       style={{ transformStyle: 'preserve-3d', transform: showHover ? 'rotateY(180deg)' : 'rotateY(0deg)' }}
                     >
-                      {/* Front face: clean image, letterbox filled with a blurred
-                          backdrop of the same image instead of flat black so
-                          images whose aspect ratio doesn't match the card
-                          (landscape posters) don't look small and adrift. */}
                       <div className="absolute inset-0" style={{ backfaceVisibility: 'hidden' }}>
                         {evt.imgUrl ? (
                           <>
@@ -211,8 +201,6 @@ export const EventHighlights = () => {
                           </div>
                         )}
                       </div>
-
-                      {/* Back face: blurred image with the event name over it */}
                       <div
                         className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden"
                         style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
@@ -239,10 +227,6 @@ export const EventHighlights = () => {
           </div>
 
           </div>
-
-          {/* Flat, non-rotated hitbox glued to the active card's real screen rect.
-              Lives outside the 3D stage entirely so pointer hit-testing is plain
-              2D and always reliable, regardless of the active card's own rotateY. */}
           <div
             ref={hitboxRef}
             onClick={() => navigate('/events', { state: { eventId: events[activeIndexRef.current]?.id } })}

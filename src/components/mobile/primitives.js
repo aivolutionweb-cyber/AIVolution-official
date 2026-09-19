@@ -1,12 +1,5 @@
 import React from 'react';
 
-// Shared building blocks for the mobile homepage. Everything here is plain
-// DOM + Tailwind: no animation library, no filters, no 3D transforms.
-
-// `// LABEL` eyebrow + display heading, matching the desktop section headers.
-// Syne ExtraBold uppercase runs ~1.17em per character, so the size is fluid
-// (6.75vw) to keep the longest single word ("DEPARTMENTS") on one line from
-// 320px up without ever breaking mid-word.
 export const SectionHeading = ({ label, title, align = 'left', className = '' }) => (
   <div className={`reveal ${align === 'center' ? 'text-center' : 'text-left'} ${className}`}>
     <span className="mb-2 block font-mono text-[0.65rem] uppercase tracking-[0.25em] text-muted">
@@ -18,9 +11,7 @@ export const SectionHeading = ({ label, title, align = 'left', className = '' })
   </div>
 );
 
-// Native horizontal scroller with scroll-snap. The browser handles touch
-// momentum and snapping on the compositor, so it stays smooth on low-end
-// phones where a JS carousel (transition per tick) drops frames.
+
 export const SnapRow = ({ children, className = '', ariaLabel }) => (
   <div
     className={`snap-row flex gap-3 overflow-x-auto px-5 pb-2 sm:px-8 ${className}`}
@@ -28,17 +19,13 @@ export const SnapRow = ({ children, className = '', ariaLabel }) => (
     aria-label={ariaLabel}
   >
     {children}
-    {/* Trailing spacer so the last card can snap fully into view with the
-        same gutter as the first. */}
     <div className="w-2 shrink-0 sm:w-5" aria-hidden="true" />
   </div>
 );
 
-// Pill button / link styles shared by the mobile CTAs. Minimum 48px tall so
-// every tap target clears the WCAG / platform guideline.
+
 export const pillPrimary =
   'inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-white px-7 text-xs font-semibold uppercase tracking-wide text-black transition-transform duration-200 active:scale-95';
-// Card-level press feedback for tappable cards.
 export const pressable = 'transition-transform duration-200 ease-out active:scale-[0.97]';
 export const pillSecondary =
   'inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border border-white/15 px-7 text-xs font-semibold uppercase tracking-wide text-white transition-colors duration-200 active:bg-white/10';

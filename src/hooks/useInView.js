@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 
-// True while the referenced element intersects the viewport (plus
-// `rootMargin`). Used to pause decorative CSS animations that are scrolled
-// out of view so they don't keep the compositor busy for the whole page.
+// Track whether element is within viewport
 export const useInView = (ref, rootMargin = '0px') => {
   const [inView, setInView] = useState(true);
 

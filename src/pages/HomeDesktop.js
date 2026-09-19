@@ -34,7 +34,6 @@ const InteractiveHoverText = () => {
       >
         AIVOLUTIONS
       </h1>
-      {/* Absolute overlay that fades to white when not hovering to hide the effect when mouse leaves */}
       <h1 
         className="font-display font-extrabold text-[12vw] sm:text-[9vw] leading-[0.85] tracking-tighter whitespace-nowrap absolute text-white opacity-100 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none"
       >
@@ -44,10 +43,6 @@ const InteractiveHoverText = () => {
   );
 };
 
-// Homepage for viewports >= 1024px: the pinned GSAP hero, horizontal
-// department track, 3D event helix and sponsor ring. Unchanged from the
-// original single-tree App.js; only moved here so it can be code-split
-// away from the mobile homepage.
 const HomeDesktop = () => (
   <>
     <CinematicHero />

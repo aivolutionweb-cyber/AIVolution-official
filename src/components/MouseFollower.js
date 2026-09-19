@@ -19,10 +19,7 @@ const MouseFollower = () => {
     const dot = dotRef.current;
     if (!dot) return;
 
-    // Drive the dot straight through the DOM: mousemove fires 60–120×/s and
-    // routing it through React state re-rendered this component (and forced
-    // layout via left/top) on every single event. A composited transform
-    // costs nothing by comparison.
+    // Update position directly to avoid re-rendering on mousemove
     let visible = false;
     const handleMouseMove = (e) => {
       dot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
@@ -32,7 +29,6 @@ const MouseFollower = () => {
       }
     };
 
-    // Hide cursor when it leaves the window
     const handleMouseLeave = () => { visible = false; dot.style.opacity = '0'; };
     const handleMouseEnter = () => { visible = true; dot.style.opacity = '1'; };
 
@@ -54,7 +50,6 @@ const MouseFollower = () => {
       ref={dotRef}
       className="pointer-events-none fixed top-0 left-0 z-[9999] rounded-full transition-opacity duration-300 ease-in-out opacity-0"
       style={{
-        // Using a simple, subtle white dot with a very thin border
         width: '8px',
         height: '8px',
         backgroundColor: 'rgba(255, 255, 255, 0.8)',

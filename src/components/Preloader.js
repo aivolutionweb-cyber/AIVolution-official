@@ -6,8 +6,6 @@ const SESSION_KEY = 'aiv:booted';
 const hasBooted = () => {
   try { return sessionStorage.getItem(SESSION_KEY) === '1'; } catch { return false; }
 };
-
-// The veil leaves; its child never unmounts or changes animation clocks.
 export const Preloader = ({ children }) => {
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const [phase, setPhase] = useState(() => hasBooted() || reducedMotion ? 'skipped' : 'forming');
@@ -36,7 +34,6 @@ export const Preloader = ({ children }) => {
       setPhase(skipped ? 'skipped' : 'settled');
     };
     const timer = window.setTimeout(() => finish(), 3800);
-    // Never delay a keyboard user who is ready to navigate.
     const onKey = (event) => {
       if (event.key === 'Tab' || event.key === 'Escape') finish(true);
     };

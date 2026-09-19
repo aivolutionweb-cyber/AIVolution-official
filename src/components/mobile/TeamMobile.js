@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { TEAM_HIGHLIGHTS } from '../../data/team';
 import { SectionHeading, SnapRow, pillPrimary, ArrowIcon, pressable } from './primitives';
 
-// Mobile counterpart of Team. Two-up snap row instead of the 1.2s autoplay
-// carousel (whose 13 pagination dots also overflowed narrow screens).
 export const TeamMobile = () => (
   <section id="team" className="border-t border-white/5 bg-black py-16 sm:py-20">
     <div className="mx-auto max-w-5xl px-5 sm:px-8">
@@ -34,7 +32,6 @@ export const TeamMobile = () => (
         </div>
       ))}
 
-      {/* Trailing card: arrow through to the full roster. */}
       <Link
         to="/team"
         aria-label="See the full team"

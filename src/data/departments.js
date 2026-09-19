@@ -1,7 +1,3 @@
-// The four departments. Shared by the desktop horizontal track (Skills),
-// the mobile department list and (by key) pages/TeamPage.js.
-// `key` must match the department keys used by pages/TeamPage.js — the
-// description card links to /team?dept=<key>.
 export const DEPARTMENTS = [
   { key: "tech-dev", title: "Tech & Dev", id: "MOD_01", desc: "Engineering the future through modern web, mobile, and AI solutions. The core backbone of AIVolution's technical infrastructure." },
   { key: "event-mgmt", title: "Event Management", id: "MOD_02", desc: "Architecting seamless and immersive technical and cultural experiences. From hackathons to global summits." },

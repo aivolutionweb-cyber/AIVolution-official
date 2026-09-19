@@ -160,8 +160,7 @@ export const Events = () => {
   );
 };
 
-// Dedicated card for the current recruitment drive. Unlike EventCard it has
-// no gallery to open — the whole card points at the external Google Form.
+// Recruitment card linking to external registration form
 const RecruitmentCard = () => (
   <article
     className="relative overflow-hidden border border-primary bg-surface shadow-[0_0_35px_rgba(249,115,22,0.25)]"

@@ -1,4 +1,3 @@
-// Faculty advisors shown on the homepage (desktop carousel + mobile snap row).
 export const FACULTY = [
     {
         name: "Dr. Vinay Kumar Saini",

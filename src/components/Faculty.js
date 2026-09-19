@@ -4,7 +4,6 @@ import 'react-multi-carousel/lib/styles.css';
 import { FACULTY as facultyMembers } from '../data/faculty';
 
 
-/* ─── Custom Arrow Button ─────────────────────────────────────── */
 const ArrowBtn = ({ direction, onClick }) => (
     <button
         onClick={onClick}
@@ -44,7 +43,6 @@ const ArrowBtn = ({ direction, onClick }) => (
     </button>
 );
 
-/* ─── Custom Button Group (sits below or beside carousel) ─────── */
 const CustomButtonGroup = ({ next, previous }) => (
     <div style={{
         display: 'flex',
@@ -71,7 +69,6 @@ export const Faculty = () => {
     return (
         <section ref={containerRef} className="py-16 sm:py-20 md:py-24 bg-black relative overflow-hidden border-b border-[#f97316]/10" id="faculty">
             
-            {/* Background elements */}
             <div className="absolute top-0 right-0 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-gradient-to-bl from-[#f97316]/5 to-transparent blur-[100px] rounded-full pointer-events-none"></div>
 
             <div className="container mx-auto px-5 sm:px-6 relative z-10 mt-6 sm:mt-10 mb-10 sm:mb-16">
@@ -85,7 +82,6 @@ export const Faculty = () => {
                 </div>
             </div>
 
-            {/* Interactive Animated Carousel */}
             <div
                 className="container mx-auto px-4 sm:px-6 relative z-10"
                 onMouseEnter={() => setIsPaused(true)}
@@ -113,7 +109,6 @@ export const Faculty = () => {
                             key={idx}
                             className="group relative w-[82vw] max-w-[320px] sm:w-full aspect-[3/4] bg-[#0a0a0a] rounded-2xl overflow-hidden border border-white/5 hover:border-[#f97316]/50 transition-[border-color,box-shadow] duration-500 shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.2)] shrink-0 cursor-grab active:cursor-grabbing mx-auto"
                         >
-                            {/* Full Cover Image */}
                             {member.imgUrl ? (
                                 <>
                                     <img
@@ -150,7 +145,6 @@ export const Faculty = () => {
                                         </p>
                                     </div>
                                     
-                                    {/* LinkedIn Icon Button */}
                                     <a
                                         href={member.linkedin}
                                         target="_blank"

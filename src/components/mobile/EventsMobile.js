@@ -11,11 +11,6 @@ const TYPE_LABEL = {
   workshop: 'Workshop',
 };
 
-// Mobile counterpart of EventHighlights. The desktop version is a pinned
-// 3D helix: eight cards on a preserve-3d cylinder, each drawing two copies
-// of its image (one blurred), rotated by a scrubbed tween. On a phone the
-// side cards clipped the viewport and the blurred copies cost a full
-// repaint per scroll frame. Here it's a swipeable snap row of flat cards.
 export const EventsMobile = () => {
   const navigate = useNavigate();
 
@@ -45,8 +40,6 @@ export const EventsMobile = () => {
               <img
                 src={evt.imgUrl}
                 alt={evt.title}
-                // The first two cards are in view on load; the rest only
-                // download once the row is scrolled.
                 loading={i < 2 ? 'eager' : 'lazy'}
                 decoding="async"
                 className="absolute inset-0 h-full w-full object-cover"

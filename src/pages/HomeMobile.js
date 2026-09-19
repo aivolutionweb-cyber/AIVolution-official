@@ -7,10 +7,6 @@ import { SponsorsMobile } from '../components/mobile/SponsorsMobile';
 import { FacultyMobile } from '../components/mobile/FacultyMobile';
 import { TeamMobile } from '../components/mobile/TeamMobile';
 
-// Homepage for phones and portrait tablets (< 1024px). Same sections and
-// copy as HomeDesktop, laid out as plain scrolling blocks with no pinned
-// sections, filters, 3D transforms or animation-library work. Motion is
-// limited to a CSS hero entrance and IntersectionObserver scroll-reveals.
 const HomeMobile = () => {
   const rootRef = useRef(null);
   useReveal(rootRef);

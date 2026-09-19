@@ -13,7 +13,6 @@ export const CinematicHero = () => {
   const [hoveredImage, setHoveredImage] = useState(null);
   const hoverRevealRef = useRef(null);
   
-  // Animation Refs
   const coreRef = useRef(null);
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
@@ -44,7 +43,6 @@ export const CinematicHero = () => {
       .to(coreRef.current, { scale: 0.18, y: () => -window.innerHeight * 0.17, opacity: 0.65, duration: 2.5, ease: "power2.inOut" }, 0)
       .to(coreRef.current, { opacity: 0, duration: 1 }, 6.5);
 
-    // SCENE 3: Who Are We fades in and out
     tl.fromTo(whoAreWeRef.current,
         { opacity: 0, scale: 0.95 },
         { opacity: 1, scale: 1, duration: 1 },
@@ -58,7 +56,6 @@ export const CinematicHero = () => {
         6.5
     );
 
-    // SCENE 4: Directives Slide Up
     tl.fromTo(visionContainerRef.current,
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, duration: 1 },
@@ -69,12 +66,11 @@ export const CinematicHero = () => {
         8.0
     );
 
-    // Hold the final state
     tl.to({}, { duration: 1 });
     });
     return () => media.revert();
 
-  }, { scope: wrapperRef }); // Scope to outer wrapper
+  }, { scope: wrapperRef });
 
   // Hover Reveal Mouse Tracker — only listens while a preview is showing, so
   // the global mousemove handler (two GSAP tweens per event) isn't running
@@ -110,12 +106,9 @@ export const CinematicHero = () => {
             </p>
           </div>
 
-          {/* --- OVERLAYS --- */}
 
-          {/* Who Are We Overlay (Minimal & Sophisticated) */}
           <div ref={whoAreWeRef} className="hero-about absolute inset-0 w-full h-full flex flex-col items-center justify-center z-40 px-4 sm:px-6 opacity-0 pointer-events-none overflow-y-auto py-8">
 
-            {/* Typography Core - Minimal */}
             <div className="max-w-5xl w-full text-center relative z-10 p-2 sm:p-4 md:p-12 pointer-events-auto my-auto">
                 <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-extrabold text-white uppercase tracking-tight drop-shadow-2xl mb-2 leading-none">
                     WHO ARE WE
@@ -154,7 +147,6 @@ export const CinematicHero = () => {
             </div>
           </div>
 
-          {/* Vision Overlay */}
           <div ref={visionContainerRef} className="hero-directives absolute inset-0 w-full h-full flex flex-col items-center justify-center z-40 px-4 sm:px-6 opacity-0 pointer-events-none overflow-y-auto py-6">
             
             <div className="mb-6 sm:mb-10 md:mb-12 text-center mt-0 sm:mt-[-10vh] shrink-0">
@@ -185,7 +177,6 @@ export const CinematicHero = () => {
               <div className="w-px h-8 sm:h-12 bg-gradient-to-b from-[#f97316] to-transparent mx-auto"></div>
           </div>
 
-          {/* Hover Image Reveal Stage — desktop hover only, hidden on touch */}
           <div 
             ref={hoverRevealRef} 
             className={`hover-reveal-only hidden md:block fixed top-0 left-0 w-[300px] h-[200px] pointer-events-none z-[100] transition-opacity duration-300 rounded-xl overflow-hidden shadow-2xl border border-white/10 ${hoveredImage ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}

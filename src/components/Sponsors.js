@@ -13,9 +13,7 @@ export const Sponsors = () => {
     const ringRef = useRef(null);
     const parallaxWrapperRef = useRef(null);
 
-    // Double array for a fuller 3D ring
     const sponsors = [...baseSponsors, ...baseSponsors];
-    // Tighter orbit on phones so cards stay inside the viewport
     const [viewportWidth, setViewportWidth] = useState(
         typeof window !== 'undefined' ? window.innerWidth : 1280
     );
@@ -29,10 +27,8 @@ export const Sponsors = () => {
     const radius = viewportWidth < 640 ? 190 : viewportWidth < 1024 ? 280 : 350;
 
     useGSAP(() => {
-        // Initialize base tilt so GSAP controls it
         gsap.set(ringRef.current, { rotationX: -15, y: 0 });
 
-        // Infinite 3D rotation - Faster and reversed direction
         const spin = gsap.to(ringRef.current, {
             rotationY: 360,
             ease: "none",
@@ -40,7 +36,6 @@ export const Sponsors = () => {
             repeat: -1,
         });
 
-        // Organic floating/bobbing effect to change the "flow"
         const bob = gsap.to(ringRef.current, {
             y: -25,
             rotationX: -5, // subtle wobble
@@ -50,22 +45,19 @@ export const Sponsors = () => {
             repeat: -1,
         });
 
-        // Mouse Parallax effect
         const xTo = gsap.quickTo(parallaxWrapperRef.current, "x", { duration: 0.8, ease: "power3" });
         const yTo = gsap.quickTo(parallaxWrapperRef.current, "y", { duration: 0.8, ease: "power3" });
 
         const handleMouseMove = (e) => {
             const { innerWidth, innerHeight } = window;
-            const x = (e.clientX / innerWidth - 0.5) * 50; // subtle move left/right
-            const y = (e.clientY / innerHeight - 0.5) * 50; // subtle move up/down
+            const x = (e.clientX / innerWidth - 0.5) * 50;
+            const y = (e.clientY / innerHeight - 0.5) * 50;
             
             xTo(x);
             yTo(y);
         };
 
-        // Two infinite tweens on a 10-card 3D ring plus a global mousemove
-        // handler were running for the entire page lifetime. Only do that
-        // work while the section is actually on screen.
+        // Only animate and track mouse when section is in view
         const attach = () => window.addEventListener("mousemove", handleMouseMove, { passive: true });
         const detach = () => window.removeEventListener("mousemove", handleMouseMove);
 
@@ -89,7 +81,6 @@ export const Sponsors = () => {
     return (
         <section ref={sectionRef} className="py-20 sm:py-24 md:py-32 bg-[#020617] relative overflow-hidden border-b border-[#f97316]/10">
             
-            {/* Background Glow (Orange Mix) */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-[800px] h-[300px] sm:h-[400px] bg-gradient-to-r from-[#f97316]/10 to-[#ea580c]/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
 
             <div className="container mx-auto px-5 sm:px-6 mb-14 sm:mb-20 md:mb-24 relative z-10">
@@ -103,10 +94,8 @@ export const Sponsors = () => {
                 </div>
             </div>
             
-            {/* 3D Orbital Carousel Stage */}
             <div className="relative w-full h-[320px] sm:h-[360px] md:h-[400px] flex items-center justify-center z-10" style={{ perspective: '1200px' }}>
                 <div ref={parallaxWrapperRef} className="relative w-full h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
-                    {/* Tilted Ring Wrapper */}
                 <div 
                     ref={ringRef} 
                     className="relative w-[200px] h-[100px]"
@@ -123,12 +112,11 @@ export const Sponsors = () => {
                                 className="absolute top-0 left-0 w-full h-full flex items-center justify-center"
                                 style={{
                                     transform: `rotateY(${angle}deg) translateZ(${radius}px)`,
-                                    backfaceVisibility: 'hidden', // Hide back of cards as they spin around
+                                    backfaceVisibility: 'hidden',
                                 }}
                             >
                                 <div className="group w-[150px] h-[80px] sm:w-[220px] sm:h-[100px] bg-[#0a0a0a]/90 border border-white/10 rounded-xl flex items-center justify-center p-3 sm:p-4 transition-[background-color,border-color] duration-500 hover:bg-[#111] hover:border-[#f97316]/50 shadow-[0_10px_30px_rgba(0,0,0,0.8)] relative overflow-hidden">
                                     
-                                    {/* Inner Glow on Hover */}
                                     <div className="absolute inset-0 bg-gradient-to-r from-[#f97316]/0 via-[#f97316]/10 to-[#ea580c]/20 opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
                                     
                                     {sponsor.logo ? (

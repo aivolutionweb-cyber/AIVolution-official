@@ -26,11 +26,10 @@ export const Skills = () => {
       scrollTrigger: {
         trigger: containerRef.current,
         pin: true,
-        scrub: 0.4,          // was 1 — much snappier catch-up
+        scrub: 0.4,
         start: "top top",
         end: () => `+=${window.innerWidth * departments.length}`,
         refreshPriority: 1
-        // anticipatePin removed — it caused a micro-jump on entry
       }
     });
 
@@ -52,7 +51,7 @@ export const Skills = () => {
     const bgTl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
-        scrub: 0.4,           // was 1 — matches track scrub
+        scrub: 0.4,
         start: "top top",
         end: () => `+=${window.innerWidth * departments.length}`,
       }
@@ -70,7 +69,6 @@ export const Skills = () => {
   return (
     <div ref={containerRef} className="relative bg-black text-white overflow-hidden" id="skills">
       
-      {/* Background Layer (Pinned) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden flex items-center justify-center">
         {/* Dynamic Morphing Beam. The blur is a CSS filter on the <svg>
             (GPU-composited) rather than an SVG feGaussianBlur on the path,
@@ -94,11 +92,9 @@ export const Skills = () => {
             </svg>
         </div>
         
-        {/* Subtle global glow */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#f97316]/5 blur-[120px] rounded-full"></div>
       </div>
 
-      {/* Global Section Label */}
       <div className="absolute top-20 sm:top-12 left-5 sm:left-6 md:left-16 lg:left-32 z-20 flex items-center gap-3 sm:gap-4">
           <div className="w-3 h-3 rounded-full bg-[#f97316] shrink-0"></div>
           <span className="font-mono text-gray-400 text-[0.65rem] sm:text-xs md:text-sm tracking-[0.3em] uppercase">
@@ -106,19 +102,16 @@ export const Skills = () => {
           </span>
       </div>
 
-      {/* Horizontal Track */}
       <div ref={trackRef} className="relative flex h-screen w-[400vw] z-10" style={{ willChange: 'transform' }}>
         {departments.map((dept, index) => (
             <div 
                 key={dept.id} 
                 className="w-screen h-full flex-shrink-0 px-5 sm:px-6 md:px-16 lg:px-32 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-0 relative pt-[12vh] md:pt-[15vh] pb-10 md:pb-0"
             >
-                {/* Giant background number positioned behind the title */}
                 <span className="absolute left-4 sm:left-6 md:left-16 lg:left-32 font-display font-extrabold text-[7rem] sm:text-[10rem] md:text-[28rem] lg:text-[34rem] leading-none text-white/[0.03] select-none pointer-events-none z-0 top-16 md:top-20">
                     {`0${index + 1}`}
                 </span>
 
-                {/* Left: Title Block */}
                 <div className="left-title-block w-full md:w-[50%] flex flex-col items-start z-10 md:mt-[15vh]">
                     
                     <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold text-white tracking-tight leading-[1.05] mb-5 sm:mb-8">
@@ -128,7 +121,6 @@ export const Skills = () => {
                     <div className="h-1.5 w-24 rounded-full bg-[#f97316]"></div>
                 </div>
 
-                {/* Right: Glass Description Box */}
                 <Link to={`/team?dept=${dept.key}`} className="w-full md:w-[40%] z-10 md:pb-0 flex items-center justify-center md:justify-start md:-ml-16 md:-mt-[15vh]">
                     <div className="bg-white/[0.04] backdrop-blur-md rounded-2xl px-5 py-5 sm:px-8 sm:py-6 w-full max-w-md">
                         <p className="text-gray-400 font-sans text-sm sm:text-base md:text-lg leading-relaxed">

@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
 
-// Below the `lg` breakpoint the homepage swaps its pinned / 3D desktop
-// sections for purpose-built mobile layouts. Phones and portrait tablets get
-// the lighter tree; anything wider keeps the desktop experience untouched.
 export const MOBILE_QUERY = '(max-width: 1023px)';
 
 const canMatch = () =>

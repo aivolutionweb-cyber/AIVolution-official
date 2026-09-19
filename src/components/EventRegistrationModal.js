@@ -110,8 +110,7 @@ export const EventRegistrationModal = ({ event, onClose }) => {
 
   const handleSubmit = () => {
     setSubmitting(true);
-    // Frontend-only stub — no backend yet. Fake a short "processing" beat
-    // so the flow reads as real, then generate a client-side confirmation.
+    // Mock registration submission
     setTimeout(() => {
       const regId = `AIV-${event.id}-${Math.random()
         .toString(36)

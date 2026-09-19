@@ -1,13 +1,5 @@
 import { useEffect } from 'react';
 
-// Scroll-reveal for the mobile homepage. Every element carrying the `reveal`
-// class (see index.css) starts faded/offset and gets `is-visible` the first
-// time it enters the viewport; the CSS transition does the rest on the
-// compositor. One shared IntersectionObserver serves the whole page, each
-// element is unobserved after it reveals, and nothing runs on scroll.
-//
-// `--reveal-i` on an element staggers its delay (80ms per step).
-
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' &&
   typeof window.matchMedia === 'function' &&
@@ -25,11 +17,6 @@ const getObserver = () => {
           }
         }
       },
-      // Bottom edge: fire once ~8% of the viewport has passed under the
-      // element, so nothing pops in exactly at the fold. Top edge: extend
-      // the root far upwards so anything a fast flick scrolls *past* in a
-      // single frame (never intersecting the viewport itself) still counts
-      // as seen and reveals, instead of staying invisible above the fold.
       { rootMargin: '10000px 0px -8% 0px', threshold: 0.08 }
     );
   }

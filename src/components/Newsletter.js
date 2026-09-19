@@ -7,7 +7,6 @@ export const Newsletter = ({ status, message, onValidated }) => {
     if (status === "success") clearFields();
   }, [status]);
 
-  // Fixes the 'unused-vars' warning by ensuring logic is applied correctly
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email && email.indexOf("@") > -1) {

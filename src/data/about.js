@@ -1,6 +1,3 @@
-// "Who are we" copy and the three core directives. Rendered by the desktop
-// CinematicHero overlays and by the mobile hero sections, so the wording
-// lives in one place.
 export const ABOUT_TAGLINE = "// WHERE CURIOSITY BECOMES CAPABILITY";
 
 export const ABOUT_TEXT =
