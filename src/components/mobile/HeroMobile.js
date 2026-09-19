@@ -3,6 +3,7 @@ import { LivingCore } from '../LivingCore';
 import { Link } from 'react-router-dom';
 import { ABOUT_TAGLINE, ABOUT_TEXT, DIRECTIVES } from '../../data/about';
 import { SectionHeading, pillPrimary, pillSecondary, ArrowIcon } from './primitives';
+import { RecruitmentHeroNotice } from '../RecruitmentCTA';
 
 // Mobile counterpart of CinematicHero. The desktop version pins the viewport
 // and scrubs three overlays through a pinned GSAP timeline; on a phone that
@@ -67,14 +68,20 @@ export const HeroMobile = () => (
         </div>
       </div>
 
-      <div className="hero-in relative z-10 flex flex-col items-center opacity-60" style={{ '--i': 6 }}>
-        <span className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-[#f97316]">
-          Scroll to explore
-        </span>
-        <div className="relative mt-2 h-8 w-px bg-gradient-to-b from-[#f97316]/60 to-transparent">
-          <span className="scroll-dot absolute -left-[1.5px] top-0 h-1 w-1 rounded-full bg-[#f97316]" />
-        </div>
-      </div>
+      {/* The floating recruitment notice covers the scroll indicator's
+          spot, so the indicator is only rendered once the notice is gone. */}
+      <RecruitmentHeroNotice
+        fallback={
+          <div className="hero-in relative z-10 flex flex-col items-center opacity-60" style={{ '--i': 6 }}>
+            <span className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-[#f97316]">
+              Scroll to explore
+            </span>
+            <div className="relative mt-2 h-8 w-px bg-gradient-to-b from-[#f97316]/60 to-transparent">
+              <span className="scroll-dot absolute -left-[1.5px] top-0 h-1 w-1 rounded-full bg-[#f97316]" />
+            </div>
+          </div>
+        }
+      />
     </section>
 
     {/* WHO ARE WE */}

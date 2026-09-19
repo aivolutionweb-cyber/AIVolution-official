@@ -7,6 +7,8 @@ import { isSupabaseConfigured } from "../lib/supabaseClient";
 import { EventRegistrationModal } from "./EventRegistrationModal";
 
 import { EVENTS } from "../data/events";
+import { RECRUITMENT } from "../data/recruitment";
+import { RegisterLink } from "./RecruitmentCTA";
 
 // Re-exported for backwards compatibility with existing imports.
 export { EVENTS };
@@ -63,6 +65,7 @@ export const Events = () => {
     if (match) setFullscreenEvent(match);
   }, [location.state, events]);
 
+  const upcomingEvents = events.filter((e) => e.registrationOpen);
   const pastEvents = events.filter((e) => !e.registrationOpen);
 
   return (
@@ -102,6 +105,27 @@ export const Events = () => {
           </div>
         ) : (
           <>
+            <div className="mb-20 sm:mb-28">
+              <div className="flex items-center gap-3 mb-10">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary" />
+                </span>
+                <h2 className="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl uppercase tracking-tight text-white">
+                  Upcoming Events
+                </h2>
+                <span className="hidden sm:inline font-mono text-[10px] text-primary tracking-widest uppercase">
+                  Registration Open
+                </span>
+              </div>
+              <RecruitmentCard />
+              {upcomingEvents.length > 0 && (
+                <div className="mt-8">
+                  <EventGrid events={upcomingEvents} onGalleryClick={setFullscreenEvent} />
+                </div>
+              )}
+            </div>
+
             {pastEvents.length > 0 && (
               <div>
                 <div className="flex items-center gap-3 mb-10">
@@ -135,6 +159,71 @@ export const Events = () => {
     </section>
   );
 };
+
+// Dedicated card for the current recruitment drive. Unlike EventCard it has
+// no gallery to open — the whole card points at the external Google Form.
+const RecruitmentCard = () => (
+  <article
+    className="relative overflow-hidden border border-primary bg-surface shadow-[0_0_35px_rgba(249,115,22,0.25)]"
+    aria-labelledby="recruitment-title"
+  >
+    <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-primary via-[#ffd6a0] to-transparent" aria-hidden="true" />
+    <div
+      className="pointer-events-none absolute inset-0 opacity-[0.06]"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, #f97316 1px, transparent 1px), linear-gradient(to bottom, #f97316 1px, transparent 1px)",
+        backgroundSize: "40px 40px",
+        maskImage: "linear-gradient(to left, black, transparent 70%)",
+        WebkitMaskImage: "linear-gradient(to left, black, transparent 70%)",
+      }}
+      aria-hidden="true"
+    />
+
+    <div className="relative grid gap-8 p-6 sm:p-8 md:p-10 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12">
+      <div>
+        <div className="flex flex-wrap items-center gap-3 mb-4 font-mono text-[9px] tracking-widest uppercase">
+          <span className="flex items-center gap-1.5 text-white bg-primary px-3 py-1 rounded-full shadow-lg">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
+            </span>
+            Registration Open
+          </span>
+          <span className="flex items-center gap-1.5 text-[#ffd6a0]">
+            <span className="w-2 h-2 rounded-full bg-[#ffd6a0] shadow-[0_0_6px_currentColor]" />
+            Recruitment
+          </span>
+        </div>
+
+        <h3 id="recruitment-title" className="font-display font-bold text-white uppercase text-2xl md:text-3xl mb-3">
+          {RECRUITMENT.title}
+        </h3>
+        <p className="text-muted font-sans leading-relaxed text-base md:max-w-2xl">
+          {RECRUITMENT.summary}
+        </p>
+
+        <div className="flex flex-wrap gap-2 mt-5">
+          {RECRUITMENT.facts.map((fact) => (
+            <span
+              key={fact}
+              className="font-mono text-[10px] md:text-[11px] tracking-widest uppercase text-primary bg-primary/10 border border-primary/30 rounded-full px-3 py-1.5"
+            >
+              {fact}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-3 lg:w-64">
+        <RegisterLink className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 bg-primary px-6 font-mono text-sm font-semibold tracking-widest uppercase text-white transition-colors duration-300 hover:bg-white hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white" />
+        <span className="font-mono text-[10px] tracking-widest uppercase text-muted text-center">
+          Opens Google Form · New Tab
+        </span>
+      </div>
+    </div>
+  </article>
+);
 
 const EventGrid = ({ events: list, onGalleryClick }) => (
   <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">

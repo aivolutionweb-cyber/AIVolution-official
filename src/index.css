@@ -409,3 +409,11 @@ html.is-booting [data-core-hero] { position: relative; z-index: 60; }
 }
 
 html.is-booting .hero-cinema > .absolute.bottom-6 { opacity: 0; }
+
+/* Homepage recruitment card: stays behind the genesis veil, then fades in
+   once the core has formed. Opacity only, so it never touches the hero. */
+.recruitment-float { transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+html.is-booting .recruitment-float { opacity: 0; transform: translateY(12px); pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .recruitment-float { transition: none; }
+}

@@ -5,6 +5,7 @@ import { EventHighlights } from '../components/EventHighlights';
 import { Sponsors } from '../components/Sponsors';
 import { Faculty } from '../components/Faculty';
 import { Team } from '../components/Team';
+import { RecruitmentFloatingCard } from '../components/RecruitmentCTA';
 
 const InteractiveHoverText = () => {
   const handleMouseMove = (e) => {
@@ -56,6 +57,7 @@ const HomeDesktop = () => (
     <Faculty />
     <Team />
     <InteractiveHoverText />
+    <RecruitmentFloatingCard />
   </>
 );
 
