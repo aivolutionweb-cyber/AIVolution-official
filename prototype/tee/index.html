@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aivolutions Tee Widget — Standalone Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./tee.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./node_modules/three/build/three.module.js",
+    "three/addons/": "./node_modules/three/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+  <div class="harness-tag" aria-hidden="true">STANDALONE PROTOTYPE · NOT THE WEBSITE · <span id="harness-view">widget</span></div>
+
+  <!-- Test-harness sections: neutral light/dark grounds to prove adaptation + non-obstruction -->
+  <section class="harness harness-dark" data-theme="dark">
+    <div class="harness-inner">
+      <p class="harness-kicker">01 · DARK SECTION</p>
+      <h1>We build what textbooks haven&rsquo;t indexed.</h1>
+      <p class="harness-sub">Aivolutions is the student AI collective of MAIT, New Delhi. This page is a neutral test harness — the only designed object here is the little shirt at the bottom-right.</p>
+      <div class="harness-ctas"><a class="harness-btn" href="#light">Explore events ↓</a><a class="harness-btn ghost" href="#light">Join the society</a></div>
+      <p class="harness-note">Bottom-right corner intentionally left busy — the widget must sit <em>above</em> content without eating it. <span class="harness-cta-inline">A CTA lives here →</span> <a class="harness-btn small" href="#viewer-note">Fine, click me</a></p>
+    </div>
+  </section>
+
+  <section class="harness harness-light" data-theme="light" id="light">
+    <div class="harness-inner">
+      <p class="harness-kicker">02 · LIGHT SECTION</p>
+      <h2>Serious hackathons, built in the open.</h2>
+      <p class="harness-sub">Codex Hackathon 2025 — 60+ teams, ₹19,000+ prize pool, two days of real deadlines. Scroll on; the widget re-tints itself for light grounds.</p>
+      <div class="harness-ctas"><a class="harness-btn dark" href="#viewer-note">See the merch ↓</a></div>
+    </div>
+  </section>
+
+  <section class="harness harness-deep" data-theme="dark" id="viewer-note">
+    <div class="harness-inner">
+      <p class="harness-kicker">03 · DEEP SECTION</p>
+      <h2>One shirt. Front <span class="amp">&amp;</span> back.</h2>
+      <p class="harness-sub">Official 2025/26 society tee — charcoal cotton, ivory chest mark, full back artwork. Drag the floating widget to spin it, or expand it for a closer look.</p>
+      <p class="harness-fallback-note">No WebGL? A static front/back fallback appears in place of the 3D widget.</p>
+    </div>
+  </section>
+
+  <!-- Floating widget -->
+  <div id="tee-widget" class="tee-widget" data-state="loading" aria-label="Interactive Aivolutions T-shirt">
+    <div id="tee-hint" class="tee-hint" aria-hidden="true"><span>pull shoulder or spin</span><span class="tee-hint-arrow">✨</span></div>
+    <div class="tee-stage">
+      <canvas id="tee-canvas" aria-label="3D Aivolutions T-shirt. Drag to rotate." role="application" tabindex="0"></canvas>
+      <div id="tee-fallback" class="tee-fallback" hidden>
+        <img src="./assets/front-chest-logo.png" alt="Aivolutions T-shirt front chest print">
+        <img src="./assets/back-art-isolated.png" alt="Aivolutions T-shirt back print">
+        <p>static fallback · WebGL unavailable</p>
+      </div>
+      <span id="tee-grip" class="tee-grip" title="Drag to reposition" aria-hidden="true">⋮⋮</span>
+      <span id="tee-side-tag" class="tee-side-tag" aria-hidden="true">FRONT</span>
+    </div>
+    <div class="tee-bar">
+      <button class="tee-btn" id="tee-front" title="Show front (F)">Front</button>
+      <button class="tee-btn" id="tee-back" title="Show back (B)">Back</button>
+      <button class="tee-btn icon" id="tee-reset" title="Reset orientation (R)" aria-label="Reset orientation">⟲</button>
+      <button class="tee-btn expand" id="tee-expand" title="Open merchandise viewer (E)"><span class="lbl">Expand </span>⤢</button>
+    </div>
+  </div>
+
+  <!-- Expanded merchandise viewer -->
+  <div id="tee-overlay" class="tee-overlay" hidden role="dialog" aria-modal="true" aria-label="Aivolutions merchandise viewer">
+    <div class="tee-viewer">
+      <div class="tee-viewer-head">
+        <div>
+          <p class="tee-viewer-kicker">OFFICIAL MERCH · 2025/26</p>
+          <h3>The society tee, up close.</h3>
+        </div>
+        <button class="tee-btn close" id="tee-close" aria-label="Close viewer (Esc)">✕ Close</button>
+      </div>
+      <div id="tee-viewer-mount" class="tee-viewer-mount"></div>
+      <div class="tee-viewer-foot">
+        <div class="tee-viewer-controls" role="group" aria-label="Viewer controls">
+          <button class="tee-btn" id="tee-v-front">Front</button>
+          <button class="tee-btn" id="tee-v-side">¾ view</button>
+          <button class="tee-btn" id="tee-v-back">Back</button>
+          <button class="tee-btn icon" id="tee-v-reset" aria-label="Reset orientation">⟲</button>
+        </div>
+        <ul class="tee-specs">
+          <li><strong>240 GSM</strong><span>charcoal cotton</span></li>
+          <li><strong>Ivory chest mark</strong><span>orbital-A · front</span></li>
+          <li><strong>Full back print</strong><span>hands · “Where innovation meets intelligence”</span></li>
+          <li><strong>S–XXL</strong><span>oversized fit</span></li>
+        </ul>
+        <p class="tee-viewer-hint">drag to rotate · scroll to zoom · <kbd>←</kbd><kbd>→</kbd> nudge · <kbd>F</kbd>/<kbd>B</kbd> sides · <kbd>Esc</kbd> close</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./tee.js"></script>
+</body>
+</html>

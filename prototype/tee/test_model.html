@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./node_modules/three/build/three.module.js",
+    "three/addons/": "./node_modules/three/examples/jsm/"
+  }
+}
+</script>
+<style>
+  body { margin: 0; background: #0b0910; overflow: hidden; }
+  canvas { width: 100vw; height: 100vh; display: block; }
+  #info { position: absolute; top: 10px; left: 10px; color: #fff; font-family: monospace; font-size: 14px; z-index: 10; }
+</style>
+</head>
+<body>
+<div id="info">Loading shirt_baked.glb...</div>
+<canvas id="c"></canvas>
+<script type="module">
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { DecalGeometry } from "three/addons/geometries/DecalGeometry.js";
+
+const canvas = document.getElementById("c");
+const info = document.getElementById("info");
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio || 1);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0e0c13);
+
+const camera = new THREE.PerspectiveCamera(32, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(0, 0, 1.85);
+
+// Studio lighting - balanced key/fill/rim so both front and back look stunning
+const keyFront = new THREE.DirectionalLight(0xfff5ea, 2.0);
+keyFront.position.set(2.4, 3.0, 3.2);
+scene.add(keyFront);
+
+const fillFront = new THREE.DirectionalLight(0xd2dbff, 1.0);
+fillFront.position.set(-2.8, 0.6, 2.0);
+scene.add(fillFront);
+
+// Back illumination so back art and folds pop with studio clarity
+const keyBack = new THREE.DirectionalLight(0xfff5ea, 2.0);
+keyBack.position.set(-2.2, 2.8, -3.2);
+scene.add(keyBack);
+
+const fillBack = new THREE.DirectionalLight(0xd2dbff, 1.1);
+fillBack.position.set(2.5, 0.8, -2.5);
+scene.add(fillBack);
+
+// Silhouetting rim lights
+const rimTop = new THREE.DirectionalLight(0x75ffb8, 1.2);
+rimTop.position.set(0, 3.5, 0);
+scene.add(rimTop);
+
+const ambLight = new THREE.AmbientLight(0xffffff, 0.65);
+scene.add(ambLight);
+
+const loader = new GLTFLoader();
+const textureLoader = new THREE.TextureLoader();
+
+const frontTex = textureLoader.load("./assets/front-chest-logo.png");
+frontTex.colorSpace = THREE.SRGBColorSpace;
+frontTex.anisotropy = 16;
+
+const backTex = textureLoader.load("./assets/back-art-isolated.png");
+backTex.colorSpace = THREE.SRGBColorSpace;
+backTex.anisotropy = 16;
+
+let shirtMesh = null;
+const shirtGroup = new THREE.Group();
+scene.add(shirtGroup);
+
+const params = new URLSearchParams(location.search);
+const yawParam = parseFloat(params.get("yaw") || "0");
+const pitchParam = parseFloat(params.get("pitch") || "0");
+
+loader.load("./assets/shirt_baked.glb", (gltf) => {
+  const model = gltf.scene;
+  model.traverse((child) => {
+    if (child.isMesh) {
+      shirtMesh = child;
+      // Charcoal cotton physical material
+      child.material.color = new THREE.Color(0x18151e);
+      child.material.roughness = 0.88;
+      child.material.metalness = 0.02;
+    }
+  });
+
+  // Center model
+  const box = new THREE.Box3().setFromObject(model);
+  const center = box.getCenter(new THREE.Vector3());
+  model.position.sub(center);
+
+  shirtGroup.add(model);
+
+  // Apply decals
+  // Front logo: centered on chest
+  const frontDecalMat = new THREE.MeshStandardMaterial({
+    map: frontTex,
+    transparent: true,
+    depthTest: false,
+    depthWrite: false,
+    side: THREE.FrontSide,
+    roughness: 0.8,
+  });
+
+  // Front logo: wearer's left chest (viewer's right), smaller refined insignia
+  const frontGeo = new DecalGeometry(
+    shirtMesh,
+    new THREE.Vector3(0.066, 0.056, 0.125),
+    new THREE.Euler(0, -0.16, 0),
+    new THREE.Vector3(0.096, 0.066, 0.08)
+  );
+  const frontDecal = new THREE.Mesh(frontGeo, frontDecalMat);
+  shirtMesh.add(frontDecal);
+
+  // Back art: centered on mid-upper back
+  const backDecalMat = new THREE.MeshStandardMaterial({
+    map: backTex,
+    transparent: true,
+    depthTest: false,
+    depthWrite: false,
+    side: THREE.FrontSide,
+    roughness: 0.8,
+  });
+
+  const backGeo = new DecalGeometry(
+    shirtMesh,
+    new THREE.Vector3(0, 0.0, -0.075),
+    new THREE.Euler(0, Math.PI, 0),
+    new THREE.Vector3(0.28, 0.35, 0.25)
+  );
+  const backDecal = new THREE.Mesh(backGeo, backDecalMat);
+  shirtMesh.add(backDecal);
+
+  shirtGroup.rotation.y = yawParam;
+  shirtGroup.rotation.x = pitchParam;
+
+  info.textContent = "Loaded with decals!";
+  window.modelLoaded = true;
+  renderer.render(scene, camera);
+}, undefined, (err) => {
+  info.textContent = "Error: " + err;
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+  if (shirtGroup && params.get("animate") === "1") {
+    shirtGroup.rotation.y += 0.01;
+  }
+  renderer.render(scene, camera);
+}
+animate();
+</script>
+</body>
+</html>
