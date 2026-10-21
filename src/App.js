@@ -99,7 +99,7 @@ const ScrollToTopButton = ({ paper = false }) => {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-5 right-5 sm:bottom-8 sm:right-8 z-50 p-3 rounded-full ${paper ? "bg-ink text-paper shadow-black/20" : "bg-white text-black shadow-white/20 hover:shadow-white/40"} shadow-lg transition-[opacity,transform,box-shadow] duration-300 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f97316] focus-visible:ring-offset-2 focus-visible:ring-offset-black min-h-[48px] min-w-[48px] flex items-center justify-center ${
+      className={`fixed bottom-5 left-5 sm:bottom-8 sm:left-8 z-50 p-3 rounded-full ${paper ? "bg-ink text-paper shadow-black/20" : "bg-white text-black shadow-white/20 hover:shadow-white/40"} shadow-lg transition-[opacity,transform,box-shadow] duration-300 hover:scale-110 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f97316] focus-visible:ring-offset-2 focus-visible:ring-offset-black min-h-[48px] min-w-[48px] flex items-center justify-center ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
       }`}
       aria-label="Scroll to top"

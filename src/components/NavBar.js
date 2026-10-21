@@ -106,7 +106,6 @@ export const NavBar = ({ variant = "dark" }) => {
     ["events", "/events", "Events"],
     ["team", "/team", "Team"],
     ["research", "/research", "Research"],
-    ["merch", location.pathname + "?merch=open", "3D Merch"],   // opens the 3D merch studio on this page
   ];
 
   return (

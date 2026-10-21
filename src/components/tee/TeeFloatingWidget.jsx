@@ -409,6 +409,8 @@ export const TeeFloatingWidget = () => {
     S.lastX = e.clientX;
     S.lastY = e.clientY;
     S.lastT = performance.now();
+    S.downX = e.clientX;
+    S.downY = e.clientY;
     e.currentTarget.setPointerCapture(e.pointerId);
 
     // Hit test shirt mesh for cloth pull
@@ -513,6 +515,7 @@ export const TeeFloatingWidget = () => {
   const onPointerUp = (e) => {
     const S = stateRef.current;
     S.dragging = false;
+    const moved = Math.hypot(e.clientX - (S.downX ?? e.clientX), e.clientY - (S.downY ?? e.clientY));
     if (S.grabMode === 'cloth') {
       const sp = S.spring;
       sp.targetX = 0;
@@ -526,6 +529,7 @@ export const TeeFloatingWidget = () => {
       S.grabMode = null;
     }
     if (Math.abs(S.vel) < 0.4) S.vel = 0;
+    if (!isExpanded && moved < 6) setIsExpanded(true);
     poke();
   };
 
@@ -614,7 +618,7 @@ export const TeeFloatingWidget = () => {
         ref={asideRef}
         id="tee-floating-widget"
         aria-label="Interactive 3D AIvolutions T-shirt"
-        className={`fixed bottom-20 right-5 sm:bottom-[5.75rem] sm:right-8 z-40 flex flex-col items-center select-none pointer-events-none transition-[opacity,transform] duration-300 ${
+        className={`fixed bottom-5 right-5 sm:bottom-8 sm:right-8 z-40 flex flex-col items-center select-none pointer-events-none transition-[opacity,transform] duration-300 ${
           isExpanded ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
         }`}
       >
