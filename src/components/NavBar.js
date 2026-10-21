@@ -79,7 +79,7 @@ export const NavBar = ({ variant = "dark" }) => {
   }, [location]);
 
   const onUpdateActiveLink = (value, to) => {
-    setActiveLink(value);
+    if (value !== 'merch') setActiveLink(value);   // the merch link opens a pop-up, not a page
     setIsOpen(false);
     // Already on that page → go to its top instead of staying put.
     if (to && to.replace('/#home', '/') === location.pathname) window.scrollTo({ top: 0, behavior: 'instant' });
@@ -106,6 +106,7 @@ export const NavBar = ({ variant = "dark" }) => {
     ["events", "/events", "Events"],
     ["team", "/team", "Team"],
     ["research", "/research", "Research"],
+    ["merch", location.pathname + "?merch=open", "3D Merch"],   // opens the 3D merch studio on this page
   ];
 
   return (
