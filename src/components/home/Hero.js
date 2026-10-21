@@ -13,7 +13,7 @@ const STICKERS = [
 // Parked around the network so they never cover a node.
   { text: "Codex Hackathon '25 · 60+ teams", bg: '#ffe85c', r: -8, cls: 'top-[11%] right-[30%] hidden lg:inline-flex' },
   { text: '₹19,000+ in prizes', bg: '#141414', fg: '#f3eee2', r: 6, cls: 'top-[13%] right-[3%] lg:top-[10%]' },
-  { text: 'hands-on, not slides', bg: '#ff8fb1', r: -5, cls: 'bottom-[8%] right-[1%] hidden 2xl:inline-flex' },
+  { text: 'hands-on, not slides', bg: '#ff8fb1', r: -5, cls: 'bottom-[8%] right-[1%] min-[1392px]:bottom-auto min-[1392px]:top-[30%] hidden 2xl:inline-flex' },
   { text: 'build it, don\'t just watch', bg: '#2f6bff', fg: '#fff', r: 9, cls: 'top-[47%] right-[0%] hidden 2xl:inline-flex' },
 ];
 
@@ -112,7 +112,8 @@ export const Hero = () => {
           </div>
         </div>
 
-        <div className="hero-fade relative mx-auto w-full max-w-[520px] lg:w-[min(42vw,520px)] lg:max-w-none lg:mr-6 xl:mr-10">
+        {/* from 1392px the wider right margin leaves room for the corner merch tee */}
+        <div className="hero-fade relative mx-auto w-full max-w-[520px] lg:w-[min(42vw,520px)] lg:max-w-none lg:mr-6 xl:mr-10 min-[1392px]:mr-[9.5rem]">
           <HeroNetwork ref={net} introDelay={introDelay} />
         </div>
       </div>

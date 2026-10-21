@@ -18,6 +18,12 @@ const ResearchPage = lazy(() =>
   import(/* webpackPrefetch: true */ "./pages/ResearchPage").then((m) => ({ default: m.ResearchPage }))
 );
 
+// The 3D merch tee in the bottom-right corner of every page. Loaded separately so three.js
+// doesn't slow down the first paint.
+const TeeFloatingWidget = lazy(() =>
+  import("./components/tee/TeeFloatingWidget").then((m) => ({ default: m.TeeFloatingWidget }))
+);
+
 const RouteFallback = ({ paper }) => <div className={`min-h-screen ${paper ? "bg-paper" : "bg-dark"}`} aria-hidden="true" />;
 
 function App() {
@@ -43,6 +49,11 @@ function App() {
         </Suspense>
 
         {!isImmersive && <Footer variant={variant} />}
+
+        {/* bottom-right on every page; the Preloader (z-index 9990) covers it while it plays */}
+        <Suspense fallback={null}>
+          <TeeFloatingWidget />
+        </Suspense>
       </div>
 
       {!isImmersive && <ScrollToTopButton paper={variant === "paper"} />}
