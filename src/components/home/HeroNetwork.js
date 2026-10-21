@@ -214,9 +214,11 @@ export const HeroNetwork = forwardRef(({ introDelay = 0, className = '' }, ref) 
       });
 
       if (!window.matchMedia('(pointer: fine)').matches) return undefined;
-      Draggable.create(NODES.map((n) => nodeEls.current[n.id]), {
+      // Bounds keep each dot's centre on the paper. Bounding by the <svg> measures the whole node
+      // (label + hit area), so edge nodes like "industrial visits" / "PR" got shoved inward on load.
+      NODES.forEach((n) => Draggable.create(nodeEls.current[n.id], {
         type: 'x,y',
-        bounds: svg.current,
+        bounds: { minX: -n.x, maxX: W - n.x, minY: -n.y, maxY: H - n.y },
         edgeResistance: 0.65,
         zIndexBoost: false,
         onPress() { gsap.killTweensOf(this.target, 'x,y'); },
@@ -227,7 +229,8 @@ export const HeroNetwork = forwardRef(({ introDelay = 0, className = '' }, ref) 
           if (this.isDragging || dragged.current) fire(this.target.dataset.id);
           setTimeout(() => { dragged.current = false; }, 80);
         },
-      });
+      }));
+      redraw();
       return undefined;
     },
     { scope: root }
