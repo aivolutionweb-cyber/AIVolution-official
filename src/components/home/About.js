@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import { gsap, ScrollTrigger, prefersReducedMotion } from '../../lib/gsap';
 import { useReveal } from '../../hooks/useReveal';
@@ -21,21 +22,108 @@ const PHRASES = [
   { text: 'experiential projects', color: '#3ae88a', note: 'robotics / AI integration projects' },
   { text: 'AI users to AI creators', color: '#ffb86b', note: 'the whole point' },
 ];
-const splitter = new RegExp(`(${PHRASES.map((p) => p.text).join('|')})`, 'g');
 
-// Tokenise into words (tagged with their phrase), then wrap into editor lines of ~44 chars.
-const TOKENS = ABOUT_TEXT.split(splitter).flatMap((part) => {
-  const p = PHRASES.findIndex((x) => x.text === part);
-  return part.split(/\s+/).filter(Boolean).map((w, i) => ({ w, p, first: p !== -1 && i === 0 }));
-});
-const LINES = TOKENS.reduce((acc, t) => {
-  const cur = acc[acc.length - 1];
-  const len = cur.reduce((n, x) => n + x.w.length + 1, 0);
-  if (len + t.w.length > 44 && cur.length) acc.push([t]);
-  else cur.push(t);
-  return acc;
-}, [[]]);
-const RAW = `# ${TAGLINE}\n\n${ABOUT_TEXT.replace(splitter, '**$1**')}`;
+const FLAGSHIP_EVENT = EVENTS.find((e) => e.id === 'CMP_002') || EVENTS[1];
+
+// Intentional editorial line breaks (~50-56 chars) with syntactic phrase tagging and punctuation preservation.
+const EDITOR_LINES = [
+  {
+    n: 3,
+    tokens: [
+      { w: 'AIvolution', p: -1 },
+      { w: 'is', p: -1 },
+      { w: 'a', p: -1 },
+      { w: 'student-led', p: -1 },
+      { w: 'ecosystem', p: -1 },
+      { w: 'built', p: -1 },
+      { w: 'for', p: -1 },
+      { w: 'those', p: -1 },
+    ],
+  },
+  {
+    n: 4,
+    tokens: [
+      { w: 'who', p: -1 },
+      { w: 'refuse', p: -1 },
+      { w: 'to', p: -1 },
+      { w: 'simply', p: -1 },
+      { w: 'watch', p: -1 },
+      { w: 'the', p: -1 },
+      { w: 'future', p: -1 },
+      { w: 'unfold.', p: -1 },
+      { w: 'We', p: -1 },
+      { w: 'explore', p: -1 },
+    ],
+  },
+  {
+    n: 5,
+    tokens: [
+      { w: 'emerging', p: -1 },
+      { w: 'AI', p: -1 },
+      { w: 'technologies,', p: -1 },
+      { w: 'deconstruct', p: -1 },
+      { w: 'how', p: -1 },
+      { w: 'they', p: -1 },
+      { w: 'work,', p: -1 },
+      { w: 'and', p: -1 },
+    ],
+  },
+  {
+    n: 6,
+    tokens: [
+      { w: 'transform', p: -1 },
+      { w: 'knowledge', p: -1 },
+      { w: 'into', p: -1 },
+      { w: 'practical', p: -1 },
+      { w: 'solutions.', p: -1 },
+    ],
+  },
+  {
+    n: 7,
+    blank: true,
+  },
+  {
+    n: 8,
+    tokens: [
+      { w: 'Through', p: -1 },
+      { w: 'hands-on', p: 0 },
+      { w: 'learning', p: 0, punct: ',' },
+      { w: 'industry', p: 1 },
+      { w: 'collaboration', p: 1, punct: ',' },
+    ],
+  },
+  {
+    n: 9,
+    tokens: [
+      { w: 'competitive', p: 2 },
+      { w: 'challenges', p: 2, punct: ',' },
+      { w: 'and', p: -1 },
+      { w: 'experiential', p: 3 },
+      { w: 'projects', p: 3, punct: ',' },
+    ],
+  },
+  {
+    n: 10,
+    tokens: [
+      { w: 'we', p: -1 },
+      { w: 'empower', p: -1 },
+      { w: 'students', p: -1 },
+      { w: 'to', p: -1 },
+      { w: 'move', p: -1 },
+      { w: 'from', p: -1 },
+      { w: 'AI', p: 4 },
+      { w: 'users', p: 4 },
+      { w: 'to', p: 4 },
+      { w: 'AI', p: 4 },
+      { w: 'creators', p: 4, punct: '.' },
+    ],
+  },
+];
+
+const RAW = `# ${TAGLINE}\n\n${ABOUT_TEXT.replace(
+  /(hands-on learning|industry collaboration|competitive challenges|experiential projects|AI users to AI creators)/g,
+  '**$1**'
+)}`;
 const TABS = [['README.md', '#about'], ['departments/', '#departments'], ['events/', '#events'], ['CONTRIBUTORS.md', '#contributors']];
 
 // README badges, all from data.
@@ -162,6 +250,7 @@ export const About = () => {
   const cycle = useRef(null);
   const [raw, setRaw] = useState(false);
   const [active, setActive] = useState(0);
+  const [hoverPhrase, setHoverPhrase] = useState(null);
   const [inView, setInView] = useState(false);
   const isMobile = useIsMobile();
   useReveal(root);
@@ -175,21 +264,27 @@ export const About = () => {
       if (raw) return;
       const words = gsap.utils.toArray('.editor .w', root.current);
       const lines = gsap.utils.toArray('.editor .ln', root.current);
+      const traces = gsap.utils.toArray('.editor .trace-item', root.current);
       const place = (i) => {
         words.forEach((w, j) => w.classList.toggle('is-cur', j === i));
         const line = words[i]?.closest('.ln');
         lines.forEach((l) => l.classList.toggle('is-cur', l === line));
         if (lnRef.current && line) {
           lnRef.current.textContent = line.dataset.n;
-          colRef.current.textContent = words[i].dataset.col;
+          colRef.current.textContent = words[i]?.dataset.col || '1';
         }
+        const curPhrase = words[i]?.dataset.phrase;
+        traces.forEach((tr) => {
+          tr.classList.toggle('is-active', curPhrase !== undefined && tr.dataset.phrase === curPhrase);
+        });
       };
       if (prefersReducedMotion()) { place(words.length - 1); return; }
       gsap.from(words, {
         opacity: 0.08, stagger: 0.012, ease: 'none',
         scrollTrigger: { trigger: '.editor', start: 'top 75%', end: 'bottom 55%', scrub: 0.3, onUpdate: (self) => place(Math.min(words.length - 1, Math.floor(self.progress * words.length))) },
       });
-      gsap.from('.editor .cmt', { x: 16, opacity: 0, stagger: 0.1, duration: 0.5, scrollTrigger: { trigger: '.editor', start: 'top 60%', once: true } });
+      gsap.from('.editor .cmt', { x: 12, opacity: 0, stagger: 0.05, duration: 0.45, ease: 'power2.out', clearProps: 'opacity,transform', scrollTrigger: { trigger: '.editor', start: 'top 85%', once: true } });
+      gsap.from('.editor .preview-card', { y: 16, opacity: 0, duration: 0.5, ease: 'power2.out', clearProps: 'opacity,transform', scrollTrigger: { trigger: '.editor', start: 'top 85%', once: true } });
     },
     { scope: root, revertOnUpdate: true, dependencies: [raw] }
   );
@@ -266,63 +361,220 @@ export const About = () => {
             </div>
           </div>
 
-          {/* badges */}
-          <div className="badges relative z-[2] flex flex-wrap gap-2 px-6 md:px-10 pt-6">
-            {BADGES.map(([label, value, color]) => (
-              <span key={label} className="badge inline-flex items-stretch font-mono text-[0.68rem] font-bold border-2 border-ink rounded overflow-hidden">
-                <span className="px-2 py-1 bg-[#2a2a2a] text-[#eaf0ff]/85">{label}</span>
-                <span className="px-2 py-1 text-ink" style={{ background: color }}>{typeof value === 'number' ? <span className="badge-n">{value}</span> : value}</span>
-              </span>
-            ))}
+          {/* badges bar */}
+          <div className="badges relative z-[2] flex flex-wrap items-center justify-between gap-3 px-6 md:px-8 pt-5 pb-1 border-b border-white/5 bg-white/[0.01]">
+            <div className="flex flex-wrap items-center gap-2">
+              {BADGES.map(([label, value, color]) => (
+                <span key={label} className="badge inline-flex items-stretch font-mono text-[0.68rem] font-bold border-2 border-ink rounded overflow-hidden shadow-[2px_2px_0_rgba(0,0,0,0.5)]">
+                  <span className="px-2 py-0.5 bg-[#25272e] text-[#eaf0ff]/85">{label}</span>
+                  <span className="px-2 py-0.5 text-ink" style={{ background: color }}>{typeof value === 'number' ? <span className="badge-n">{value}</span> : value}</span>
+                </span>
+              ))}
+            </div>
+            <div className="hidden xl:flex items-center gap-2 font-mono text-[0.65rem] text-[#eaf0ff]/40">
+              <span className="w-1.5 h-1.5 rounded-full bg-mint" />
+              <span>env: production</span>
+              <span className="text-white/20">|</span>
+              <span>encoding: UTF-8</span>
+            </div>
           </div>
 
           {/* body */}
-          <div className="relative z-[2] py-6 md:py-8">
+          <div className="relative z-[2]">
             {raw ? (
-              <pre className="font-mono text-sm md:text-base leading-relaxed whitespace-pre-wrap px-6 md:px-10">
+              <pre className="font-mono text-sm md:text-base leading-relaxed whitespace-pre-wrap px-6 md:px-10 py-7">
                 {RAW.split('\n').map((line, i) => (
                   <span key={i} className="block"><span className="inline-block w-10 text-[#eaf0ff]/30 select-none">{i + 1}</span>{line}</span>
                 ))}
               </pre>
             ) : (
-              <div className="editor">
-                <div className="ln grid grid-cols-[3.5rem_1fr] md:grid-cols-[4rem_1fr_minmax(240px,0.5fr)] items-baseline pr-6">
-                  <span className="ln-n font-mono text-xs text-[#eaf0ff]/30 text-right pr-4 select-none">1</span>
-                  <Hand className="text-2xl md:text-3xl text-mint/80 py-1" rotate={-0.5}># {TAGLINE}</Hand>
-                </div>
-                <div className="ln grid grid-cols-[3.5rem_1fr] md:grid-cols-[4rem_1fr_minmax(240px,0.5fr)]">
-                  <span className="ln-n font-mono text-xs text-[#eaf0ff]/30 text-right pr-4 select-none">2</span>
-                </div>
-                {LINES.map((line, li) => {
-                  const firstPhrase = line.find((t) => t.first);
-                  return (
-                    <div key={li} data-n={li + 3} className="ln grid grid-cols-[3.5rem_1fr] md:grid-cols-[4rem_1fr_minmax(240px,0.5fr)] items-baseline pr-6">
-                      <span className="ln-n font-mono text-xs text-[#eaf0ff]/30 text-right pr-4 select-none">{li + 3}</span>
-                      <p className="font-bricolage font-extrabold text-[clamp(1.15rem,1.9vw,1.8rem)] leading-[1.4] tracking-[-0.01em] text-paper whitespace-nowrap">
-                        {line.map((t, wi) => {
-                          const col = line.slice(0, wi).reduce((n, x) => n + x.w.length + 1, 1);
-                          const idx = wordIndex++;
-                          return (
-                            <React.Fragment key={idx}>
-                              <span className={`w inline-block ${t.p !== -1 ? 'tok' : ''}`} data-col={col} style={t.p !== -1 ? { '--c': PHRASES[t.p].color } : undefined}>{t.w}</span>{' '}
-                            </React.Fragment>
-                          );
-                        })}
-                      </p>
-                      {firstPhrase && (
-                        <span className="cmt hidden md:flex items-baseline gap-2 font-mono text-sm pl-4">
-                          <span className="text-[#eaf0ff]/30 shrink-0">{'//'}</span>
-                          <Hand className="text-lg leading-tight" style={{ color: PHRASES[firstPhrase.p].color }}>{PHRASES[firstPhrase.p].note}</Hand>
+              <div className="editor grid grid-cols-1 lg:grid-cols-[1fr_390px] xl:grid-cols-[1fr_430px]">
+                {/* Left: Code Buffer Pane */}
+                <div className="code-pane py-5 md:py-7 lg:pr-4">
+                  {/* Line 1: Heading */}
+                  <div className="ln grid grid-cols-[3rem_1fr] md:grid-cols-[3.75rem_1fr] items-baseline px-2 sm:px-4 py-0.5">
+                    <span className="ln-n font-mono text-xs text-[#eaf0ff]/30 text-right pr-4 select-none">1</span>
+                    <Hand className="text-2xl md:text-3xl text-mint/90 py-1" rotate={-0.5}># {TAGLINE}</Hand>
+                  </div>
+
+                  {/* Line 2: Empty Spacer */}
+                  <div className="ln grid grid-cols-[3rem_1fr] md:grid-cols-[3.75rem_1fr] items-baseline px-2 sm:px-4 py-0.5">
+                    <span className="ln-n font-mono text-xs text-[#eaf0ff]/30 text-right pr-4 select-none">2</span>
+                  </div>
+
+                  {/* Lines 3 to 10 */}
+                  {EDITOR_LINES.map((line) => {
+                    if (line.blank) {
+                      return (
+                        <div key={line.n} data-n={line.n} className="ln grid grid-cols-[3rem_1fr] md:grid-cols-[3.75rem_1fr] items-baseline px-2 sm:px-4 py-1">
+                          <span className="ln-n font-mono text-xs text-[#eaf0ff]/30 text-right pr-4 select-none">{line.n}</span>
+                        </div>
+                      );
+                    }
+
+                    let colCounter = 1;
+                    return (
+                      <div
+                        key={line.n}
+                        data-n={line.n}
+                        className="ln grid grid-cols-[3rem_1fr] md:grid-cols-[3.75rem_1fr] items-baseline px-2 sm:px-4 py-1"
+                      >
+                        <span className="ln-n font-mono text-xs text-[#eaf0ff]/30 text-right pr-4 select-none">
+                          {line.n}
                         </span>
-                      )}
+                        <p className="font-bricolage font-extrabold text-[clamp(1.15rem,1.75vw,1.7rem)] leading-[1.38] tracking-[-0.01em] text-paper">
+                          {line.tokens.map((t, wi) => {
+                            const col = colCounter;
+                            colCounter += t.w.length + (t.punct ? 1 : 0) + 1;
+                            const idx = wordIndex++;
+                            const isHovered = hoverPhrase !== null && hoverPhrase === t.p;
+                            return (
+                              <React.Fragment key={idx}>
+                                <span
+                                  className={`w inline-block ${t.p !== -1 ? 'tok' : ''} ${isHovered ? 'ring-2' : ''}`}
+                                  data-col={col}
+                                  data-phrase={t.p !== -1 ? t.p : undefined}
+                                  style={t.p !== -1 ? { '--c': PHRASES[t.p].color } : undefined}
+                                  onPointerEnter={t.p !== -1 ? () => setHoverPhrase(t.p) : undefined}
+                                  onPointerLeave={t.p !== -1 ? () => setHoverPhrase(null) : undefined}
+                                >
+                                  {t.w}
+                                </span>{t.punct && <span className="punct text-[#eaf0ff]/70 select-none">{t.punct}</span>}{' '}
+                              </React.Fragment>
+                            );
+                          })}
+                        </p>
+                      </div>
+                    );
+                  })}
+
+                  {/* Line 11: End Spacer */}
+                  <div className="ln grid grid-cols-[3rem_1fr] md:grid-cols-[3.75rem_1fr] items-baseline px-2 sm:px-4 py-0.5">
+                    <span className="ln-n font-mono text-xs text-[#eaf0ff]/30 text-right pr-4 select-none">11</span>
+                  </div>
+                </div>
+
+                {/* Right: Companion Inspector Pane (Preview + Runtime Traces) */}
+                <div className="inspector-pane border-t lg:border-t-0 lg:border-l border-white/10 bg-[#121418]/70 backdrop-blur-sm flex flex-col justify-between">
+                  <div>
+                    {/* Inspector Sub-header */}
+                    <div className="flex items-center justify-between px-5 py-2.5 border-b border-white/10 bg-[#16181f]/90 font-mono text-[0.68rem] text-[#eaf0ff]/65">
+                      <span className="flex items-center gap-2 font-bold tracking-wider uppercase text-[#eaf0ff]/80">
+                        <span className="w-1.5 h-1.5 rounded-full bg-mint animate-pulse" />
+                        live preview // codex_hackathon_2025
+                      </span>
+                      <span className="text-[0.6rem] px-1.5 py-0.5 rounded bg-white/5 text-mint border border-mint/20 font-semibold">
+                        ACTIVE SPRINT
+                      </span>
                     </div>
-                  );
-                })}
-                <ul className="md:hidden mt-6 px-5 space-y-2 font-mono text-sm">
-                  {PHRASES.slice(0, 4).map((p) => (
-                    <li key={p.text} className="flex gap-2"><span className="text-[#eaf0ff]/30">{'//'}</span><Hand className="text-lg" style={{ color: p.color }}>{p.note}</Hand></li>
-                  ))}
-                </ul>
+
+                    {/* Compact Event Preview Card */}
+                    <div className="p-4 sm:p-5 border-b border-white/10">
+                      <div className="preview-card group relative rounded-xl border border-white/15 bg-gradient-to-br from-[#1c202a] to-[#121418] p-4 shadow-[0_8px_24px_rgba(0,0,0,0.45)]">
+                        <div className="flex items-center justify-between gap-2 mb-3">
+                          <span className="font-mono text-[0.64rem] tracking-wider uppercase font-bold text-mint flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-mint" />
+                            FLAGSHIP COMPETITION
+                          </span>
+                          <span className="font-mono text-[0.62rem] text-[#eaf0ff]/60 bg-white/5 px-2 py-0.5 rounded border border-white/10">
+                            {FLAGSHIP_EVENT.date}
+                          </span>
+                        </div>
+
+                        <div className="flex gap-3.5 items-center">
+                          <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden border border-white/20 bg-black/50 shadow-inner">
+                            <img
+                              src={FLAGSHIP_EVENT.imgUrl}
+                              alt={FLAGSHIP_EVENT.title}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              loading="lazy"
+                            />
+                            <Tape rotate={-6} tone="blue" className="!text-[0.5rem] !py-0.5 !px-1 absolute -top-1 -left-1">
+                              rec
+                            </Tape>
+                          </div>
+
+                          <div className="min-w-0 flex-1">
+                            <h4 className="font-bricolage font-extrabold text-lg leading-snug text-paper group-hover:text-mint transition-colors truncate">
+                              {FLAGSHIP_EVENT.title}
+                            </h4>
+                            <p className="font-mono text-[0.68rem] text-pencil line-clamp-2 mt-1 leading-relaxed">
+                              {FLAGSHIP_EVENT.summary}
+                            </p>
+                            <div className="flex flex-wrap gap-1.5 mt-2">
+                              <span className="font-mono text-[0.6rem] px-1.5 py-0.5 rounded bg-white/5 text-[#eaf0ff]/75 border border-white/10">
+                                60+ Teams
+                              </span>
+                              <span className="font-mono text-[0.6rem] px-1.5 py-0.5 rounded bg-white/5 text-[#eaf0ff]/75 border border-white/10">
+                                ₹19k+ Pool
+                              </span>
+                              <span className="font-mono text-[0.6rem] px-1.5 py-0.5 rounded bg-mint/10 text-mint border border-mint/30 font-semibold">
+                                12 Finalists
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mt-3.5 pt-2.5 border-t border-white/10 flex items-center justify-between text-xs font-mono">
+                          <span className="text-[0.65rem] text-[#eaf0ff]/40">// department flagship</span>
+                          <Link
+                            to="/events"
+                            className="inline-flex items-center gap-1 font-bold text-mint hover:underline decoration-2 underline-offset-2"
+                          >
+                            inspect event report →
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Runtime Traces / Annotations */}
+                    <div className="p-4 sm:p-5 space-y-2">
+                      <div className="flex items-center justify-between font-mono text-[0.65rem] text-[#eaf0ff]/45 tracking-wider uppercase mb-1">
+                        <span>// runtime traces ({PHRASES.length})</span>
+                        <span className="text-[0.6rem] text-pencil">hover to trace</span>
+                      </div>
+                      {PHRASES.map((p, idx) => (
+                        <div
+                          key={p.text}
+                          data-phrase={idx}
+                          className={`trace-item cmt group flex items-start gap-3 p-2.5 rounded-lg bg-white/[0.025] border border-white/5 cursor-pointer ${
+                            hoverPhrase === idx ? 'is-active' : ''
+                          }`}
+                          style={{ '--phrase-color': p.color }}
+                          onPointerEnter={() => setHoverPhrase(idx)}
+                          onPointerLeave={() => setHoverPhrase(null)}
+                        >
+                          <span
+                            className="trace-dot shrink-0 w-2.5 h-2.5 rounded-full mt-1.5 transition-all duration-200"
+                            style={{ background: p.color, boxShadow: `0 0 6px ${p.color}40` }}
+                          />
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-baseline justify-between gap-2">
+                              <span
+                                className="font-mono text-[0.68rem] font-bold uppercase tracking-wide truncate"
+                                style={{ color: p.color }}
+                              >
+                                {p.text}
+                              </span>
+                            </div>
+                            <Hand
+                              className="text-sm leading-snug block mt-0.5 text-[#eaf0ff]/80 group-hover:text-paper"
+                              style={{ color: p.color }}
+                            >
+                              {p.note}
+                            </Hand>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Companion footer info */}
+                  <div className="px-5 py-2.5 border-t border-white/10 bg-[#15171d]/60 font-mono text-[0.62rem] text-[#eaf0ff]/40 flex items-center justify-between">
+                    <span>sync: live branch // main</span>
+                    <span className="text-mint">● verified</span>
+                  </div>
+                </div>
               </div>
             )}
           </div>
