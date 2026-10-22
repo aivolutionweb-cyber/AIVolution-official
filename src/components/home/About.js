@@ -461,7 +461,7 @@ export const About = () => {
                     <div className="flex items-center justify-between px-5 py-2.5 border-b border-white/10 bg-[#16181f]/90 font-mono text-[0.68rem] text-[#eaf0ff]/65">
                       <span className="flex items-center gap-2 font-bold tracking-wider uppercase text-[#eaf0ff]/80">
                         <span className="w-1.5 h-1.5 rounded-full bg-mint animate-pulse" />
-                        live preview // codex_hackathon_2025
+                        live preview {'//'} codex_hackathon_2025
                       </span>
                       <span className="text-[0.6rem] px-1.5 py-0.5 rounded bg-white/5 text-mint border border-mint/20 font-semibold">
                         ACTIVE SPRINT
@@ -516,7 +516,7 @@ export const About = () => {
                         </div>
 
                         <div className="mt-3.5 pt-2.5 border-t border-white/10 flex items-center justify-between text-xs font-mono">
-                          <span className="text-[0.65rem] text-[#eaf0ff]/40">// department flagship</span>
+                          <span className="text-[0.65rem] text-[#eaf0ff]/40">{'//'} department flagship</span>
                           <Link
                             to="/events"
                             className="inline-flex items-center gap-1 font-bold text-mint hover:underline decoration-2 underline-offset-2"
@@ -530,7 +530,7 @@ export const About = () => {
                     {/* Runtime Traces / Annotations */}
                     <div className="p-4 sm:p-5 space-y-2">
                       <div className="flex items-center justify-between font-mono text-[0.65rem] text-[#eaf0ff]/45 tracking-wider uppercase mb-1">
-                        <span>// runtime traces ({PHRASES.length})</span>
+                        <span>{'//'} runtime traces ({PHRASES.length})</span>
                         <span className="text-[0.6rem] text-pencil">hover to trace</span>
                       </div>
                       {PHRASES.map((p, idx) => (
@@ -571,7 +571,7 @@ export const About = () => {
 
                   {/* Companion footer info */}
                   <div className="px-5 py-2.5 border-t border-white/10 bg-[#15171d]/60 font-mono text-[0.62rem] text-[#eaf0ff]/40 flex items-center justify-between">
-                    <span>sync: live branch // main</span>
+                    <span>sync: live branch {'//'} main</span>
                     <span className="text-mint">● verified</span>
                   </div>
                 </div>
