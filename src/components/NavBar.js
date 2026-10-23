@@ -72,6 +72,7 @@ export const NavBar = ({ variant = "dark" }) => {
   useEffect(() => {
     if (location.pathname === '/team') setActiveLink('team');
     else if (location.pathname === '/events') setActiveLink('events');
+    else if (location.pathname === '/codex') setActiveLink('codex');
     else if (location.hash === '#skills') setActiveLink('skills');
     else if (location.hash === '#connect') setActiveLink('connect');
     else if (location.pathname === '/research') setActiveLink('research');
@@ -105,6 +106,7 @@ export const NavBar = ({ variant = "dark" }) => {
     ["home", "/#home", "Home"],
     ["events", "/events", "Events"],
     ["team", "/team", "Team"],
+    ["codex", "/codex", "Codex"],
     ["research", "/research", "Research"],
   ];
 
