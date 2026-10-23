@@ -17,6 +17,9 @@ const TeamPage = lazy(() =>
 const ResearchPage = lazy(() =>
   import(/* webpackPrefetch: true */ "./pages/ResearchPage").then((m) => ({ default: m.ResearchPage }))
 );
+const CodexPage = lazy(() =>
+  import(/* webpackPrefetch: true */ "./pages/CodexPage").then((m) => ({ default: m.CodexPage }))
+);
 
 // The 3D merch tee in the bottom-right corner of every page. Loaded separately so three.js
 // doesn't slow down the first paint.
@@ -44,6 +47,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/team" element={<TeamPage />} />
             <Route path="/events" element={<Events />} />
+            <Route path="/codex" element={<CodexPage />} />
             <Route path="/research" element={<ResearchPage />} />
           </Routes>
         </Suspense>
