@@ -54,10 +54,13 @@ function App() {
 
         {!isImmersive && <Footer variant={variant} />}
 
-        {/* bottom-right on every page; the Preloader (z-index 9990) covers it while it plays */}
-        <Suspense fallback={null}>
-          <TeeFloatingWidget />
-        </Suspense>
+        {/* bottom-right on the main pages (not the immersive /team and /events pages);
+            the Preloader (z-index 9990) covers it while it plays */}
+        {!isImmersive && (
+          <Suspense fallback={null}>
+            <TeeFloatingWidget />
+          </Suspense>
+        )}
       </div>
 
       {!isImmersive && <ScrollToTopButton paper={variant === "paper"} />}

@@ -132,7 +132,7 @@ const BADGES = [
   ['departments', DEPARTMENTS.length, '#2f6bff'],
   ['core team', TEAM.length, '#3ae88a'],
   ['faculty', FACULTY.length, '#ff8fb1'],
-  ['dept', 'CSE-AI', '#ffe85c'],
+  ['dept', 'CSE-AIML', '#ffe85c'],
   ['branch', '⎇ main', '#9bd7ff'],
 ];
 

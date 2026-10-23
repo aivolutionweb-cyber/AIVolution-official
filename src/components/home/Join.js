@@ -143,7 +143,7 @@ export const Join = () => {
           <Stamp rotate={-5} color="var(--pen)">also on</Stamp>
           <a href={LINKEDIN} target="_blank" rel="noreferrer" className="squiggle font-bricolage font-extrabold text-lg">LinkedIn ↗</a>
           <Link to="/team" className="squiggle font-bricolage font-extrabold text-lg">the team →</Link>
-          <Hand className="text-xl text-pencil ml-auto" rotate={-2}>dept. of CSE-AI · MAIT, Rohini</Hand>
+          <Hand className="text-xl text-pencil ml-auto" rotate={-2}>dept. of CSE-AIML · MAIT, Rohini</Hand>
         </div>
       </div>
 

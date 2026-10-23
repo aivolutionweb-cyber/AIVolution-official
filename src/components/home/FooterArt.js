@@ -55,7 +55,7 @@ export const FindUsCard = () => (
   <Card title="find us" tone="var(--pink)" rotate={-0.5}>
     <p className="font-hand text-2xl leading-tight">Maharaja Agrasen Institute of Technology</p>
     <p className="font-mono text-xs text-pencil mt-2">Sector 22, Rohini, Delhi — 110086</p>
-    <p className="font-mono text-xs text-pencil mt-1">Dept. of CSE-AI</p>
+    <p className="font-mono text-xs text-pencil mt-1">Dept. of CSE-AIML</p>
   </Card>
 );
 

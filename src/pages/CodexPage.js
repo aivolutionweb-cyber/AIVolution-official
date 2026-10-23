@@ -33,7 +33,7 @@ export const CodexPage = () => {
           <div>
             <div className="codex-lbl">
               <span className="codex-mono codex-b">~ codex · 2.0</span>
-              <span className="codex-tape codex-mono">OFFICIAL AI SOCIETY · DEPT. OF CSE-AI, MAIT</span>
+              <span className="codex-tape codex-mono">OFFICIAL AI SOCIETY · DEPT. OF CSE-AIML, MAIT</span>
             </div>
             <h1>
               <span>CODEX 2.0:</span>
@@ -189,12 +189,6 @@ export const CodexPage = () => {
               </div>
               <div className="codex-hand" style={{ fontSize: '26px', textAlign: 'center', marginTop: '16px' }}>
                 ₹30,000 in total, plus goodies and swag
-              </div>
-              <div
-                className="codex-mono"
-                style={{ fontSize: '11px', letterSpacing: '2px', color: '#6b675c', textAlign: 'center', marginTop: '12px' }}
-              >
-                3RD PLACE WAS ₹4,000 AT CODEX 1.0
               </div>
             </div>
           </div>
@@ -396,14 +390,6 @@ export const CodexPage = () => {
               rel="noopener noreferrer"
             >
               Register now →
-            </a>
-            {/* TODO: Update telephone/email contact action if desired */}
-            <a className="codex-btn codex-wh" href="tel:+918700967731">
-              Kshitij Garg · +91 87009 67731
-            </a>
-            {/* TODO: Update telephone/email contact action if desired */}
-            <a className="codex-btn codex-wh" href="tel:+919138174175">
-              Pragya · +91 91381 74175
             </a>
           </div>
         </div>

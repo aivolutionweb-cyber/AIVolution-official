@@ -74,7 +74,7 @@ export const Hero = () => {
         <div className="max-w-[660px]">
           <div className="hero-fade flex flex-wrap items-center gap-3 mb-6">
             <SectionLabel bare><span className="text-pen font-bold">⎇ main</span> · public</SectionLabel>
-            <Tape rotate={-2} stripe>official AI society · dept. of CSE-AI, MAIT</Tape>
+            <Tape rotate={-2} stripe>official AI society · dept. of CSE-AIML, MAIT</Tape>
           </div>
 
           <h1 className="text-[clamp(2.9rem,6.4vw,6.6rem)]">
