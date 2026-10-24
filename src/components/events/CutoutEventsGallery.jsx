@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import { EVENTS } from '../../data/events';
 import '../../styles/cutout.css';
@@ -139,17 +139,28 @@ function buildCutoutCategories() {
 
 const CATEGORIES = buildCutoutCategories();
 
+// Where an event sits in CATEGORIES, so `/events?event=<id>` can open straight on its dossier.
+const locateEvent = (id) => {
+  for (let c = 0; c < CATEGORIES.length; c++) {
+    const e = CATEGORIES[c].events.findIndex((ev) => ev.id === id);
+    if (e !== -1) return { c, e, event: CATEGORIES[c].events[e] };
+  }
+  return null;
+};
+
 export const CutoutEventsGallery = () => {
   const rootRef = useRef(null);
   const canvasRef = useRef(null);
   const cursorRef = useRef(null);
   const cutTimelineRef = useRef(null);
+  const { search } = useLocation();
+  const [linked] = useState(() => locateEvent(new URLSearchParams(search).get('event')));
 
-  const [phase, setPhase] = useState('mat'); // 'mat' | 'cutting' | 'sheet'
-  const [activeCatIdx, setActiveCatIdx] = useState(0);
-  const [activeEventIdx, setActiveEventIdx] = useState(0);
+  const [phase, setPhase] = useState(linked ? 'sheet' : 'mat'); // 'mat' | 'cutting' | 'sheet'
+  const [activeCatIdx, setActiveCatIdx] = useState(linked ? linked.c : 0);
+  const [activeEventIdx, setActiveEventIdx] = useState(linked ? linked.e : 0);
   const [hoveredWordIdx, setHoveredWordIdx] = useState(null);
-  const [modalEvent, setModalEvent] = useState(null);
+  const [modalEvent, setModalEvent] = useState(linked ? linked.event : null);
   const [modalPhotoIdx, setModalPhotoIdx] = useState(0);
 
   const currentCategory = useMemo(() => CATEGORIES[activeCatIdx] || CATEGORIES[0], [activeCatIdx]);

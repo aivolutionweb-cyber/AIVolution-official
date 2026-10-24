@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { HashLink } from "react-router-hash-link";
 import { useLocation } from "react-router-dom";
 import { useIsMobile } from "../hooks/useMediaQuery";
+import { BrandMark } from "./BrandMark";
 
 // Colour tokens per variant. "paper" is the notebook homepage; "dark" everything else.
 const THEMES = {
@@ -17,6 +18,7 @@ const THEMES = {
     panel: "bg-[#0a0a0a] border-white/10 shadow-black/60",
     divider: "bg-white/20",
     small: "text-white/50 hover:text-white",
+    brand: "text-white",
   },
   paper: {
     link: "text-ink/60 hover:text-ink",
@@ -30,6 +32,7 @@ const THEMES = {
     panel: "bg-cream border-ink/10 shadow-black/20",
     divider: "bg-ink/20",
     small: "text-ink/50 hover:text-ink",
+    brand: "text-ink",
   },
 };
 
@@ -114,14 +117,8 @@ export const NavBar = ({ variant = "dark" }) => {
     <div className={`fixed top-0 left-0 w-full z-50 flex justify-center px-4 md:px-8 pt-4 md:pt-6 transition-[opacity,transform] duration-300 lg:duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled && !isOpen ? "opacity-0 -translate-y-10 pointer-events-none" : "opacity-100 translate-y-0 pointer-events-auto"}`}>
       <nav className="w-full max-w-7xl flex items-center justify-between max-lg:relative">
 
-        <HashLink to="/#home" className="flex items-center group">
-          <img
-            src="/main-logo-small.webp"
-            alt="AIvolution"
-            width="240"
-            height="199"
-            className="object-contain h-8 md:h-10 w-auto transition-transform duration-500 ease-out group-hover:scale-105"
-          />
+        <HashLink to="/#home" className="flex items-center group" aria-label="AIvolutions home">
+          <BrandMark nameClass={t.brand} />
         </HashLink>
 
         <button

@@ -1,5 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/codex.css';
+import { INSTAGRAM } from '../components/home/Join';
+import { EVENTS } from '../data/events';
+
+// CODEX 1.0's entry in the events data; its facts ("60+ Teams", ...) become the number stickers.
+const CODEX_1 = EVENTS.find((e) => e.id === 'CMP_002');
+const CODEX_1_STATS = CODEX_1.facts.map((f) => [f.slice(0, f.indexOf(' ')), f.slice(f.indexOf(' ') + 1)]);
+const STAT_STICKERS = [
+  { background: '#ffe55c', '--r': '-2deg' },
+  { background: '#ffd3e6', '--r': '1.5deg' },
+  { background: '#c9f5dc', '--r': '1deg' },
+  { background: '#cfdbff', '--r': '-1.5deg' },
+];
 
 const codex1Photos = [
   {
@@ -129,10 +142,13 @@ export const CodexPage = () => {
               featuring Day 1 offline screening, Day 2 prototyping &amp; shortlisting, and Day 3 final judging.
             </p>
             <div className="codex-btns">
-              {/* TODO: Add official registration form URL when live */}
-              <a className="codex-btn codex-y" href="#contact">
-                Register now →
-              </a>
+              <div className="codex-soon" role="status">
+                <span className="codex-soon-dot" aria-hidden="true" />
+                <span className="codex-soon-txt">
+                  <small className="codex-mono">Registrations</small>
+                  <b>opening soon</b>
+                </span>
+              </div>
               <a className="codex-btn codex-wh" href="#sponsor">
                 Sponsor CODEX 2.0
               </a>
@@ -172,6 +188,71 @@ export const CodexPage = () => {
             {/* Floating Sticker */}
             <div className="codex-stk codex-s3" style={{ top: 'auto', bottom: '10px' }}>
               hands-on, not slides
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What is CODEX: a dictionary entry, plus CODEX 1.0 in numbers */}
+      <section className="codex-sec" id="what-is-codex">
+        <div className="codex-w">
+          <div className="codex-lbl" style={{ marginBottom: '16px' }}>
+            <span className="codex-mono codex-b">~ what is codex</span>
+            <span className="codex-tape codex-mono" style={{ padding: '8px 16px', fontSize: '13px' }}>
+              LOOK IT UP
+            </span>
+          </div>
+          <h2>
+            what is{' '}
+            <span className="codex-hl" style={{ animation: 'none', backgroundSize: '100% 100%' }}>
+              CODEX?
+            </span>
+          </h2>
+
+          <div className="codex-what-grid">
+            <article className="codex-def">
+              <div className="codex-def-head">
+                <span className="codex-def-word">codex</span>
+                <i className="codex-def-pos">noun</i>
+              </div>
+              <ol className="codex-def-list">
+                <li>
+                  The flagship hackathon of <b>AIvolutions</b>, the official AI society of MAIT.
+                </li>
+                <li>
+                  Where coders, innovators and tech enthusiasts from CSE-AI, CSE-DS and CSE-AIML come together to
+                  collaborate, innovate and build impactful tech solutions.
+                </li>
+                <li>
+                  The road from <span className="codex-def-mark">ideation to implementation</span>: faculty mentors in
+                  your corner, rounds that narrow the field, and a Grand Finale pitched live to a panel of judges.
+                </li>
+              </ol>
+              <div className="codex-def-foot codex-mono">
+                <span>
+                  <b>first known use</b>
+                  {CODEX_1.date} · CODEX 1.0
+                </span>
+                <span>
+                  <b>see also</b>
+                  <span className="codex-hand codex-def-also">hands-on, not slides.</span>
+                </span>
+              </div>
+            </article>
+
+            <div>
+              <div className="codex-what-cap codex-mono">CODEX 1.0 · BY THE NUMBERS</div>
+              <div className="codex-nums">
+                {CODEX_1_STATS.map(([num, label], i) => (
+                  <div key={label} className="codex-num" style={STAT_STICKERS[i % STAT_STICKERS.length]}>
+                    <b>{num}</b>
+                    <span className="codex-mono">{label}</span>
+                  </div>
+                ))}
+              </div>
+              <Link className="codex-btn codex-y" to={`/events?event=${CODEX_1.id}`}>
+                See what happened at CODEX 1.0 →
+              </Link>
             </div>
           </div>
         </div>
@@ -520,14 +601,8 @@ export const CodexPage = () => {
             <span className="codex-cur" style={{ height: '18px', width: '9px', marginLeft: '6px' }} />
           </div>
           <div className="codex-ct">
-            {/* TODO: Registration Link when registration portal opens */}
-            <a
-              className="codex-btn codex-y"
-              href="https://whatsapp.com/channel/0029Vb9S7lj8F2pN7ghfV00Q"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Register now →
+            <a className="codex-btn codex-y" href={INSTAGRAM} target="_blank" rel="noopener noreferrer">
+              Follow us on Instagram ↗
             </a>
           </div>
         </div>

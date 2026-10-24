@@ -37,6 +37,42 @@ export const EVENTS = [
   },
   {
     type: "competition",
+    title: "The Coding Triathlon",
+    date: "23–25 Mar 2026",
+    summary:
+      "A 3-day escalating challenge series — GitHub relay, live quiz, bug bounty, and a Level-Up finale.",
+    facts: ["3 Days", "60+ Participants / Day", "GitHub Relay", "Bug Bounty", "Live Quiz"],
+    sections: [
+      {
+        heading: "Overview",
+        body: "\"The Coding Triathlon\" was a three-day technical event held from 23rd–25th March 2026, designed as a progressive challenge series where each day introduced a distinct technical dimension of escalating difficulty. Sessions consistently drew 60+ participants per day.",
+      },
+      {
+        heading: "Day by Day",
+        body: "Day 1 paired a GitHub Relay — a team-based activity covering repository creation, branching, pull requests, and conflict resolution — with an industry-academia session from DUCAT experts Mr. Sandeep and Mr. Deepak on Agentic AI, including a live hands-on demo of an AI chatbot's tool-calling in action. Day 2 brought a Kahoot-based live Quiz Competition spanning DSA, OS, Computer Networks, DBMS, and AI, followed by a Bug Bounty Challenge debugging real code across Python, JavaScript, and SQL. Day 3 culminated in a Level-Up format final — a multi-tiered showdown blending logical reasoning, algorithms, and rapid-fire coding — closing with a formal prize and medal distribution.",
+      },
+      {
+        heading: "Organizers & Outlook",
+        body: "The event was organized by Aivolutions under Faculty Coordinator Dr. Nitin Garg and HOD Dr. Vinay Kumar Saini, and is recommended for adoption as an annual event given its strong engagement and industry participation.",
+      },
+    ],
+    imgUrl: "/assets/events/coding-triathlon/day1_guests.webp",
+    id: "CMP_TRI",
+    gallery: [
+      "/assets/events/coding-triathlon/day1_guests.webp",
+      "/assets/events/coding-triathlon/day1_group.webp",
+      "/assets/events/coding-triathlon/day1_interactive.webp",
+      "/assets/events/coding-triathlon/day1_lab_group.jpg",
+      "/assets/events/coding-triathlon/day2_session.webp",
+      "/assets/events/coding-triathlon/day2_lab.webp",
+      "/assets/events/coding-triathlon/day3_finale.webp",
+      "/assets/events/coding-triathlon/day3_group.webp",
+      "/assets/events/coding-triathlon/day3_prize_1.webp",
+      "/assets/events/coding-triathlon/day3_prize_2.webp",
+    ],
+  },
+  {
+    type: "competition",
     title: "Codex Hackathon 2025",
     date: "18–19 Sep 2025",
     summary:
@@ -65,42 +101,6 @@ export const EVENTS = [
       "/assets/events/codex-2025/team_group.webp",
       "/assets/events/codex-2025/mentoring.webp",
       "/assets/events/codex-2025/guests.webp",
-    ],
-  },
-  {
-    type: "competition",
-    title: "The Coding Triathlon",
-    date: "23–25 Mar 2025",
-    summary:
-      "A 3-day escalating challenge series — GitHub relay, live quiz, bug bounty, and a Level-Up finale.",
-    facts: ["3 Days", "60+ Participants / Day", "GitHub Relay", "Bug Bounty", "Live Quiz"],
-    sections: [
-      {
-        heading: "Overview",
-        body: "\"The Coding Triathlon\" was a three-day technical event held from 23rd–25th March 2025, designed as a progressive challenge series where each day introduced a distinct technical dimension of escalating difficulty. Sessions consistently drew 60+ participants per day.",
-      },
-      {
-        heading: "Day by Day",
-        body: "Day 1 paired a GitHub Relay — a team-based activity covering repository creation, branching, pull requests, and conflict resolution — with an industry-academia session from DUCAT experts Mr. Sandeep and Mr. Deepak on Agentic AI, including a live hands-on demo of an AI chatbot's tool-calling in action. Day 2 brought a Kahoot-based live Quiz Competition spanning DSA, OS, Computer Networks, DBMS, and AI, followed by a Bug Bounty Challenge debugging real code across Python, JavaScript, and SQL. Day 3 culminated in a Level-Up format final — a multi-tiered showdown blending logical reasoning, algorithms, and rapid-fire coding — closing with a formal prize and medal distribution.",
-      },
-      {
-        heading: "Organizers & Outlook",
-        body: "The event was organized by Aivolutions under Faculty Coordinator Dr. Nitin Garg and HOD Dr. Vinay Kumar Saini, and is recommended for adoption as an annual event given its strong engagement and industry participation.",
-      },
-    ],
-    imgUrl: "/assets/events/coding-triathlon/day1_guests.webp",
-    id: "CMP_TRI",
-    gallery: [
-      "/assets/events/coding-triathlon/day1_guests.webp",
-      "/assets/events/coding-triathlon/day1_group.webp",
-      "/assets/events/coding-triathlon/day1_interactive.webp",
-      "/assets/events/coding-triathlon/day1_lab_group.jpg",
-      "/assets/events/coding-triathlon/day2_session.webp",
-      "/assets/events/coding-triathlon/day2_lab.webp",
-      "/assets/events/coding-triathlon/day3_finale.webp",
-      "/assets/events/coding-triathlon/day3_group.webp",
-      "/assets/events/coding-triathlon/day3_prize_1.webp",
-      "/assets/events/coding-triathlon/day3_prize_2.webp",
     ],
   },
   {

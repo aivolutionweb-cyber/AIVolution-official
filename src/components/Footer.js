@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { InstagramIcon, LinkedInIcon } from './icons';
 import { FooterArt } from './home/FooterArt';
+import { BrandMark } from './BrandMark';
 
 const INSTAGRAM = 'https://www.instagram.com/aivolutions.mait?stkn=MTAwbGdpdHI0enA0bQ%3D%3D';
 const LINKEDIN = 'https://www.linkedin.com/company/aivolutionaries/';
@@ -15,11 +16,11 @@ const PaperFooter = () => {
       <FooterArt key={pathname} />
       <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12 pt-2 pb-10">
         <div className="mt-4 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <img src="/main-logo-small.webp" alt="AIvolution" width="240" height="199" loading="lazy" decoding="async" className="h-12 w-auto object-contain" />
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+            <BrandMark size="lg" />
             <div>
               <p className="font-hand text-2xl leading-none">built by the Tech &amp; Dev team, with too much coffee.</p>
-              <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase text-pencil mt-2">© {year} AIvolution · the official AI society of MAIT</p>
+              <p className="font-mono text-[0.65rem] tracking-[0.18em] uppercase text-pencil mt-2">© {year} AIvolutions · the official AI society of MAIT</p>
             </div>
           </div>
           <div className="flex items-center gap-4 font-mono text-xs text-pencil">

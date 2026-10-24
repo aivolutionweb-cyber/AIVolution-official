@@ -218,6 +218,68 @@
   background: #fff;
 }
 
+/* "Registrations opening soon" rubber stamp (not a button: no shadow, no hover) */
+.codex-soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 56px;
+  padding: 8px 24px 8px 20px;
+  border: 3px solid #e02f2f;
+  border-radius: 8px;
+  color: #e02f2f;
+  background: rgba(224, 47, 47, 0.07);
+  box-shadow: 0 0 0 4px #f4f0e6, 0 0 0 6px #e02f2f;
+  transform: rotate(-3deg);
+  animation: codex-stamp-in 0.55s 1.3s cubic-bezier(0.2, 1.5, 0.4, 1) both;
+}
+
+.codex-soon-dot {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #e02f2f;
+  box-shadow: 0 0 0 5px rgba(224, 47, 47, 0.18);
+  animation: codex-pulse 1.4s infinite;
+}
+
+.codex-soon-txt {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.codex-soon-txt small {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  margin-bottom: 4px;
+}
+
+.codex-soon-txt b {
+  font-family: 'Archivo', sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+@keyframes codex-stamp-in {
+  0% {
+    opacity: 0;
+    transform: rotate(-14deg) scale(1.9);
+  }
+  60% {
+    opacity: 1;
+    transform: rotate(-2deg) scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(-3deg) scale(1);
+  }
+}
+
 /* Hero Artwork: Ticket, Badge & Stickers */
 .codex-art {
   position: relative;
@@ -642,6 +704,177 @@
   font-size: 12px;
   letter-spacing: 2px;
   font-weight: 700;
+}
+
+/* What is CODEX: dictionary-entry index card + CODEX 1.0 number stickers */
+.codex-what-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 48px;
+  align-items: start;
+  margin-top: 30px;
+}
+
+@media (max-width: 900px) {
+  .codex-what-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.codex-def {
+  position: relative;
+  background: #fffdf6;
+  border: 3px solid #111;
+  border-radius: 18px;
+  box-shadow: 8px 8px 0 #111;
+  padding: 34px 36px 28px;
+  transform: rotate(-0.6deg);
+}
+
+.codex-def-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid rgba(224, 47, 47, 0.55);
+}
+
+.codex-def-word {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: clamp(48px, 6vw, 76px);
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+.codex-def-pos {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: #4f7cff;
+}
+
+.codex-def-list {
+  list-style: none;
+  counter-reset: def;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+}
+
+.codex-def-list li {
+  counter-increment: def;
+  position: relative;
+  padding-left: 46px;
+  font-size: 19px;
+  line-height: 1.55;
+  color: #2b2925;
+}
+
+.codex-def-list li:before {
+  content: counter(def);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #111;
+  border-radius: 50%;
+  background: #ffe55c;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.codex-def-mark {
+  background: linear-gradient(transparent 55%, #ffe55c 55%);
+}
+
+.codex-def-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 28px;
+  margin-top: 26px;
+  padding-top: 16px;
+  border-top: 2px dashed #cfc9b8;
+  font-size: 13px;
+  color: #55524a;
+}
+
+.codex-def-foot b {
+  margin-right: 8px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #111;
+}
+
+.codex-def-also {
+  font-size: 26px;
+  color: #e02f2f;
+}
+
+.codex-what-cap {
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: #6b675c;
+  margin: 6px 0 18px;
+}
+
+.codex-nums {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 36px;
+}
+
+.codex-num {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px 18px 18px;
+  border: 2px solid #111;
+  box-shadow: 5px 6px 0 rgba(0, 0, 0, 0.3);
+  transform: rotate(var(--r, 0deg));
+  transition: transform 0.2s;
+}
+
+.codex-num:hover {
+  transform: rotate(0deg) translateY(-4px);
+}
+
+.codex-num b {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: clamp(24px, 3vw, 38px);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.codex-num span {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #3a372f;
+}
+
+@media (max-width: 640px) {
+  .codex-def {
+    padding: 26px 22px 22px;
+  }
+  .codex-def-list li {
+    font-size: 17px;
+    padding-left: 42px;
+  }
+  .codex-num {
+    padding: 18px 14px 14px;
+  }
 }
 
 /* Timeline */
