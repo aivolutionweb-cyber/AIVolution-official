@@ -707,23 +707,24 @@
   font-weight: 700;
 }
 
-/* What is CODEX: dictionary-entry index card + polaroid of the first CODEX */
-.codex-what-grid {
-  display: grid;
-  grid-template-columns: 1.35fr 1fr;
-  gap: 48px;
-  align-items: center;
-  margin-top: 30px;
+/* What is CODEX: centred dictionary-entry index card with stickers and doodles either side */
+.codex-what .codex-lbl {
+  justify-content: center;
 }
 
-@media (max-width: 900px) {
-  .codex-what-grid {
-    grid-template-columns: 1fr;
-  }
+.codex-what h2 {
+  text-align: center;
+}
+
+.codex-what-stage {
+  position: relative;
+  margin-top: 30px;
 }
 
 .codex-def {
   position: relative;
+  max-width: 720px;
+  margin: 0 auto;
   background: #fffdf6;
   border: 3px solid #111;
   border-radius: 18px;
@@ -796,7 +797,7 @@
   background: linear-gradient(transparent 55%, #ffe55c 55%);
 }
 
-/* "missed the first edition?" + button: one centred row under both columns */
+/* "missed the first edition?" + button, centred under the card */
 .codex-what-cta {
   display: flex;
   flex-direction: column;
@@ -814,47 +815,134 @@
   transform: rotate(-2deg);
 }
 
-.codex-polaroid {
-  position: relative;
-  margin: 0;
-  padding: 14px 14px 12px;
-  background: #fff;
-  border: 2px solid #111;
-  box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.3);
-  transform: rotate(2deg);
-}
-
-.codex-polaroid img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  border: 2px solid #111;
-}
-
-.codex-polaroid figcaption {
-  margin-top: 10px;
-  font-size: 26px;
-  text-align: center;
-  color: #2b2925;
-}
-
-.codex-polaroid-tape {
+/* Side-gutter decorations. All of them fit the 240px gutters at >=1280px; the two small
+   badges also fit down to 1100px; below that the card stands alone. */
+.codex-dec {
   position: absolute;
-  top: -16px;
-  left: 50%;
-  width: 120px;
-  height: 30px;
-  margin-left: -60px;
-  background: repeating-linear-gradient(135deg, #ffd3e6 0 8px, #ffe4f0 8px 16px);
-  transform: rotate(-4deg);
-  z-index: 1;
+  pointer-events: none;
 }
 
-@media (max-width: 900px) {
-  .codex-polaroid {
-    max-width: 520px;
-    margin-top: 16px;
+.codex-dec-code {
+  left: 3%;
+  top: 2%;
+  width: 104px;
+  height: 104px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #111;
+  border-radius: 50%;
+  background: #ffe55c;
+  box-shadow: 5px 5px 0 #111;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 30px;
+  font-weight: 700;
+  --r: -12deg;
+  transform: rotate(var(--r));
+  animation: codex-bob 5s ease-in-out infinite;
+}
+
+.codex-dec-arrow {
+  left: 4%;
+  top: 40%;
+  width: 150px;
+  fill: none;
+  stroke: #111;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.codex-dec-pill {
+  left: 0;
+  bottom: 4%;
+  padding: 10px 20px;
+  border: 2px solid #111;
+  border-radius: 99px;
+  background: #ff8fc0;
+  font-family: 'Archivo', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  --r: 6deg;
+  transform: rotate(var(--r));
+  animation: codex-bob 6s -2s ease-in-out infinite;
+}
+
+.codex-dec-burst {
+  right: 3%;
+  top: 0;
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.codex-dec-burst svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: #4f7cff;
+  stroke: #111;
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  animation: codex-spin 18s linear infinite;
+}
+
+.codex-dec-burst span {
+  position: relative;
+  font-family: 'Archivo', sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.codex-dec-stamp {
+  right: 5%;
+  top: 50%;
+  padding: 6px 14px;
+  border: 3px solid #e02f2f;
+  background: rgba(224, 47, 47, 0.06);
+  color: #e02f2f;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  transform: rotate(8deg);
+}
+
+.codex-dec-spark {
+  right: 9%;
+  bottom: 2%;
+  width: 90px;
+  fill: #ffe55c;
+  stroke: #111;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  --r: 0deg;
+  animation: codex-bob 4.5s -1s ease-in-out infinite;
+}
+
+@media (max-width: 1279px) {
+  .codex-dec-arrow,
+  .codex-dec-pill,
+  .codex-dec-stamp,
+  .codex-dec-spark {
+    display: none;
+  }
+  .codex-dec-burst {
+    right: 1%;
+    width: 110px;
+    height: 110px;
+  }
+}
+
+@media (max-width: 1099px) {
+  .codex-dec {
+    display: none;
   }
 }
 

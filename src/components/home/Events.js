@@ -17,35 +17,68 @@ const TYPE = {
 };
 const typeOf = (e) => TYPE[e.type] || [e.type, '#6b6860'];
 
-// GitHub-style contribution grid over the span of the events (weeks × 7 days).
-const DAY = 86400000;
-const times = EVENTS_DESC.map((e) => eventTime(e, true));
-const first = new Date(Math.min(...times));
-first.setDate(first.getDate() - first.getDay() - 14);
-const last = new Date(Math.max(...times));
-last.setDate(last.getDate() + 21);
-const WEEKS = Math.ceil((last - first) / (7 * DAY));
-const counts = new Map(times.map((t) => { const d = new Date(t); return [Math.floor((d - first) / DAY), 1]; }));
+// Contribution grid: one column per month, one cell per week of the month (days 1–7, 8–14, …).
+// A cell lights up in its event's type colour for every week an event ran in.
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const monthLabels = Array.from({ length: WEEKS }, (_, w) => {
-  const d = new Date(first.getTime() + w * 7 * DAY);
-  return d.getDate() <= 7 ? MONTHS[d.getMonth()] : '';
-});
 const fmt = (d) => `${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
 
+// Every day an event ran: "23–25 Mar 2026" → 23, 24, 25 Mar; "22 Mar – Apr 2025" → 22 Mar plus its
+// final in the first week of April.
+const eventDays = (e) => {
+  const start = new Date(eventTime(e, true));
+  const span = e.date.match(/^(\d{1,2})–(\d{1,2}) /);
+  if (span) return Array.from({ length: span[2] - span[1] + 1 }, (_, i) => new Date(start.getFullYear(), start.getMonth(), start.getDate() + i));
+  const toMonth = e.date.match(/– ([A-Za-z]{3}) /);
+  if (toMonth) return [start, new Date(start.getFullYear(), MONTHS.indexOf(toMonth[1]), 1)];
+  return [start];
+};
+
+const DAYS = EVENTS_DESC.flatMap((e) => eventDays(e).map((d) => ({ d, e })));
+const first = new Date(Math.min(...DAYS.map(({ d }) => d)));
+const last = new Date(Math.max(...DAYS.map(({ d }) => d)));
+const monthKey = (d) => d.getFullYear() * 12 + d.getMonth();
+const HEAT_MONTHS = Array.from({ length: monthKey(last) - monthKey(first) + 1 }, (_, i) => new Date(first.getFullYear(), first.getMonth() + i, 1));
+const cellEvents = new Map(); // "month-week" → events that ran that week
+DAYS.forEach(({ d, e }) => {
+  const k = `${monthKey(d) - monthKey(first)}-${Math.min(4, Math.floor((d.getDate() - 1) / 7))}`;
+  const list = cellEvents.get(k) || [];
+  if (!list.includes(e)) cellEvents.set(k, [...list, e]);
+});
+const LEGEND = [...new Map(Object.values(TYPE).map(([label, color]) => [label, color])).entries()];
+
 const Heatmap = () => (
-  <div className="heat border-2 border-ink bg-cream p-4 md:p-5 shadow-[6px_6px_0_var(--ink)] overflow-x-auto">
-    <div className="flex items-baseline justify-between gap-4 mb-3">
-      <p className="font-bricolage font-extrabold text-lg">{EVENTS_DESC.length} events · {fmt(first)} → {fmt(last)}</p>
-      <p className="font-mono text-[0.65rem] text-pencil hidden sm:block">less <span className="inline-block w-2.5 h-2.5 bg-ink/10 align-middle mx-0.5" /><span className="inline-block w-2.5 h-2.5 bg-marker align-middle mx-0.5" /> more</p>
+  <div className="heat border-2 border-ink bg-cream p-4 md:p-6 shadow-[6px_6px_0_var(--ink)] overflow-x-auto">
+    <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 mb-4">
+      <p className="font-bricolage font-extrabold text-lg">
+        {EVENTS_DESC.length} events · {DAYS.length} event days · {fmt(first)} → {fmt(last)}
+      </p>
+      <ul className="flex flex-wrap gap-x-4 gap-y-1 font-mono text-[0.65rem] text-pencil">
+        {LEGEND.map(([label, color]) => (
+          <li key={label} className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 border border-ink" style={{ background: color }} />
+            {label}
+          </li>
+        ))}
+      </ul>
     </div>
-    <div className="grid gap-[3px]" style={{ gridTemplateColumns: `repeat(${WEEKS}, 11px)`, gridTemplateRows: 'auto repeat(7, 11px)' }}>
-      {monthLabels.map((m, w) => <span key={`m${w}`} className="font-mono text-[9px] text-pencil leading-none h-3">{m}</span>)}
-      {Array.from({ length: 7 }, (_, day) =>
-        Array.from({ length: WEEKS }, (_, w) => {
-          const idx = w * 7 + day;
-          const hit = counts.has(idx);
-          return <span key={`${w}-${day}`} className={`heat-cell w-[11px] h-[11px] rounded-[2px] ${hit ? 'bg-marker' : 'bg-ink/10'}`} style={{ gridColumn: w + 1, gridRow: day + 2 }} />;
+    <div className="grid gap-[5px] min-w-[520px]" style={{ gridTemplateColumns: `repeat(${HEAT_MONTHS.length}, minmax(0, 1fr))` }}>
+      {HEAT_MONTHS.map((m, i) => (
+        <span key={`m${i}`} className="font-mono text-[9px] text-pencil leading-tight whitespace-nowrap">
+          {MONTHS[m.getMonth()]}
+          {(i === 0 || m.getMonth() === 0) && <span className="block text-ink font-bold">’{String(m.getFullYear()).slice(2)}</span>}
+        </span>
+      ))}
+      {Array.from({ length: 5 }, (_, week) =>
+        HEAT_MONTHS.map((m, i) => {
+          const events = cellEvents.get(`${i}-${week}`);
+          return (
+            <span
+              key={`${i}-${week}`}
+              title={events ? events.map((e) => e.title).join(' · ') : undefined}
+              className={`heat-cell aspect-square rounded-[3px] ${events ? 'border-2 border-ink shadow-[2px_2px_0_var(--ink)]' : 'bg-ink/[0.06]'}`}
+              style={{ gridColumn: i + 1, gridRow: week + 2, background: events ? typeOf(events[0])[1] : undefined }}
+            />
+          );
         })
       )}
     </div>

@@ -4,8 +4,15 @@ import '../styles/codex.css';
 import { INSTAGRAM } from '../components/home/Join';
 import { EVENTS } from '../data/events';
 
-// The first CODEX's entry in the events data (its date captions the polaroid; its id is the events-page link).
+// The first CODEX's entry in the events data (its id is the events-page link).
 const CODEX_1 = EVENTS.find((e) => e.id === 'CMP_002');
+
+// 12-point starburst for the "2.0" sticker beside the definition card.
+const BURST = Array.from({ length: 24 }, (_, i) => {
+  const r = i % 2 ? 30 : 46;
+  const a = (i / 24) * Math.PI * 2;
+  return `${(50 + r * Math.cos(a)).toFixed(1)},${(50 + r * Math.sin(a)).toFixed(1)}`;
+}).join(' ');
 
 const codex1Photos = [
   {
@@ -186,8 +193,8 @@ export const CodexPage = () => {
         </div>
       </section>
 
-      {/* What is CODEX: a dictionary entry, plus a polaroid of the first CODEX linking to its event details */}
-      <section className="codex-sec" id="what-is-codex">
+      {/* What is CODEX: a dictionary entry with stickers either side, then a link to the first CODEX */}
+      <section className="codex-sec codex-what" id="what-is-codex">
         <div className="codex-w">
           <div className="codex-lbl" style={{ marginBottom: '16px' }}>
             <span className="codex-mono codex-b">~ what is codex</span>
@@ -202,7 +209,32 @@ export const CodexPage = () => {
             </span>
           </h2>
 
-          <div className="codex-what-grid">
+          <div className="codex-what-stage">
+            {/* decorations in the side gutters (wide screens only) */}
+            <div className="codex-dec codex-dec-code" aria-hidden="true">
+              &lt;/&gt;
+            </div>
+            <svg className="codex-dec codex-dec-arrow" viewBox="0 0 160 110" aria-hidden="true">
+              <path d="M8 18 C 60 4, 118 22, 138 82" />
+              <path d="M120 70 L139 84 L148 61" />
+            </svg>
+            <div className="codex-dec codex-dec-pill" aria-hidden="true">
+              hands-on, not slides
+            </div>
+            <div className="codex-dec codex-dec-burst" aria-hidden="true">
+              <svg viewBox="0 0 100 100">
+                <polygon points={BURST} />
+              </svg>
+              <span>2.0</span>
+            </div>
+            <div className="codex-dec codex-dec-stamp codex-mono" aria-hidden="true">
+              2ND EDITION
+            </div>
+            <svg className="codex-dec codex-dec-spark" viewBox="0 0 100 100" aria-hidden="true">
+              <path d="M38 6 L46 34 L74 42 L46 50 L38 78 L30 50 L2 42 L30 34 Z" />
+              <path d="M78 56 L82 70 L96 74 L82 78 L78 92 L74 78 L60 74 L74 70 Z" />
+            </svg>
+
             <article className="codex-def">
               <div className="codex-def-head">
                 <span className="codex-def-word">codex</span>
@@ -222,12 +254,6 @@ export const CodexPage = () => {
                 </li>
               </ol>
             </article>
-
-            <figure className="codex-polaroid">
-              <div className="codex-polaroid-tape" aria-hidden="true" />
-              <img src="/assets/events/codex-2025/audience.jpg" alt="A packed lab at the first CODEX" loading="lazy" />
-              <figcaption className="codex-hand">CODEX · {CODEX_1.date}</figcaption>
-            </figure>
           </div>
 
           <div className="codex-what-cta">

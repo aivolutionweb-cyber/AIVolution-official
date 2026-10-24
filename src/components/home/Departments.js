@@ -111,8 +111,9 @@ export const Departments = () => {
         <div ref={track} className="flex flex-col lg:flex-row lg:items-start gap-12 lg:gap-[5vw] px-5 sm:px-8 md:px-12 lg:pl-[6vw] lg:pr-[10vw] py-20 lg:pt-[9vh] lg:pb-0 lg:w-max">
           <div className="reveal lg:w-[34vw] lg:shrink-0 lg:mt-[16vh]">
             <SectionLabel path="departments/" className="[&>span:first-child]:text-[#9bd7ff] [&>span]:text-[#eaf0ff] text-[#eaf0ff]/70" />
-            <h2 className="mt-4 text-[clamp(2.6rem,6vw,6rem)] text-white">
-              {DEPARTMENTS.length} departments,<br />one society.
+            {/* lg: sized so "4 departments," fits the 34vw column on one line instead of orphaning the "4" */}
+            <h2 className="mt-4 text-[clamp(2.6rem,6vw,6rem)] lg:text-[4.4vw] text-white">
+              <span className="whitespace-nowrap">{DEPARTMENTS.length} departments,</span><br />one society.
             </h2>
             <p className="mt-5 max-w-md text-lg text-[#eaf0ff]/75 leading-relaxed">
               Every event, post, partnership and line of code runs through one of these four. Grab the lanyard that fits you.
