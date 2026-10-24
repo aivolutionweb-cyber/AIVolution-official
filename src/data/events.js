@@ -74,14 +74,14 @@ export const EVENTS = [
   {
     type: "competition",
     title: "Codex Hackathon 2025",
-    date: "18–19 Sep 2025",
+    date: "17–19 Sep 2025",
     summary:
-      "AIvolutions' flagship 2-day hackathon — 60+ teams, a live grand finale, and ₹19,000+ in prizes.",
-    facts: ["60+ Teams", "2 Days", "₹19,000+ Prize Pool", "12 Finalists"],
+      "AIvolutions' flagship 3-day hackathon — 60+ teams, a live grand finale, and ₹19,000+ in prizes.",
+    facts: ["60+ Teams", "3 Days", "₹19,000+ Prize Pool", "12 Finalists"],
     sections: [
       {
         heading: "The Event",
-        body: "The CODEX Hackathon 2025, organized by AIvolutions — the official AI society of MAIT's Department of CSE-AI — was conducted on 18th–19th September 2025. This two-day flagship event brought together aspiring coders, innovators, and technology enthusiasts from the CSE-AI, CSE-DS, and CSE-AIML streams to collaborate, innovate, and build impactful technological solutions.",
+        body: "The CODEX Hackathon 2025, organized by AIvolutions — the official AI society of MAIT's Department of CSE-AI — was conducted on 17th–19th September 2025. This three-day flagship event brought together aspiring coders, innovators, and technology enthusiasts from the CSE-AI, CSE-DS, and CSE-AIML streams to collaborate, innovate, and build impactful technological solutions.",
       },
       {
         heading: "Rounds & Judging",

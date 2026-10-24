@@ -21,7 +21,7 @@ const CodexPage = lazy(() =>
   import(/* webpackPrefetch: true */ "./pages/CodexPage").then((m) => ({ default: m.CodexPage }))
 );
 
-// The 3D merch tee in the bottom-right corner of every page. Loaded separately so three.js
+// The 3D merch tee in the bottom-right corner of the main pages. Loaded separately so three.js
 // doesn't slow down the first paint.
 const TeeFloatingWidget = lazy(() =>
   import("./components/tee/TeeFloatingWidget").then((m) => ({ default: m.TeeFloatingWidget }))
@@ -54,9 +54,9 @@ function App() {
 
         {!isImmersive && <Footer variant={variant} />}
 
-        {/* bottom-right on the main pages (not the immersive /team and /events pages);
+        {/* bottom-right on the main pages (not the immersive /team and /events pages, nor /codex);
             the Preloader (z-index 9990) covers it while it plays */}
-        {!isImmersive && (
+        {!isImmersive && location.pathname !== "/codex" && (
           <Suspense fallback={null}>
             <TeeFloatingWidget />
           </Suspense>

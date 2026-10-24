@@ -4,15 +4,8 @@ import '../styles/codex.css';
 import { INSTAGRAM } from '../components/home/Join';
 import { EVENTS } from '../data/events';
 
-// CODEX 1.0's entry in the events data; its facts ("60+ Teams", ...) become the number stickers.
+// The first CODEX's entry in the events data (its date captions the polaroid; its id is the events-page link).
 const CODEX_1 = EVENTS.find((e) => e.id === 'CMP_002');
-const CODEX_1_STATS = CODEX_1.facts.map((f) => [f.slice(0, f.indexOf(' ')), f.slice(f.indexOf(' ') + 1)]);
-const STAT_STICKERS = [
-  { background: '#ffe55c', '--r': '-2deg' },
-  { background: '#ffd3e6', '--r': '1.5deg' },
-  { background: '#c9f5dc', '--r': '1deg' },
-  { background: '#cfdbff', '--r': '-1.5deg' },
-];
 
 const codex1Photos = [
   {
@@ -22,7 +15,7 @@ const codex1Photos = [
     tag: 'INCEPTION',
     tagColor: '#ffe55c',
     tapeColor: 'repeating-linear-gradient(135deg, #ffd3e6 0 8px, #ffe4f0 8px 16px)',
-    desc: 'Faculty address and problem statement briefing kicking off the 2-day hackathon.',
+    desc: 'Faculty address and problem statement briefing kicking off the 3-day hackathon.',
     rotation: '-1.5deg',
   },
   {
@@ -58,7 +51,7 @@ const codex1Photos = [
   {
     id: 5,
     src: '/assets/events/codex-2025/winners_1.webp',
-    title: '1st Prize Champions — Team RADICALS',
+    title: '1st Prize Champions - Team RADICALS',
     tag: 'GRAND WINNERS',
     tagColor: '#ffe55c',
     tapeColor: 'repeating-linear-gradient(135deg, #8aa8ff 0 8px, #b2c7ff 8px 16px)',
@@ -72,7 +65,7 @@ const codex1Photos = [
     tag: 'THE CREW',
     tagColor: '#ffd3e6',
     tapeColor: 'repeating-linear-gradient(135deg, #ffe55c 0 8px, #fff08a 8px 16px)',
-    desc: 'The organizers, mentors, and finalists celebrating at the conclusion of CODEX 1.0.',
+    desc: 'The organizers, mentors, and finalists celebrating at the conclusion of CODEX.',
     rotation: '1.4deg',
   },
 ];
@@ -193,7 +186,7 @@ export const CodexPage = () => {
         </div>
       </section>
 
-      {/* What is CODEX: a dictionary entry, plus CODEX 1.0 in numbers */}
+      {/* What is CODEX: a dictionary entry, plus a polaroid of the first CODEX linking to its event details */}
       <section className="codex-sec" id="what-is-codex">
         <div className="codex-w">
           <div className="codex-lbl" style={{ marginBottom: '16px' }}>
@@ -220,40 +213,28 @@ export const CodexPage = () => {
                   The flagship hackathon of <b>AIvolutions</b>, the official AI society of MAIT.
                 </li>
                 <li>
-                  Where coders, innovators and tech enthusiasts from CSE-AI, CSE-DS and CSE-AIML come together to
-                  collaborate, innovate and build impactful tech solutions.
+                  Where coders, innovators and tech enthusiasts come together to collaborate, innovate and build
+                  impactful tech solutions.
                 </li>
                 <li>
                   The road from <span className="codex-def-mark">ideation to implementation</span>: faculty mentors in
                   your corner, rounds that narrow the field, and a Grand Finale pitched live to a panel of judges.
                 </li>
               </ol>
-              <div className="codex-def-foot codex-mono">
-                <span>
-                  <b>first known use</b>
-                  {CODEX_1.date} · CODEX 1.0
-                </span>
-                <span>
-                  <b>see also</b>
-                  <span className="codex-hand codex-def-also">hands-on, not slides.</span>
-                </span>
-              </div>
             </article>
 
-            <div>
-              <div className="codex-what-cap codex-mono">CODEX 1.0 · BY THE NUMBERS</div>
-              <div className="codex-nums">
-                {CODEX_1_STATS.map(([num, label], i) => (
-                  <div key={label} className="codex-num" style={STAT_STICKERS[i % STAT_STICKERS.length]}>
-                    <b>{num}</b>
-                    <span className="codex-mono">{label}</span>
-                  </div>
-                ))}
-              </div>
-              <Link className="codex-btn codex-y" to={`/events?event=${CODEX_1.id}`}>
-                See what happened at CODEX 1.0 →
-              </Link>
-            </div>
+            <figure className="codex-polaroid">
+              <div className="codex-polaroid-tape" aria-hidden="true" />
+              <img src="/assets/events/codex-2025/audience.jpg" alt="A packed lab at the first CODEX" loading="lazy" />
+              <figcaption className="codex-hand">CODEX · {CODEX_1.date}</figcaption>
+            </figure>
+          </div>
+
+          <div className="codex-what-cta">
+            <p className="codex-hand codex-what-miss">missed the first edition? catch up before the 2nd ↓</p>
+            <Link className="codex-btn codex-y" to={`/events?event=${CODEX_1.id}`}>
+              See what happened at CODEX →
+            </Link>
           </div>
         </div>
       </section>
@@ -323,7 +304,7 @@ export const CodexPage = () => {
               <span className="codex-tg codex-mono" style={{ background: '#ffe55c' }}>
                 HACKATHON
               </span>
-              <span className="codex-tg codex-mono">300+ EXPECTED</span>
+              <span className="codex-tg codex-mono">2ND EDITION</span>
               <span className="codex-tg codex-mono">3 DAYS OFFLINE</span>
             </div>
 
@@ -332,7 +313,7 @@ export const CodexPage = () => {
               <div className="codex-mono" style={{ fontSize: '13px', color: '#6b675c' }}>
                 17 TO 19 SEP 2025
               </div>
-              <h3>CODEX 1.0</h3>
+              <h3>CODEX</h3>
               <p style={{ margin: 0, color: '#55524a', lineHeight: 1.55 }}>
                 240+ participants across 60 teams with a 20K prize pool, narrowed to 12 finalists over three rounds. Sponsorship partner: Neighborly.
               </p>
@@ -346,23 +327,23 @@ export const CodexPage = () => {
         </div>
       </section>
 
-      {/* CODEX 1.0 Photographs / Past Event Section */}
+      {/* First CODEX Photographs / Past Event Section */}
       <section className="codex-sec" id="codex-1-memories">
         <div className="codex-w">
           <div className="codex-lbl" style={{ marginBottom: '16px' }}>
-            <span className="codex-mono codex-b">~ archive · 18–19 sep 2025</span>
+            <span className="codex-mono codex-b">~ archive · 17–19 sep 2025</span>
             <span className="codex-tape codex-mono" style={{ padding: '8px 16px', fontSize: '13px' }}>
-              CODEX 1.0 MEMORIES
+              CODEX · FIRST EDITION
             </span>
           </div>
           <h2>
-            codex 1.0{' '}
+            codex{' '}
             <span className="codex-hl" style={{ animation: 'none', backgroundSize: '100% 100%' }}>
               photographs.
             </span>
           </h2>
           <p className="codex-lead">
-            Highlights from the inaugural CODEX Hackathon — 60+ teams, intense building rounds, mentor check-ins, and the final prize ceremony at MAIT.
+            Highlights from the inaugural CODEX Hackathon - 60+ teams, intense building rounds, mentor check-ins, and the final prize ceremony at MAIT.
           </p>
 
           <div className="codex-gallery-grid">
@@ -413,18 +394,15 @@ export const CodexPage = () => {
       {/* Partners Marquee */}
       <div className="codex-mq">
         <div>
-          <span>past partners</span>
-          <span>Neighborly</span>
-          <span>Unstop</span>
-          <span>Devpost</span>
-          <span>Devfolio</span>
-          <span>OSEN</span>
-          <span>past partners</span>
-          <span>Neighborly</span>
-          <span>Unstop</span>
-          <span>Devpost</span>
-          <span>Devfolio</span>
-          <span>OSEN</span>
+          {Array.from({ length: 6 }, (_, i) => (
+            <React.Fragment key={i}>
+              <span>past partners</span>
+              <span>Neighborly</span>
+              <span>Unstop</span>
+              <span>Devpost</span>
+              <span>Devfolio</span>
+            </React.Fragment>
+          ))}
         </div>
       </div>
 
@@ -641,7 +619,7 @@ export const CodexPage = () => {
                   {activePhoto.tag}
                 </span>
                 <span className="codex-mono" style={{ fontSize: '12px', color: '#6b675c' }}>
-                  CODEX 1.0 ARCHIVE · 18–19 SEP 2025
+                  CODEX ARCHIVE · 17–19 SEP 2025
                 </span>
               </div>
               <h3 style={{ fontSize: '24px', margin: '4px 0 0' }}>{activePhoto.title}</h3>
